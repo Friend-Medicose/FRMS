@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FRIENDS MEDICOSE - DOS AUTO BACKUP</title>
+<title>FRIENDS MEDICOSE</title>
 <script src="https://accounts.google.com/gsi/client"></script>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#0000AA;color:#fff;font-family:'Courier New',monospace;font-size:15px}
 .top{background:#000080;border-bottom:2px solid #fff;padding:8px 12px;text-align:center}
-.top b{font-size:19px}.top span{font-size:12px;color:#FFFF00}
+.top b{font-size:19px}
 .menu{display:flex;flex-wrap:wrap;background:#0000AA;border-bottom:2px solid #fff}
 .menu button{background:#0000AA;color:#fff;border:1px solid #fff;padding:10px 12px;font-family:inherit;font-weight:bold;cursor:pointer;flex:1}
 .menu button:hover,.menu button.on{background:#FFFF00;color:#000}
@@ -20,7 +20,7 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 .hidden{display:none}.foot{position:fixed;bottom:0;left:0;right:0;background:#000080;color:#FFFF00;padding:7px;text-align:center;font-size:12px;border-top:2px solid #fff;z-index:20}
 .kbd{background:#fff;color:#000;padding:1px 5px;font-weight:bold}
 </style></head><body>
-<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span>Data Entry Software - AUTO DRIVE BACKUP - (C) 2026</span><br><span id="dte"></span> | BILL # <span id="topBill">048001</span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
+<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
 <div class="menu" id="mn">
 <button data-t="main" class="on" onclick="sh('main',this)">MAIN MENU</button>
 <button data-t="reg" onclick="sh('reg',this)">1-REGISTRATION</button>
@@ -58,17 +58,14 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 
 <div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
 <p>Ab JSON download nahi hogi. Seedha Drive me save hogi.</p>
-<p>Client ID: 906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com</p>
 <button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
 <button class="btn" onclick="autoBackup()">2. ☁️ AUTO BACKUP NOW - Save to Drive</button>
 <button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
 <div id="bm" style="margin-top:10px;color:#FFFF00"></div>
-<p style="font-size:12px">Pehli dafa Connect dabane pe Google puchega - alam.qureshi2018@gmail.com select karein aur Allow karein. Us ke baad har dafa sirf Backup dabana hai.</p>
 </div></div>
 </div>
 <div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
 <script>
-// ===== AUTO DRIVE CONFIG =====
 const CLIENT_ID = '906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com';
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 let accessToken = null, tokenClient = null;
@@ -98,7 +95,6 @@ async function autoRestore(){
   let r2 = await fetch('https://www.googleapis.com/drive/v3/files/'+fid+'?alt=media',{headers:{'Authorization':'Bearer '+accessToken}});
   let txt = await r2.text(); DB = JSON.parse(txt); sv(); document.getElementById('bm').innerHTML='✅ RESTORED FROM DRIVE: '+data.files[0].name;
 }
-// ===== MAIN LOGIC =====
 let DB=JSON.parse(localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
 function sv(){localStorage.setItem('fm_dos',JSON.stringify(DB)); ref()}
 function td(){return new Date().toISOString().slice(0,10)}
@@ -108,12 +104,12 @@ function sh(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add
 function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c1.value||'IT'+(DB.items.length+1),name:n,comp:c3.value,pack:c4.value,rate:+c5.value||0}); c1.value=c2.value=c3.value=c4.value=''; sv(); alert('Item Saved')}
 function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; sv(); alert('Party Saved')}
 function ref(){
- let bn='048'+String(DB.sales.length+1).padStart(3,'0'); bNo.value=bn; topBill.innerText=bn;
+ let bn='048'+String(DB.sales.length+1).padStart(3,'0'); bNo.value=bn;
  bCust.innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
  bItem.innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">Pehle Item Add karein</option>';
  if(DB.items[bItem.value]) bR.value=DB.items[bItem.value].rate;
  let old=bCust.selectedOptions[0]?DB.parties.find(p=>p.name===bCust.value)?.bal||0:0; bo.innerText=old;
- il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'<p>Abhi koi item nahi. Demo: B689 COFERB PLUS SYP</p>';
+ il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'';
  pl.innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
  dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length}</p>`;
  bAmt.value=((+bQ.value||1)*(+bR.value||0)*(1-(+bD.value||0)/100)).toFixed(2);
