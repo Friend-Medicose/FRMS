@@ -33,18 +33,18 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press <span class="kbd">F6</span> = Sale Invoice &nbsp; <span class="kbd">1</span> Registration &nbsp; <span class="kbd">6</span> Backup</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - AUTO BACKUP</button></div></div><div id="dash2"></div></div></div>
 
 <div id="reg" class="tab hidden"><div class="box"><h3>REGISTRATION - ITEM [F2 Search]</h3>
-<div class="row"><div><label>Item Code :</label><input id="c1" placeholder="B689"></div><div><label>Item Name :</label><input id="c2" placeholder="COFERB PLUS SYP"></div></div>
-<div class="row"><div><label>Company :</label><input id="c3" placeholder="HILTON"></div><div><label>Packing :</label><input id="c4" placeholder="120ml"></div></div>
-<div class="row"><div><label>Rate :</label><input id="c5" type="number" value="324.15"></div><div><label>Discount % :</label><input id="c6" type="number" value="0"></div></div>
+<div class="row"><div><label>Item Code :</label><input id="c1"></div><div><label>Item Name :</label><input id="c2"></div></div>
+<div class="row"><div><label>Company :</label><input id="c3"></div><div><label>Packing :</label><input id="c4"></div></div>
+<div class="row"><div><label>Rate :</label><input id="c5" type="number"></div><div><label>Discount % :</label><input id="c6" type="number"></div></div>
 <button class="btn" onclick="addI()">[Enter] SAVE ITEM</button><div id="il"></div></div>
 <div class="box"><h3>REGISTRATION - CUSTOMER / SUPPLIER</h3>
-<div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN" placeholder="FAIZAN MEDICAL STORE"></div></div>
-<div class="row"><div><label>Phone :</label><input id="pP" placeholder="0300-xxxxxxx"></div><div><label>Old Balance :</label><input id="pB" type="number" value="0"></div></div>
+<div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN"></div></div>
+<div class="row"><div><label>Phone :</label><input id="pP"></div><div><label>Old Balance :</label><input id="pB" type="number"></div></div>
 <button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div></div>
 
 <div id="trans" class="tab hidden"><div class="box"><h3>SALES INVOICE - Retail F6</h3>
-<div class="row"><div><label>BILL # :</label><input id="bNo" readonly></div><div><label>DATE :</label><input id="bDt" type="date"></div></div>
-<div class="row"><div><label>CUSTOMER :</label><select id="bCust"></select></div><div><label>BOOKER :</label><input id="bBook" placeholder="Booker Name"></div></div>
+<div class="row"><div><label>DATE :</label><input id="bDt" type="date"></div><div><label>CUSTOMER :</label><select id="bCust"></select></div></div>
+<input type="hidden" id="bNo">
 <hr style="border:1px dashed #fff"><label>ITEM CODE / NAME :</label><select id="bItem"></select>
 <div class="row"><div><label>Qty FULL :</label><input id="bQ" type="number" value="1"></div><div><label>Qty PCS :</label><input id="bQP" type="number" value="0"></div></div>
 <div class="row"><div><label>Rate :</label><input id="bR" type="number"></div><div><label>Discount % :</label><input id="bD" type="number" value="0"></div></div>
@@ -57,7 +57,6 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <div id="print" class="tab hidden"><div class="box"><h3>PRINTING</h3><p>1. Sales Invoice<br>2. Delivery Challan<br>3. Quotation<br>4. Sticker Print<br>5. Offer Print</p><button class="btn" onclick="window.print()">PRINT CURRENT SCREEN</button></div></div>
 
 <div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
-<p>Ab JSON download nahi hogi. Seedha Drive me save hogi.</p>
 <button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
 <button class="btn" onclick="autoBackup()">2. ☁️ AUTO BACKUP NOW - Save to Drive</button>
 <button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
@@ -83,8 +82,8 @@ async function autoBackup(){
   form.append('file', new Blob([fileContent],{type:'application/json'}));
   let res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST', headers:{'Authorization':'Bearer '+accessToken}, body:form});
   let data = await res.json();
-  if(data.id){ document.getElementById('bm').innerHTML='<b style="color:#00FF00">✅ BACKUP SAVED TO DRIVE! File: '+fileName+'<br>File ID: '+data.id+'</b>'; }
-  else{ document.getElementById('bm').innerHTML='Error: '+JSON.stringify(data)+' - Dobara Connect karein'; accessToken=null; }
+  if(data.id){ document.getElementById('bm').innerHTML='<b style="color:#00FF00">✅ BACKUP SAVED TO DRIVE! File: '+fileName+'</b>'; }
+  else{ document.getElementById('bm').innerHTML='Error: '+JSON.stringify(data); accessToken=null; }
 }
 async function autoRestore(){
   if(!accessToken){ connectDrive(); return; }
@@ -101,12 +100,12 @@ function td(){return new Date().toISOString().slice(0,10)}
 dte.innerText=new Date().toLocaleDateString('en-GB'); bDt.value=td(); rDt.value=td();
 let cur=[];
 function sh(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref()}
-function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c1.value||'IT'+(DB.items.length+1),name:n,comp:c3.value,pack:c4.value,rate:+c5.value||0}); c1.value=c2.value=c3.value=c4.value=''; sv(); alert('Item Saved')}
-function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; sv(); alert('Party Saved')}
+function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c1.value||'IT'+(DB.items.length+1),name:n,comp:c3.value,pack:c4.value,rate:+c5.value||0}); c1.value=c2.value=c3.value=c4.value=''; c5.value=''; c6.value=''; sv(); alert('Item Saved')}
+function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; pB.value=''; sv(); alert('Party Saved')}
 function ref(){
  let bn='048'+String(DB.sales.length+1).padStart(3,'0'); bNo.value=bn;
  bCust.innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
- bItem.innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">Pehle Item Add karein</option>';
+ bItem.innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">-- Select Item --</option>';
  if(DB.items[bItem.value]) bR.value=DB.items[bItem.value].rate;
  let old=bCust.selectedOptions[0]?DB.parties.find(p=>p.name===bCust.value)?.bal||0:0; bo.innerText=old;
  il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'';
