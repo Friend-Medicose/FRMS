@@ -1,173 +1,115 @@
 <!DOCTYPE html>
-<html lang="ur">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FRIENDS MEDICOSE - Data Entry Software</title>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FRIENDS MEDICOSE - DOS</title>
 <style>
-*{box-sizing:border-box} body{font-family:Arial;margin:0;background:#eef2f7}
-header{background:#0b3d91;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header h1{margin:0;font-size:20px} header p{margin:2px 0;font-size:13px;opacity:.9}
-nav{display:flex;gap:6px;flex-wrap:wrap;background:#fff;padding:10px;position:sticky;top:64px;z-index:9;box-shadow:0 2px 6px #ddd}
-nav button{border:0;background:#0b3d91;color:#fff;padding:9px 13px;border-radius:20px;font-weight:bold;cursor:pointer}
-nav button.active{background:#ff6600}
-.wrap{max-width:1100px;margin:auto;padding:15px}
-.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 8px #ddd;margin-bottom:15px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.stat{background:#0b3d91;color:#fff;padding:15px;border-radius:10px;text-align:center}
-.stat b{font-size:22px;display:block} .stat span{font-size:12px}
-.stat.o{background:#ff6600}.stat.g{background:#0a7a42}.stat.r{background:#b91c1c}
-input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin:5px 0;font-size:14px}
-label{font-size:13px;font-weight:bold;color:#0b3d91}
+*{box-sizing:border-box} body{margin:0;background:#0000AA;color:#fff;font-family:'Courier New',monospace;font-size:15px}
+.top{background:#000080;border-bottom:2px solid #fff;padding:8px 12px;text-align:center}
+.top b{font-size:19px;letter-spacing:1px}.top span{font-size:12px;color:#FFFF00}
+.menu{display:flex;flex-wrap:wrap;gap:0;background:#0000AA;border-bottom:2px solid #fff}
+.menu button{background:#0000AA;color:#fff;border:1px solid #fff;border-right:0;padding:10px 12px;font-family:inherit;font-weight:bold;cursor:pointer;flex:1}
+.menu button:hover,.menu button.on{background:#FFFF00;color:#000}
+.wrap{max-width:1000px;margin:auto;padding:10px}
+.box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA}
+.box h3{margin:0 0 10px;color:#FFFF00;border-bottom:1px dashed #fff;padding-bottom:6px}
+label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1px solid #fff;padding:9px;font-family:inherit;font-size:15px;margin:4px 0}
+input:focus{outline:2px solid #FFFF00}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px} @media(max-width:600px){.row{grid-template-columns:1fr}}
-.btn{background:#0b3d91;color:#fff;border:0;padding:11px 16px;border-radius:8px;font-weight:bold;cursor:pointer;width:100%}
-.btn.orange{background:#ff6600}.btn.green{background:#0a7a42}.btn.grey{background:#555}
-table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid #ddd;padding:7px;text-align:left} th{background:#0b3d91;color:#fff}
-.hidden{display:none} .badge{background:#ff6600;color:#fff;padding:3px 8px;border-radius:10px;font-size:11px}
-.flex{display:flex;gap:8px} .flex>*{flex:1}
-.small{font-size:12px;color:#555;line-height:1.6}
-</style>
-</head>
-<body>
-<header><div><h1>💊 FRIENDS MEDICOSE</h1><p>Friends Medicose — Daily Data Entry • Sale • Purchase • Invoice</p></div><div style="text-align:right"><b id="todayDate"></b><br><span style="font-size:12px">Daily Backup: Drive + USB</span></div></header>
-
-<nav id="mainNav">
-<button data-tab="dash" class="active" onclick="show('dash',this)">🏠 Dashboard</button>
-<button data-tab="reg" onclick="show('reg',this)">📝 Registration</button>
-<button data-tab="sale" onclick="show('sale',this)">🧾 Sale Invoice</button>
-<button data-tab="pur" onclick="show('pur',this)">📦 Purchase</button>
-<button data-tab="rep" onclick="show('rep',this)">📊 Reports / Roznamcha</button>
-<button data-tab="backup" onclick="show('backup',this)">☁️ Backup</button>
-</nav>
-
-<div class="wrap">
-
-<!-- DASHBOARD -->
-<div id="dash" class="tab">
-<div class="grid">
-<div class="stat"><span>AAJ KI SALE</span><b id="sToday">Rs 0</b></div>
-<div class="stat o"><span>AAJ KI PURCHASE</span><b id="sPur">Rs 0</b></div>
-<div class="stat g"><span>TOTAL ITEMS</span><b id="sItems">0</b></div>
-<div class="stat r"><span>TOTAL UDHAAR</span><b id="sUdhaar">Rs 0</b></div>
+.btn{background:#FFFF00;color:#000;border:0;padding:11px;font-family:inherit;font-weight:bold;cursor:pointer;width:100%;margin-top:6px}
+.btn2{background:#fff;color:#000}.btn3{background:#00FF00;color:#000}
+table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid #fff;padding:6px;text-align:left} th{color:#FFFF00}
+.hidden{display:none}.foot{position:fixed;bottom:0;left:0;right:0;background:#000080;color:#FFFF00;padding:7px;text-align:center;font-size:12px;border-top:2px solid #fff;z-index:20}
+.kbd{background:#fff;color:#000;padding:1px 5px;font-weight:bold}
+</style></head><body>
+<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span>Data Entry Software - Daily Sale / Purchase / Reports - (C) 2026</span><br><span id="dte"></span> | BILL # <span id="topBill">048001</span> | USER: ADMIN</div>
+<div class="menu" id="mn">
+<button data-t="main" class="on" onclick="sh('main',this)">MAIN MENU</button>
+<button data-t="reg" onclick="sh('reg',this)">1-REGISTRATION</button>
+<button data-t="trans" onclick="sh('trans',this)">2-TRANSACTION [F6]</button>
+<button data-t="rep" onclick="sh('rep',this)">4-REPORTS</button>
+<button data-t="print" onclick="sh('print',this)">5-PRINTING</button>
+<button data-t="backup" onclick="sh('backup',this)">6-OTHERS/BACKUP</button>
 </div>
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">Aaj ka Kaam — Quick Entry</h3>
-<div class="flex"><button class="btn" onclick="show('sale',document.querySelector('[data-tab=sale]'))">+ New Sale Bill</button><button class="btn orange" onclick="show('pur',document.querySelector('[data-tab=pur]'))">+ New Purchase</button><button class="btn green" onclick="show('reg',document.querySelector('[data-tab=reg]'))">+ New Item / Customer</button></div>
-<p class="small">Purana software jaisa: BILL # auto, Old Balance, Tax 7%, Discount, Bonus — sab isi me hai. Data roz date wise save hota hai.</p>
-<div id="lastBills"></div>
+<div class="wrap" style="padding-bottom:50px">
+<div id="main" class="tab">
+<div class="box"><h3>MAIN MENU - Select Option (Keyboard: 1,2,3,4,5,6)</h3>
+<p>Press: <span class="kbd">1</span> Registration &nbsp; <span class="kbd">2</span> Transaction &nbsp; <span class="kbd">4</span> Reports &nbsp; <span class="kbd">5</span> Printing &nbsp; <span class="kbd">6</span> Backup</p>
+<p>Press <span class="kbd">F6</span> = Direct Sale Invoice (Retail)</p>
+<div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div>
+<div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - DAILY REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - BACKUP (Drive+USB)</button></div></div>
+<div id="dash2" style="margin-top:10px"></div>
 </div>
 </div>
 
-<!-- REGISTRATION -->
 <div id="reg" class="tab hidden">
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">1. Item / Medicine Registration</h3>
-<div class="row"><div><label>Item Code</label><input id="itCode" placeholder="e.g B689"></div><div><label>Item Name</label><input id="itName" placeholder="e.g COFERB PLUS SYP"></div></div>
-<div class="row"><div><label>Company</label><input id="itComp" placeholder="e.g HILTON"></div><div><label>Packing</label><input id="itPack" placeholder="e.g 120ml"></div></div>
-<div class="row"><div><label>Rate (Rs)</label><input id="itRate" type="number" placeholder="324.15"></div><div><label>Bonus / Discount %</label><input id="itDisc" type="number" placeholder="0"></div></div>
-<button class="btn green" onclick="addItem()">Save Item</button><div id="itemList" style="margin-top:10px"></div></div>
-
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">2. Customer / Supplier Registration</h3>
-<div class="row"><div><label>Type</label><select id="pType"><option>Customer</option><option>Supplier</option><option>Party (Sale+Purchase)</option><option>Salesman</option></select></div><div><label>Name</label><input id="pName" placeholder="Customer / Supplier Name"></div></div>
-<div class="row"><div><label>Phone / WhatsApp</label><input id="pPhone" placeholder="0300-xxxxxxx"></div><div><label>Area / Address</label><input id="pArea" placeholder="Area, Karachi"></div></div>
-<div class="row"><div><label>Old Balance (Rs)</label><input id="pBal" type="number" value="0"></div><div><label>Code</label><input id="pCode" placeholder="Auto / Manual"></div></div>
-<button class="btn" onclick="addParty()">Save Party</button><div id="partyList" style="margin-top:10px"></div></div>
+<div class="box"><h3>REGISTRATION - ITEM / MEDICINE [F2 to Search]</h3>
+<div class="row"><div><label>Item Code :</label><input id="c1" placeholder="B689"></div><div><label>Item Name :</label><input id="c2" placeholder="COFERB PLUS SYP"></div></div>
+<div class="row"><div><label>Company :</label><input id="c3" placeholder="HILTON"></div><div><label>Packing :</label><input id="c4" placeholder="120ml"></div></div>
+<div class="row"><div><label>Rate :</label><input id="c5" type="number" value="324.15"></div><div><label>Discount % :</label><input id="c6" type="number" value="0"></div></div>
+<button class="btn" onclick="addI()">[Enter] SAVE ITEM</button><div id="il"></div></div>
+<div class="box"><h3>REGISTRATION - CUSTOMER / SUPPLIER</h3>
+<div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN" placeholder="FAIZAN MEDICAL STORE"></div></div>
+<div class="row"><div><label>Phone :</label><input id="pP" placeholder="0300-xxxxxxx"></div><div><label>Old Balance :</label><input id="pB" type="number" value="0"></div></div>
+<button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div>
 </div>
 
-<!-- SALE -->
-<div id="sale" class="tab hidden">
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">🧾 SALES INVOICE — Retail F6</h3>
-<div class="row"><div><label>Bill #</label><input id="billNo" readonly></div><div><label>Date</label><input id="billDate" type="date"></div></div>
-<div class="row"><div><label>Customer</label><select id="billCust"></select></div><div><label>Booker / Salesman</label><input id="billBooker" placeholder="Booker Name"></div></div>
-<hr><label>Item Select karein</label><select id="billItem"></select>
-<div class="row"><div><label>Qty (Full / PCS)</label><input id="billQty" type="number" value="1"></div><div><label>Rate</label><input id="billRate" type="number"></div></div>
-<div class="row"><div><label>Discount %</label><input id="billDisc" type="number" value="0"></div><div><label>Bonus</label><input id="billBonus" type="number" value="0"></div></div>
-<button class="btn orange" onclick="addToBill()">+ Item Add to Bill</button>
-<div id="billItems" style="margin-top:12px"></div>
-<div style="background:#f4f8ff;padding:12px;border-radius:10px;margin-top:10px">
-<b>Bill Total: <span id="billTotal">0</span> | Tax 7%: <span id="billTax">0</span> | Net Total: <span id="billNet">0</span></b><br>
-<span class="small">Old Balance: <span id="billOld">0</span> | Net Balance: <span id="billNetBal">0</span></span>
+<div id="trans" class="tab hidden">
+<div class="box"><h3>SALES INVOICE - Retail F6 [Purane Jaisa]</h3>
+<div class="row"><div><label>BILL # :</label><input id="bNo" readonly></div><div><label>DATE :</label><input id="bDt" type="date"></div></div>
+<div class="row"><div><label>CUSTOMER CODE / NAME :</label><select id="bCust"></select></div><div><label>BOOKER :</label><input id="bBook" placeholder="Booker Name"></div></div>
+<hr style="border:1px dashed #fff">
+<label>ITEM CODE / NAME [F2 Search] :</label><select id="bItem"></select>
+<div class="row"><div><label>Qty FULL :</label><input id="bQ" type="number" value="1"></div><div><label>Qty PCS :</label><input id="bQP" type="number" value="0"></div></div>
+<div class="row"><div><label>Rate :</label><input id="bR" type="number"></div><div><label>Discount % :</label><input id="bD" type="number" value="0"></div></div>
+<div class="row"><div><label>Bonus :</label><input id="bBo" type="number" value="0"></div><div><label>Amount :</label><input id="bAmt" readonly></div></div>
+<button class="btn" onclick="addB()">[F10] ADD ITEM TO BILL</button>
+<div id="bList"></div>
+<div style="border:1px solid #FFFF00;padding:10px;margin-top:10px;color:#FFFF00">
+Bill Total: <span id="bt">0</span> | Tax 7%: <span id="btax">0</span> | <b>NET TOTAL: <span id="bn">0</span></b><br>OLD BALANCE: <span id="bo">0</span> | NET BALANCE: <span id="bnb">0</span>
 </div>
-<div class="flex" style="margin-top:10px"><button class="btn green" onclick="saveBill()">💾 Save Bill</button><button class="btn" onclick="window.print()">🖨️ Print Bill</button><button class="btn grey" onclick="whatsappBill()">📱 WhatsApp Bill</button></div>
+<div class="row"><div><button class="btn btn3" onclick="saveB()">[F9] SAVE BILL</button></div><div><button class="btn btn2" onclick="window.print()">PRINT BILL</button></div></div>
 </div>
 </div>
 
-<!-- PURCHASE -->
-<div id="pur" class="tab hidden">
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">📦 PURCHASE INVOICE</h3>
-<div class="row"><div><label>Purchase Bill #</label><input id="purNo" placeholder="e.g PUR-001"></div><div><label>Date</label><input id="purDate" type="date"></div></div>
-<div class="row"><div><label>Supplier</label><select id="purSup"></select></div><div><label>Item</label><select id="purItem"></select></div></div>
-<div class="row"><div><label>Qty</label><input id="purQty" type="number" value="1"></div><div><label>Rate</label><input id="purRate" type="number"></div></div>
-<div class="row"><div><label>Discount %</label><input id="purDisc" type="number" value="0"></div><div><label>Total (auto)</label><input id="purTotal" readonly></div></div>
-<button class="btn green" onclick="savePurchase()">Save Purchase</button><div id="purList" style="margin-top:10px"></div>
-</div>
-</div>
-
-<!-- REPORTS -->
 <div id="rep" class="tab hidden">
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">📊 Reports — Daily Base</h3>
-<label>Date Select karein</label><input id="repDate" type="date">
-<div class="flex" style="margin-top:8px"><button class="btn" onclick="renderReports()">Report Dekhein</button><button class="btn orange" onclick="window.print()">Print Report</button></div>
-<div id="repOut" style="margin-top:12px"></div>
-</div>
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">📒 Roznamcha (Cash Book in Detail)</h3><div id="roznamcha"></div></div>
+<div class="box"><h3>REPORTS - DAILY BASE</h3>
+<label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div>
+<div class="box"><h3>ROZNAMCHA - Cash Book In Detail</h3><div id="rozn"></div></div>
 </div>
 
-<!-- BACKUP -->
-<div id="backup" class="tab hidden">
-<div class="card"><h3 style="color:#0b3d91;margin-top:0">☁️ Backup — Google Drive + USB</h3>
-<p class="small">Roz ka kaam khatam kar ke backup zaroor lein. Drive wala main backup hai, USB wala extra.</p>
-<div class="flex"><button class="btn green" onclick="backupDrive()">☁️ Backup to Google Drive</button><button class="btn" onclick="downloadBackup()">💾 USB / Download Backup</button></div>
-<div style="margin-top:12px"><label>Restore — Backup File Select karein</label><input type="file" id="restoreFile" accept=".json"><button class="btn grey" style="margin-top:8px" onclick="restoreData()">Restore Data</button></div>
-<p class="small">Google Drive button aap ka Drive kholega — wahan backup file upload kar dein. Agar aap chahein to me Google Drive API connect kar ke Auto-Upload bhi laga dunga (Google Account chahiye hoga).</p>
-<div id="backupMsg" style="margin-top:10px"></div>
-</div>
-</div>
+<div id="print" class="tab hidden"><div class="box"><h3>PRINTING</h3><p>1. Sales Invoice Full Page Print<br>2. Delivery Challan<br>3. Quotation Print<br>4. Sticker Print<br>5. Offer Print</p><button class="btn" onclick="window.print()">PRINT CURRENT SCREEN</button><button class="btn btn2" onclick="wa()">WhatsApp Bill</button></div></div>
+
+<div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - BACKUP [Drive + USB]</h3><p>Daily Backup zaroor lein.</p><button class="btn btn3" onclick="bd()">BACKUP TO GOOGLE DRIVE</button><button class="btn" onclick="dl()">BACKUP TO USB / DOWNLOAD</button><div style="margin-top:10px"><label>Restore File :</label><input type="file" id="rf" accept=".json"><button class="btn btn2" onclick="rs()">RESTORE</button></div><div id="bm"></div></div></div>
 
 </div>
-<footer style="text-align:center;padding:15px;color:#666;font-size:12px">© 2026 FRIENDS MEDICOSE — Daily Data Entry Software | Backup: Google Drive + USB</footer>
-
+<div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
 <script>
-let DB=JSON.parse(localStorage.getItem('friends_medicos_v1')||'{"items":[],"parties":[],"sales":[],"purchases":[]}');
-function save(){localStorage.setItem('friends_medicos_v1',JSON.stringify(DB)); refresh();}
-function today(){return new Date().toISOString().slice(0,10)}
-document.getElementById('todayDate').innerText=new Date().toLocaleDateString('en-GB');
-document.getElementById('billDate').value=today(); document.getElementById('purDate').value=today(); document.getElementById('repDate').value=today();
-let curBill=[]; function billNoGen(){return '048'+String(DB.sales.length+1).padStart(3,'0')}
-function show(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); if(btn)btn.classList.add('active'); refresh(); window.scrollTo(0,0)}
-function addItem(){let c=itCode.value.trim(),n=itName.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c||'IT'+(DB.items.length+1),name:n,comp:itComp.value,pack:itPack.value,rate:+itRate.value||0,disc:+itDisc.value||0}); itCode.value=itName.value=itComp.value=itPack.value=itRate.value=itDisc.value=''; save(); alert('Item Save ho gaya');}
-function addParty(){let n=pName.value.trim(); if(!n)return alert('Name likhein'); DB.parties.push({type:pType.value,name:n,phone:pPhone.value,area:pArea.value,bal:+pBal.value||0,code:pCode.value||'P'+(DB.parties.length+1)}); pName.value=pPhone.value=pArea.value=pCode.value=''; save(); alert('Party Save ho gaya');}
-function refresh(){
- document.getElementById('sItems').innerText=DB.items.length;
- let td=today(); let ts=DB.sales.filter(s=>s.date===td).reduce((a,b)=>a+b.net,0); let tp=DB.purchases.filter(s=>s.date===td).reduce((a,b)=>a+b.total,0);
- document.getElementById('sToday').innerText='Rs '+ts.toLocaleString(); document.getElementById('sPur').innerText='Rs '+tp.toLocaleString();
- document.getElementById('sUdhaar').innerText='Rs '+DB.parties.reduce((a,b)=>a+(b.bal||0),0).toLocaleString();
- document.getElementById('billNo').value=billNoGen();
- // dropdowns
- let custOpts=DB.parties.filter(p=>p.type!=='Supplier').map(p=>`<option value="${p.name}" data-bal="${p.bal}">${p.name} (${p.bal} Rs)</option>`).join('')||'<option>Walk-in Customer</option>';
- document.getElementById('billCust').innerHTML=custOpts; document.getElementById('purSup').innerHTML=DB.parties.filter(p=>p.type==='Supplier'||p.type.includes('Party')).map(p=>`<option>${p.name}</option>`).join('')||'<option>Supplier</option>';
- let itemOpts=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">Pehle Item Add karein</option>';
- document.getElementById('billItem').innerHTML=itemOpts; document.getElementById('purItem').innerHTML=itemOpts;
- // lists
- document.getElementById('itemList').innerHTML=DB.items.length?`<table><tr><th>Code</th><th>Name</th><th>Company</th><th>Rate</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'<span class="small">Abhi koi item nahi. Upar se add karein. Demo ke liye: B689 COFERB PLUS SYP - 324.15</span>';
- document.getElementById('partyList').innerHTML=DB.parties.length?`<table><tr><th>Type</th><th>Name</th><th>Phone</th><th>Balance</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.phone}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'<span class="small">Abhi koi party nahi.</span>';
- document.getElementById('purList').innerHTML=DB.purchases.length?`<table><tr><th>Date</th><th>Supplier</th><th>Item</th><th>Qty</th><th>Total</th></tr>${DB.purchases.slice(-10).map(p=>`<tr><td>${p.date}</td><td>${p.sup}</td><td>${p.item}</td><td>${p.qty}</td><td>${p.total}</td></tr>`).join('')}</table>`:'';
- document.getElementById('lastBills').innerHTML=DB.sales.length?`<h4>Last Bills</h4><table><tr><th>Bill</th><th>Date</th><th>Customer</th><th>Net</th></tr>${DB.sales.slice(-5).reverse().map(s=>`<tr><td>${s.no}</td><td>${s.date}</td><td>${s.cust}</td><td>${s.net}</td></tr>`).join('')}</table>`:'';
- // bill auto rate
- let bi=document.getElementById('billItem'); if(bi.value!=='' && DB.items[bi.value]) document.getElementById('billRate').value=DB.items[bi.value].rate;
- document.getElementById('purRate').oninput=document.getElementById('purQty').oninput=document.getElementById('purDisc').oninput=()=>{let q=+purQty.value||0,r=+purRate.value||0,d=+purDisc.value||0; purTotal.value=(q*r*(1-d/100)).toFixed(2)};
- // old balance
- let sel=document.getElementById('billCust'); let old=sel.selectedOptions[0]?+sel.selectedOptions[0].dataset.bal||0:0; document.getElementById('billOld').innerText=old;
+let DB=JSON.parse(localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
+function sv(){localStorage.setItem('fm_dos',JSON.stringify(DB)); ref()}
+function td(){return new Date().toISOString().slice(0,10)}
+dte.innerText=new Date().toLocaleDateString('en-GB'); bDt.value=td(); rDt.value=td();
+let cur=[];
+function sh(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref()}
+function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c1.value||'IT'+(DB.items.length+1),name:n,comp:c3.value,pack:c4.value,rate:+c5.value||0}); c1.value=c2.value=c3.value=c4.value=''; sv(); alert('Item Saved')}
+function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; sv(); alert('Party Saved')}
+function ref(){
+ let bn='048'+String(DB.sales.length+1).padStart(3,'0'); bNo.value=bn; topBill.innerText=bn;
+ let co=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>'; bCust.innerHTML=co;
+ let io=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">Pehle Item Add karein</option>'; bItem.innerHTML=io;
+ if(DB.items[bItem.value]) bR.value=DB.items[bItem.value].rate;
+ let old=bCust.selectedOptions[0]?DB.parties.find(p=>p.name===bCust.value)?.bal||0:0; bo.innerText=old;
+ il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'<p>Abhi koi item nahi. Demo: B689 COFERB PLUS SYP</p>';
+ pl.innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
+ dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | TOTAL PARTIES: ${DB.parties.length}</p><p>Last Bills: ${DB.sales.slice(-3).map(s=>s.no+' - '+s.cust+' - Rs '+s.net).join(' | ')}</p>`;
+ bAmt.value=((+bQ.value||1)*(+bR.value||0)*(1-(+bD.value||0)/100)).toFixed(2);
 }
-document.getElementById('billItem').onchange=refresh; document.getElementById('billCust').onchange=refresh;
-function addToBill(){let idx=billItem.value; if(idx===''||!DB.items[idx])return alert('Pehle Item add karein'); let it=DB.items[idx]; let q=+billQty.value||1, r=+billRate.value||it.rate, d=+billDisc.value||0, b=+billBonus.value||0; let amt=q*r*(1-d/100); curBill.push({name:it.name,code:it.code,qty:q,rate:r,amt:amt}); renderBill();}
-function renderBill(){let tot=curBill.reduce((a,b)=>a+b.amt,0); let tax=tot*0.07; let net=tot+tax; document.getElementById('billItems').innerHTML=curBill.length?`<table><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${curBill.map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt.toFixed(2)}</td></tr>`).join('')}</table>`:''; document.getElementById('billTotal').innerText=tot.toFixed(2); document.getElementById('billTax').innerText=tax.toFixed(2); document.getElementById('billNet').innerText=net.toFixed(2); let old=+document.getElementById('billOld').innerText||0; document.getElementById('billNetBal').innerText=(old+net).toFixed(2);}
-function saveBill(){if(!curBill.length)return alert('Bill me item add karein'); let tot=curBill.reduce((a,b)=>a+b.amt,0); let net=tot*1.07; DB.sales.push({no:billNo.value,date:billDate.value,cust:billCust.value,booker:billBooker.value,items:curBill,net:Math.round(net),total:tot}); // update party balance
- let p=DB.parties.find(x=>x.name===billCust.value); if(p)p.bal+=Math.round(net); curBill=[]; renderBill(); save(); alert('Bill Save ho gaya: '+billNo.value); show('dash',document.querySelector('[data-tab=dash]'));}
-function savePurchase(){let idx=purItem.value; if(idx===''||!DB.items[idx])return alert('Pehle Item add karein'); DB.purchases.push({no:purNo.value||'PUR-'+(DB.purchases.length+1),date:purDate.value,sup:purSup.value,item:DB.items[idx].name,qty:+purQty.value||1,total:+purTotal.value||0}); save(); alert('Purchase Save ho gayi');}
-function renderReports(){let d=repDate.value; let s=DB.sales.filter(x=>x.date===d); let p=DB.purchases.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0), pt=p.reduce((a,b)=>a+b.total,0); document.getElementById('repOut').innerHTML=`<table><tr><th>Type</th><th>Count</th><th>Total</th></tr><tr><td>Sale</td><td>${s.length}</td><td>${st}</td></tr><tr><td>Purchase</td><td>${p.length}</td><td>${pt}</td></tr></table>${s.map(x=>`<div class="small">${x.no} - ${x.cust} - Rs ${x.net} - ${x.items.map(i=>i.name+' x'+i.qty).join(', ')}</div>`).join('')}`; document.getElementById('roznamcha').innerHTML=`<b>Date: ${d}</b><br>Sale Cash In: Rs ${st}<br>Purchase Out: Rs ${pt}<br><b>Cash Balance: Rs ${st-pt}</b><br><span class="small">Yehi purane software wala Roznamcha hai — roz ka hisaab.</span>`;}
-function downloadBackup(){let blob=new Blob([JSON.stringify(DB)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='Friends-Medicos-'+today()+'.json'; a.click(); document.getElementById('backupMsg').innerHTML='<b style="color:green">Backup download ho gaya — is file ko USB me copy kar lein ya Drive pe upload kar dein.</b>';}
-function backupDrive(){window.open('https://drive.google.com/drive/my-drive','_blank'); document.getElementById('backupMsg').innerHTML='<b>Drive khul gaya hai.</b> Ab pehle <b>Download Backup</b> dabayein, phir woh file yahan Drive me Upload kar dein. Yehi file roz ki backup hai.'; downloadBackup();}
-function restoreData(){let f=document.getElementById('restoreFile').files[0]; if(!f)return alert('File select karein'); let r=new FileReader(); r.onload=e=>{DB=JSON.parse(e.target.result); save(); alert('Data Restore ho gaya');}; r.readAsText(f);}
-function whatsappBill(){if(!curBill.length && !DB.sales.length)return alert('Pehle bill banayein'); let last=DB.sales[DB.sales.length-1]; let txt=encodeURIComponent(`FRIENDS MEDICOSE\nBill: ${last?last.no:billNo.value}\nCustomer: ${last?last.cust:billCust.value}\nTotal: Rs ${last?last.net:document.getElementById('billNet').innerText}`); window.open('https://wa.me/?text='+txt,'_blank');}
-refresh(); renderReports();
-</script>
-</body>
-</html>
+bItem.onchange=ref; bCust.onchange=ref; bQ.oninput=bR.oninput=bD.oninput=ref;
+function addB(){let idx=bItem.value; if(idx===''||!DB.items[idx])return alert('Item add karein'); let it=DB.items[idx]; let q=+bQ.value||1, r=+bR.value||it.rate; let amt=q*r*(1-(+bD.value||0)/100); cur.push({name:it.name,qty:q,rate:r,amt}); let tot=cur.reduce((a,b)=>a+b.amt,0); bt.innerText=tot.toFixed(2); btax.innerText=(tot*0.07).toFixed(2); bn.innerText=(tot*1.07).toFixed(2); bnb.innerText=((+bo.innerText||0)+tot*1.07).toFixed(2); bList.innerHTML=`<table><tr><th>ITEM</th><th>QTY</th><th>RATE</th><th>AMOUNT</th></tr>${cur.map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt.toFixed(2)}</td></tr>`).join('')}</table>`;}
+function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:bNo.value,date:bDt.value,cust:bCust.value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===bCust.value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; bList.innerHTML=''; sv(); alert('Bill Saved: '+bNo.value); sh('main',document.querySelector('[data-t=main]'))}
+function rep(){let d=rDt.value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); rOut.innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; rozn.innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
+function dl(){let blob=new Blob([JSON.stringify(DB)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='Friends-Medicos-'+td()+'.json'; a.click(); bm.innerHTML='<b style="color:#FFFF00">Backup Download ho gaya - USB me copy kar lein</b>';}
+function bd(){window.open('https://drive.google.com/drive/my-drive','_blank'); dl(); bm.innerHTML='Drive khul gaya hai - File upload kar dein';}
+function rs(){let f=rf.files[0]; if(!f)return alert('File select karein'); let r=new FileReader(); r.onload=e=>{DB=JSON.parse(e.target.result); sv(); alert('Restore ho gaya')}; r.readAsText(f)}
+function wa(){let l=DB.sales[DB.sales.length-1]; if(!l)return alert('Bill nahi hai'); window.open('https://wa.me/?text='+encodeURIComponent('FRIENDS MEDICOSE\nBill: '+l.no+'\nCustomer: '+l.cust+'\nTotal: '+l.net),'_blank')}
+document.addEventListener('keydown',e=>{if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))} if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]'))});
+ref(); rep();
+</script></body></html>
