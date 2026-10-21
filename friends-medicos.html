@@ -18,7 +18,6 @@ label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1
 .btn2{background:#fff;color:#000}.btn3{background:#00FF00;color:#000}
 table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid #fff;padding:6px;text-align:left} th{color:#FFFF00}
 .hidden{display:none}.foot{position:fixed;bottom:0;left:0;right:0;background:#000080;color:#FFFF00;padding:7px;text-align:center;font-size:12px;border-top:2px solid #fff;z-index:20}
-/* DOS 1-LINE INVOICE */
 .dosline{display:flex;gap:8px;align-items:center;white-space:nowrap;overflow-x:auto;padding:4px 0}
 .dosline label{white-space:nowrap;font-size:14px}
 .dosline input,.dosline select{width:auto;min-width:80px;flex:1;margin:0;padding:7px}
@@ -27,6 +26,7 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 .doshead div{padding:6px;border-right:1px solid #fff;text-align:center}
 .dosrow{display:flex;background:#0000AA;border:1px solid #fff;border-top:0;font-size:13px}
 .dosrow div{padding:6px;border-right:1px solid #fff;overflow:hidden}
+@media print{ .menu,.foot,.noPrint{display:none!important} body{background:#fff;color:#000} .box{border:1px solid #000;color:#000;background:#fff} }
 </style></head><body>
 <div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
 <div class="menu" id="mn">
@@ -51,14 +51,10 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div></div>
 
 <div id="trans" class="tab hidden"><div class="box"><h3 style="text-align:center">SALES INVOICE ENTRADMIN &nbsp;&nbsp; LAST BILL <span id="lastBill" style="float:right"></span></h3>
-<!-- LINE 1 - DOS JESA 1 LINE ME -->
 <div class="dosline"><label>BILL # :</label><input id="bNo" class="mid" readonly><label>DATE :</label><input id="bDt" type="date" class="mid"><label>ITEMS :</label><input id="bCnt" class="small" readonly value="0"></div>
-<!-- LINE 2 -->
 <div class="dosline"><label>CUSTOMER :</label><select id="bCust" class="big"></select><label>BOOKER :</label><select id="bBook" class="mid"><option>1</option></select><label>RETAIL F6 :</label><input id="bRetail" class="small" value="381.36" readonly></div>
 <div style="height:4px"></div>
-<!-- LINE 3 - ORDER TABLE HEADER 1 LINE -->
 <div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME [^HOME]</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE F8</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
-<!-- ENTRY ROW 1 LINE ME -->
 <div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><select id="bItem" style="border:0;padding:2px"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
 <div id="bList"></div>
 <div class="dosline" style="margin-top:10px"><label>PACKING :</label><input id="bPack" class="mid" readonly><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>BILL TOTAL :</label><b id="bt" style="color:#FFFF00">0</b></div>
@@ -68,7 +64,18 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 </div></div>
 
 <div id="rep" class="tab hidden"><div class="box"><h3>REPORTS - DAILY BASE</h3><label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div><div class="box"><h3>ROZNAMCHA</h3><div id="rozn"></div></div></div>
-<div id="print" class="tab hidden"><div class="box"><h3>PRINTING</h3><p>1. Sales Invoice<br>2. Delivery Challan<br>3. Quotation<br>4. Sticker Print<br>5. Offer Print</p><button class="btn" onclick="window.print()">PRINT CURRENT SCREEN</button></div></div>
+
+<!-- ✅ PRINTING - AB BUTTONS HEN -->
+<div id="print" class="tab hidden"><div class="box"><h3>PRINTING - Koi bhi dabao, print khul jayega</h3>
+<label>Bill No. likhein (khali choro to last bill print hoga):</label><input id="prBill" placeholder="e.g. 048001 ya khali">
+<button class="btn" onclick="doPrint('invoice')">1. SALES INVOICE - PRINT</button>
+<button class="btn btn2" onclick="doPrint('challan')">2. DELIVERY CHALLAN - PRINT</button>
+<button class="btn" onclick="doPrint('quotation')">3. QUOTATION - PRINT</button>
+<button class="btn btn2" onclick="doPrint('sticker')">4. STICKER PRINT</button>
+<button class="btn" onclick="doPrint('offer')">5. OFFER PRINT</button>
+<button class="btn btn3" onclick="window.print()">🖨️ PRINT CURRENT SCREEN (Ctrl+P)</button>
+<div id="printArea" style="background:#fff;color:#000;padding:15px;margin-top:10px;display:none"></div>
+</div></div>
 
 <div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
 <button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
@@ -110,6 +117,20 @@ bItem.onchange=ref; bCust.onchange=ref; bQ.oninput=bR.oninput=bD.oninput=ref;
 function addB(){let idx=bItem.value; if(idx===''||!DB.items[idx])return alert('Item select karein'); let it=DB.items[idx]; let q=+bQ.value||1, r=+bR.value||it.rate; let amt=q*r*(1-(+bD.value||0)/100); cur.push({name:it.name,qty:q,rate:r,amt}); let tot=cur.reduce((a,b)=>a+b.amt,0); bt.innerText=tot.toFixed(2); btax.innerText=(tot*0.07).toFixed(2); bn.innerText=(tot*1.07).toFixed(2); bnb.innerText=((+bo.innerText||0)+tot*1.07).toFixed(2); bList.innerHTML=cur.map(i=>`<div class="dosrow"><div style="flex:0 0 70px">${it.code}</div><div style="flex:1">${i.name}</div><div style="flex:0 0 60px">${i.qty}</div><div style="flex:0 0 50px">0</div><div style="flex:0 0 60px">0</div><div style="flex:0 0 60px">0%</div><div style="flex:0 0 80px">${i.rate}</div><div style="flex:0 0 110px">${i.amt.toFixed(2)}</div></div>`).join(''); ref();}
 function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:bNo.value,date:bDt.value,cust:bCust.value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===bCust.value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; bList.innerHTML=''; sv(); alert('Bill Saved: '+bNo.value); sh('main',document.querySelector('[data-t=main]'))}
 function rep(){let d=rDt.value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); rOut.innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; rozn.innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
+// ✅ PRINT FUNCTIONS
+function doPrint(type){
+ let billNo=document.getElementById('prBill').value.trim();
+ let sale = billNo ? DB.sales.find(s=>s.no===billNo) : DB.sales[DB.sales.length-1];
+ if(!sale && type!=='offer'){ if(!confirm('Koi bill nahi mila, sample print karun?')) return; sale={no:billNo||'048001',date:td(),cust:'Walk-in Customer',items:cur.length?cur:[{name:'PANADOL',qty:1,rate:800,amt:800}],net:800}; }
+ let pa=document.getElementById('printArea'); pa.style.display='block';
+ let rows=(sale.items||[]).map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt}</td></tr>`).join('');
+ if(type==='invoice') pa.innerHTML=`<h2 style="text-align:center">*** FRIENDS MEDICOSE ***<br>SALES INVOICE</h2><p>Bill: ${sale.no} | Date: ${sale.date} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse;color:#000"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${rows}</table><h3>Net Total: Rs ${sale.net}</h3>`;
+ if(type==='challan') pa.innerHTML=`<h2 style="text-align:center">DELIVERY CHALLAN</h2><p>Bill: ${sale.no} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table>`;
+ if(type==='quotation') pa.innerHTML=`<h2 style="text-align:center">QUOTATION - FRIENDS MEDICOSE</h2><p>Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table><p>Valid for 7 days</p>`;
+ if(type==='sticker') pa.innerHTML=`<div style="border:2px solid #000;padding:10px;text-align:center"><b>FRIENDS MEDICOSE</b><br>${sale.items[0]?.name||''}<br>Rs ${sale.items[0]?.rate||''}</div>`;
+ if(type==='offer') pa.innerHTML=`<h1 style="text-align:center">OFFER! OFFER!<br>10% OFF ON ALL MEDICINES<br>FRIENDS MEDICOSE</h1>`;
+ setTimeout(()=>window.print(),300);
+}
 document.addEventListener('keydown',e=>{if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))} if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]'))});
 ref(); rep();
 </script></body></html>
