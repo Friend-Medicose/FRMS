@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FRIENDS MEDICOSE - DOS</title>
+<title>FRIENDS MEDICOSE - DOS AUTO BACKUP</title>
+<script src="https://accounts.google.com/gsi/client"></script>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#0000AA;color:#fff;font-family:'Courier New',monospace;font-size:15px}
 .top{background:#000080;border-bottom:2px solid #fff;padding:8px 12px;text-align:center}
-.top b{font-size:19px;letter-spacing:1px}.top span{font-size:12px;color:#FFFF00}
-.menu{display:flex;flex-wrap:wrap;gap:0;background:#0000AA;border-bottom:2px solid #fff}
-.menu button{background:#0000AA;color:#fff;border:1px solid #fff;border-right:0;padding:10px 12px;font-family:inherit;font-weight:bold;cursor:pointer;flex:1}
+.top b{font-size:19px}.top span{font-size:12px;color:#FFFF00}
+.menu{display:flex;flex-wrap:wrap;background:#0000AA;border-bottom:2px solid #fff}
+.menu button{background:#0000AA;color:#fff;border:1px solid #fff;padding:10px 12px;font-family:inherit;font-weight:bold;cursor:pointer;flex:1}
 .menu button:hover,.menu button.on{background:#FFFF00;color:#000}
-.wrap{max-width:1000px;margin:auto;padding:10px}
+.wrap{max-width:1000px;margin:auto;padding:10px;padding-bottom:60px}
 .box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA}
 .box h3{margin:0 0 10px;color:#FFFF00;border-bottom:1px dashed #fff;padding-bottom:6px}
 label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1px solid #fff;padding:9px;font-family:inherit;font-size:15px;margin:4px 0}
-input:focus{outline:2px solid #FFFF00}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px} @media(max-width:600px){.row{grid-template-columns:1fr}}
 .btn{background:#FFFF00;color:#000;border:0;padding:11px;font-family:inherit;font-weight:bold;cursor:pointer;width:100%;margin-top:6px}
 .btn2{background:#fff;color:#000}.btn3{background:#00FF00;color:#000}
@@ -20,28 +20,19 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 .hidden{display:none}.foot{position:fixed;bottom:0;left:0;right:0;background:#000080;color:#FFFF00;padding:7px;text-align:center;font-size:12px;border-top:2px solid #fff;z-index:20}
 .kbd{background:#fff;color:#000;padding:1px 5px;font-weight:bold}
 </style></head><body>
-<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span>Data Entry Software - Daily Sale / Purchase / Reports - (C) 2026</span><br><span id="dte"></span> | BILL # <span id="topBill">048001</span> | USER: ADMIN</div>
+<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span>Data Entry Software - AUTO DRIVE BACKUP - (C) 2026</span><br><span id="dte"></span> | BILL # <span id="topBill">048001</span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
 <div class="menu" id="mn">
 <button data-t="main" class="on" onclick="sh('main',this)">MAIN MENU</button>
 <button data-t="reg" onclick="sh('reg',this)">1-REGISTRATION</button>
 <button data-t="trans" onclick="sh('trans',this)">2-TRANSACTION [F6]</button>
 <button data-t="rep" onclick="sh('rep',this)">4-REPORTS</button>
 <button data-t="print" onclick="sh('print',this)">5-PRINTING</button>
-<button data-t="backup" onclick="sh('backup',this)">6-OTHERS/BACKUP</button>
+<button data-t="backup" onclick="sh('backup',this)">6-BACKUP</button>
 </div>
-<div class="wrap" style="padding-bottom:50px">
-<div id="main" class="tab">
-<div class="box"><h3>MAIN MENU - Select Option (Keyboard: 1,2,3,4,5,6)</h3>
-<p>Press: <span class="kbd">1</span> Registration &nbsp; <span class="kbd">2</span> Transaction &nbsp; <span class="kbd">4</span> Reports &nbsp; <span class="kbd">5</span> Printing &nbsp; <span class="kbd">6</span> Backup</p>
-<p>Press <span class="kbd">F6</span> = Direct Sale Invoice (Retail)</p>
-<div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div>
-<div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - DAILY REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - BACKUP (Drive+USB)</button></div></div>
-<div id="dash2" style="margin-top:10px"></div>
-</div>
-</div>
+<div class="wrap">
+<div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press <span class="kbd">F6</span> = Sale Invoice &nbsp; <span class="kbd">1</span> Registration &nbsp; <span class="kbd">6</span> Backup</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - AUTO BACKUP</button></div></div><div id="dash2"></div></div></div>
 
-<div id="reg" class="tab hidden">
-<div class="box"><h3>REGISTRATION - ITEM / MEDICINE [F2 to Search]</h3>
+<div id="reg" class="tab hidden"><div class="box"><h3>REGISTRATION - ITEM [F2 Search]</h3>
 <div class="row"><div><label>Item Code :</label><input id="c1" placeholder="B689"></div><div><label>Item Name :</label><input id="c2" placeholder="COFERB PLUS SYP"></div></div>
 <div class="row"><div><label>Company :</label><input id="c3" placeholder="HILTON"></div><div><label>Packing :</label><input id="c4" placeholder="120ml"></div></div>
 <div class="row"><div><label>Rate :</label><input id="c5" type="number" value="324.15"></div><div><label>Discount % :</label><input id="c6" type="number" value="0"></div></div>
@@ -49,40 +40,65 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <div class="box"><h3>REGISTRATION - CUSTOMER / SUPPLIER</h3>
 <div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN" placeholder="FAIZAN MEDICAL STORE"></div></div>
 <div class="row"><div><label>Phone :</label><input id="pP" placeholder="0300-xxxxxxx"></div><div><label>Old Balance :</label><input id="pB" type="number" value="0"></div></div>
-<button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div>
-</div>
+<button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div></div>
 
-<div id="trans" class="tab hidden">
-<div class="box"><h3>SALES INVOICE - Retail F6 [Purane Jaisa]</h3>
+<div id="trans" class="tab hidden"><div class="box"><h3>SALES INVOICE - Retail F6</h3>
 <div class="row"><div><label>BILL # :</label><input id="bNo" readonly></div><div><label>DATE :</label><input id="bDt" type="date"></div></div>
-<div class="row"><div><label>CUSTOMER CODE / NAME :</label><select id="bCust"></select></div><div><label>BOOKER :</label><input id="bBook" placeholder="Booker Name"></div></div>
-<hr style="border:1px dashed #fff">
-<label>ITEM CODE / NAME [F2 Search] :</label><select id="bItem"></select>
+<div class="row"><div><label>CUSTOMER :</label><select id="bCust"></select></div><div><label>BOOKER :</label><input id="bBook" placeholder="Booker Name"></div></div>
+<hr style="border:1px dashed #fff"><label>ITEM CODE / NAME :</label><select id="bItem"></select>
 <div class="row"><div><label>Qty FULL :</label><input id="bQ" type="number" value="1"></div><div><label>Qty PCS :</label><input id="bQP" type="number" value="0"></div></div>
 <div class="row"><div><label>Rate :</label><input id="bR" type="number"></div><div><label>Discount % :</label><input id="bD" type="number" value="0"></div></div>
 <div class="row"><div><label>Bonus :</label><input id="bBo" type="number" value="0"></div><div><label>Amount :</label><input id="bAmt" readonly></div></div>
-<button class="btn" onclick="addB()">[F10] ADD ITEM TO BILL</button>
-<div id="bList"></div>
-<div style="border:1px solid #FFFF00;padding:10px;margin-top:10px;color:#FFFF00">
-Bill Total: <span id="bt">0</span> | Tax 7%: <span id="btax">0</span> | <b>NET TOTAL: <span id="bn">0</span></b><br>OLD BALANCE: <span id="bo">0</span> | NET BALANCE: <span id="bnb">0</span>
-</div>
-<div class="row"><div><button class="btn btn3" onclick="saveB()">[F9] SAVE BILL</button></div><div><button class="btn btn2" onclick="window.print()">PRINT BILL</button></div></div>
-</div>
-</div>
+<button class="btn" onclick="addB()">[F10] ADD ITEM TO BILL</button><div id="bList"></div>
+<div style="border:1px solid #FFFF00;padding:10px;margin-top:10px;color:#FFFF00">Bill Total: <span id="bt">0</span> | Tax 7%: <span id="btax">0</span> | <b>NET TOTAL: <span id="bn">0</span></b><br>OLD BALANCE: <span id="bo">0</span> | NET BALANCE: <span id="bnb">0</span></div>
+<div class="row"><div><button class="btn btn3" onclick="saveB()">[F9] SAVE BILL</button></div><div><button class="btn btn2" onclick="window.print()">PRINT BILL</button></div></div></div></div>
 
-<div id="rep" class="tab hidden">
-<div class="box"><h3>REPORTS - DAILY BASE</h3>
-<label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div>
-<div class="box"><h3>ROZNAMCHA - Cash Book In Detail</h3><div id="rozn"></div></div>
-</div>
+<div id="rep" class="tab hidden"><div class="box"><h3>REPORTS - DAILY BASE</h3><label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div><div class="box"><h3>ROZNAMCHA</h3><div id="rozn"></div></div></div>
+<div id="print" class="tab hidden"><div class="box"><h3>PRINTING</h3><p>1. Sales Invoice<br>2. Delivery Challan<br>3. Quotation<br>4. Sticker Print<br>5. Offer Print</p><button class="btn" onclick="window.print()">PRINT CURRENT SCREEN</button></div></div>
 
-<div id="print" class="tab hidden"><div class="box"><h3>PRINTING</h3><p>1. Sales Invoice Full Page Print<br>2. Delivery Challan<br>3. Quotation Print<br>4. Sticker Print<br>5. Offer Print</p><button class="btn" onclick="window.print()">PRINT CURRENT SCREEN</button><button class="btn btn2" onclick="wa()">WhatsApp Bill</button></div></div>
-
-<div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - BACKUP [Drive + USB]</h3><p>Daily Backup zaroor lein.</p><button class="btn btn3" onclick="bd()">BACKUP TO GOOGLE DRIVE</button><button class="btn" onclick="dl()">BACKUP TO USB / DOWNLOAD</button><div style="margin-top:10px"><label>Restore File :</label><input type="file" id="rf" accept=".json"><button class="btn btn2" onclick="rs()">RESTORE</button></div><div id="bm"></div></div></div>
-
+<div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
+<p>Ab JSON download nahi hogi. Seedha Drive me save hogi.</p>
+<p>Client ID: 906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com</p>
+<button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
+<button class="btn" onclick="autoBackup()">2. ☁️ AUTO BACKUP NOW - Save to Drive</button>
+<button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
+<div id="bm" style="margin-top:10px;color:#FFFF00"></div>
+<p style="font-size:12px">Pehli dafa Connect dabane pe Google puchega - alam.qureshi2018@gmail.com select karein aur Allow karein. Us ke baad har dafa sirf Backup dabana hai.</p>
+</div></div>
 </div>
 <div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
 <script>
+// ===== AUTO DRIVE CONFIG =====
+const CLIENT_ID = '906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+let accessToken = null, tokenClient = null;
+function initGIS(){ tokenClient = google.accounts.oauth2.initTokenClient({client_id: CLIENT_ID, scope: SCOPES, callback: (resp)=>{ if(resp.access_token){ accessToken=resp.access_token; document.getElementById('driveStat').innerText='DRIVE: CONNECTED ✅'; document.getElementById('bm').innerHTML='<b style="color:#00FF00">Drive Connected! Ab Backup dabayein.</b>'; } } }); }
+window.onload = initGIS;
+function connectDrive(){ if(!tokenClient) initGIS(); tokenClient.requestAccessToken(); }
+async function autoBackup(){
+  if(!accessToken){ document.getElementById('bm').innerHTML='Pehle CONNECT GOOGLE DRIVE dabayein'; connectDrive(); return; }
+  document.getElementById('bm').innerHTML='Uploading to Drive... please wait...';
+  let fileName = 'Friends-Medicos-'+td()+'.json';
+  let fileContent = JSON.stringify(DB);
+  let metadata = {name: fileName, mimeType:'application/json'};
+  let form = new FormData();
+  form.append('metadata', new Blob([JSON.stringify(metadata)],{type:'application/json'}));
+  form.append('file', new Blob([fileContent],{type:'application/json'}));
+  let res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST', headers:{'Authorization':'Bearer '+accessToken}, body:form});
+  let data = await res.json();
+  if(data.id){ document.getElementById('bm').innerHTML='<b style="color:#00FF00">✅ BACKUP SAVED TO DRIVE! File: '+fileName+'<br>File ID: '+data.id+'</b>'; }
+  else{ document.getElementById('bm').innerHTML='Error: '+JSON.stringify(data)+' - Dobara Connect karein'; accessToken=null; }
+}
+async function autoRestore(){
+  if(!accessToken){ connectDrive(); return; }
+  let res = await fetch("https://www.googleapis.com/drive/v3/files?q=name contains 'Friends-Medicos'&orderBy=createdTime desc&pageSize=1",{headers:{'Authorization':'Bearer '+accessToken}});
+  let data = await res.json();
+  if(!data.files || !data.files.length){ document.getElementById('bm').innerHTML='Drive me koi backup nahi mila'; return; }
+  let fid = data.files[0].id;
+  let r2 = await fetch('https://www.googleapis.com/drive/v3/files/'+fid+'?alt=media',{headers:{'Authorization':'Bearer '+accessToken}});
+  let txt = await r2.text(); DB = JSON.parse(txt); sv(); document.getElementById('bm').innerHTML='✅ RESTORED FROM DRIVE: '+data.files[0].name;
+}
+// ===== MAIN LOGIC =====
 let DB=JSON.parse(localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
 function sv(){localStorage.setItem('fm_dos',JSON.stringify(DB)); ref()}
 function td(){return new Date().toISOString().slice(0,10)}
@@ -93,23 +109,19 @@ function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); 
 function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; sv(); alert('Party Saved')}
 function ref(){
  let bn='048'+String(DB.sales.length+1).padStart(3,'0'); bNo.value=bn; topBill.innerText=bn;
- let co=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>'; bCust.innerHTML=co;
- let io=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">Pehle Item Add karein</option>'; bItem.innerHTML=io;
+ bCust.innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
+ bItem.innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">Pehle Item Add karein</option>';
  if(DB.items[bItem.value]) bR.value=DB.items[bItem.value].rate;
  let old=bCust.selectedOptions[0]?DB.parties.find(p=>p.name===bCust.value)?.bal||0:0; bo.innerText=old;
  il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'<p>Abhi koi item nahi. Demo: B689 COFERB PLUS SYP</p>';
  pl.innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
- dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | TOTAL PARTIES: ${DB.parties.length}</p><p>Last Bills: ${DB.sales.slice(-3).map(s=>s.no+' - '+s.cust+' - Rs '+s.net).join(' | ')}</p>`;
+ dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length}</p>`;
  bAmt.value=((+bQ.value||1)*(+bR.value||0)*(1-(+bD.value||0)/100)).toFixed(2);
 }
 bItem.onchange=ref; bCust.onchange=ref; bQ.oninput=bR.oninput=bD.oninput=ref;
 function addB(){let idx=bItem.value; if(idx===''||!DB.items[idx])return alert('Item add karein'); let it=DB.items[idx]; let q=+bQ.value||1, r=+bR.value||it.rate; let amt=q*r*(1-(+bD.value||0)/100); cur.push({name:it.name,qty:q,rate:r,amt}); let tot=cur.reduce((a,b)=>a+b.amt,0); bt.innerText=tot.toFixed(2); btax.innerText=(tot*0.07).toFixed(2); bn.innerText=(tot*1.07).toFixed(2); bnb.innerText=((+bo.innerText||0)+tot*1.07).toFixed(2); bList.innerHTML=`<table><tr><th>ITEM</th><th>QTY</th><th>RATE</th><th>AMOUNT</th></tr>${cur.map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt.toFixed(2)}</td></tr>`).join('')}</table>`;}
 function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:bNo.value,date:bDt.value,cust:bCust.value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===bCust.value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; bList.innerHTML=''; sv(); alert('Bill Saved: '+bNo.value); sh('main',document.querySelector('[data-t=main]'))}
 function rep(){let d=rDt.value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); rOut.innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; rozn.innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
-function dl(){let blob=new Blob([JSON.stringify(DB)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='Friends-Medicos-'+td()+'.json'; a.click(); bm.innerHTML='<b style="color:#FFFF00">Backup Download ho gaya - USB me copy kar lein</b>';}
-function bd(){window.open('https://drive.google.com/drive/my-drive','_blank'); dl(); bm.innerHTML='Drive khul gaya hai - File upload kar dein';}
-function rs(){let f=rf.files[0]; if(!f)return alert('File select karein'); let r=new FileReader(); r.onload=e=>{DB=JSON.parse(e.target.result); sv(); alert('Restore ho gaya')}; r.readAsText(f)}
-function wa(){let l=DB.sales[DB.sales.length-1]; if(!l)return alert('Bill nahi hai'); window.open('https://wa.me/?text='+encodeURIComponent('FRIENDS MEDICOSE\nBill: '+l.no+'\nCustomer: '+l.cust+'\nTotal: '+l.net),'_blank')}
 document.addEventListener('keydown',e=>{if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))} if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]'))});
 ref(); rep();
 </script></body></html>
