@@ -28,7 +28,7 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 .dosrow div{padding:6px;border-right:1px solid #fff;overflow:hidden}
 @media print{ .menu,.foot,.noPrint{display:none!important} body{background:#fff;color:#000} .box{border:1px solid #000;color:#000;background:#fff} }
 </style></head><body>
-<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
+<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span><br><span style="font-size:12px;color:#FFFF00">EIDGAH CHOWK, MANZOR COLONY, KARACHI - OFFER LIST NO: 000011 - DATE: 22/10/2026</span></div>
 <div class="menu" id="mn">
 <button data-t="main" class="on" onclick="sh('main',this)">MAIN MENU</button>
 <button data-t="reg" onclick="sh('reg',this)">1-REGISTRATION</button>
@@ -36,9 +36,10 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <button data-t="rep" onclick="sh('rep',this)">4-REPORTS</button>
 <button data-t="print" onclick="sh('print',this)">5-PRINTING</button>
 <button data-t="backup" onclick="sh('backup',this)">6-BACKUP</button>
+<button data-t="cust" onclick="sh('cust',this)">7-CUSTOMER OFFER LIST</button>
 </div>
 <div class="wrap">
-<div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press F6 = Sale Invoice | 1 = Registration | 6 = Backup</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - AUTO BACKUP</button></div></div><div id="dash2"></div></div></div>
+<div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press F6 = Sale Invoice | 1 = Registration | 6 = Backup | 7 = Customer List (WhatsApp ke liye)</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - AUTO BACKUP</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('cust',document.querySelector('[data-t=cust]'))">7 - CUSTOMER OFFER LIST - WHATSAPP SEND KARNE KE LIYE</button></div></div><div id="dash2"></div></div></div>
 
 <div id="reg" class="tab hidden"><div class="box"><h3>REGISTRATION - ITEM [F2 Search]</h3>
 <div class="row"><div><label>Item Code :</label><input id="c1"></div><div><label>Item Name :</label><input id="c2"></div></div>
@@ -65,7 +66,6 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 
 <div id="rep" class="tab hidden"><div class="box"><h3>REPORTS - DAILY BASE</h3><label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div><div class="box"><h3>ROZNAMCHA</h3><div id="rozn"></div></div></div>
 
-<!-- ✅ PRINTING - AB BUTTONS HEN -->
 <div id="print" class="tab hidden"><div class="box"><h3>PRINTING - Koi bhi dabao, print khul jayega</h3>
 <label>Bill No. likhein (khali choro to last bill print hoga):</label><input id="prBill" placeholder="e.g. 048001 ya khali">
 <button class="btn" onclick="doPrint('invoice')">1. SALES INVOICE - PRINT</button>
@@ -83,8 +83,22 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
 <div id="bm" style="margin-top:10px;color:#FFFF00"></div>
 </div></div>
+
+<div id="cust" class="tab hidden"><div class="box"><h3>CUSTOMER OFFER LIST - FRIENDS MEDICOS - LIST NO 000011</h3>
+<p style="font-size:13px">Chrome me kholein | Item search karein | Qty likhein | SEND ORDER dabayein</p>
+<label>Customer / Shop Name :</label><input id="custName" placeholder="Apna Naam / Shop Name likhein">
+<label>SEARCH ITEMS HERE :</label><input id="searchCust" oninput="filtCust()" placeholder="e.g. PANADOL, RISEK, AUGMENTIN...">
+<div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME</div><div style="flex:0 0 80px">T.P</div><div style="flex:0 0 60px">OFFER</div><div style="flex:0 0 80px">QTY</div></div>
+<div id="custList"></div>
+<div class="dosline" style="margin-top:10px"><label>SELECTED ITEMS :</label><b id="custCnt">0</b><label>TOTAL :</label><b id="custTot" style="color:#FFFF00;font-size:18px">0</b></div>
+<div id="custCartView" style="font-size:13px;margin:8px 0"></div>
+<button class="btn btn3" onclick="sendOrderWA()">📲 SEND ORDER ON WHATSAPP</button>
+<button class="btn btn2" onclick="copyOrder()">COPY ORDER TEXT</button>
+<button class="btn" onclick="clearCust()">CLEAR ORDER</button>
+</div></div>
+
 </div>
-<div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
+<div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next | 7=Customer List</div>
 <script>
 const CLIENT_ID = '906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com';
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
@@ -94,12 +108,366 @@ window.onload = initGIS;
 function connectDrive(){ if(!tokenClient) initGIS(); tokenClient.requestAccessToken(); }
 async function autoBackup(){ if(!accessToken){ document.getElementById('bm').innerHTML='Pehle CONNECT dabayein'; connectDrive(); return; } document.getElementById('bm').innerHTML='Uploading...'; let fileName='Friends-Medicos-'+td()+'.json'; let form=new FormData(); form.append('metadata', new Blob([JSON.stringify({name:fileName,mimeType:'application/json'})],{type:'application/json'})); form.append('file', new Blob([JSON.stringify(DB)],{type:'application/json'})); let res=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Authorization':'Bearer '+accessToken},body:form}); let data=await res.json(); if(data.id){ document.getElementById('bm').innerHTML='<b style="color:#00FF00">✅ BACKUP SAVED: '+fileName+'</b>'; } else{ document.getElementById('bm').innerHTML='Error'; accessToken=null; } }
 async function autoRestore(){ if(!accessToken){ connectDrive(); return; } let res=await fetch("https://www.googleapis.com/drive/v3/files?q=name contains 'Friends-Medicos'&orderBy=createdTime desc&pageSize=1",{headers:{'Authorization':'Bearer '+accessToken}}); let data=await res.json(); if(!data.files||!data.files.length){ document.getElementById('bm').innerHTML='Koi backup nahi mila'; return; } let r2=await fetch('https://www.googleapis.com/drive/v3/files/'+data.files[0].id+'?alt=media',{headers:{'Authorization':'Bearer '+accessToken}}); DB=JSON.parse(await r2.text()); sv(); document.getElementById('bm').innerHTML='✅ RESTORED: '+data.files[0].name; }
+// OFFER LIST 000011 - 22/10/2026 - FRIENDS MEDICOS - Tamam items isi file se note kiye
+const OFFER_LIST=[
+{code:'9703',name:'AMYGRA 60 TAB - TABROS',comp:'TABROS',pack:'TAB',rate:191.36,bonus:'-2.00%'},
+{code:'6491',name:'CLERET GEL - TABROS',comp:'TABROS',pack:'GEL',rate:284.75,bonus:'8.00%'},
+{code:'9357',name:'CO-VALTEC 160/12.5 TAB',comp:'TABROS',pack:'TAB',rate:647.70,bonus:'-2.00%'},
+{code:'8946',name:'CO-VALTEC 80/12.5 TAB',comp:'TABROS',pack:'TAB',rate:487.90,bonus:'-2.00%'},
+{code:'8613',name:'CUTIS 125 TAB',comp:'TABROS',pack:'TAB',rate:700.40,bonus:'7.00%'},
+{code:'B283',name:'CUTIS 250 TAB',comp:'TABROS',pack:'TAB',rate:963.05,bonus:'15.00%'},
+{code:'8614',name:'CUTIS CREAM',comp:'TABROS',pack:'CREAM',rate:215.90,bonus:'8.00%'},
+{code:'595',name:'CUTIS LOTION',comp:'TABROS',pack:'LOTION',rate:329.80,bonus:'8.00%'},
+{code:'8896',name:'DURAGASIC FORTE TAB NEW',comp:'TABROS',pack:'TAB',rate:254.15,bonus:'5.00%'},
+{code:'4517',name:'FIXITIL CAP',comp:'TABROS',pack:'CAP',rate:424.15,bonus:'12.00%'},
+{code:'2596',name:'FOCIN 500 CAP',comp:'TABROS',pack:'CAP',rate:285.60,bonus:'0.01%'},
+{code:'B262',name:'FOCIN ULTRA 3 SACHET',comp:'TABROS',pack:'SACHET',rate:548.25,bonus:'-2.00%'},
+{code:'4604',name:'FUSIL CREAM LARGE',comp:'TABROS',pack:'CREAM',rate:258.40,bonus:'2.00%'},
+{code:'4603',name:'FUSIL CREAM SMALL',comp:'TABROS',pack:'CREAM',rate:113.05,bonus:'2.00%'},
+{code:'6262',name:'FUSIL-HC CREAM LARGE',comp:'TABROS',pack:'CREAM',rate:248.20,bonus:'2.00%'},
+{code:'8271',name:'G-MET SYP',comp:'TABROS',pack:'SYP',rate:137.70,bonus:'-2.00%'},
+{code:'2595',name:'KLIC 50 TAB',comp:'TABROS',pack:'TAB',rate:197.92,bonus:'-2.00%'},
+{code:'9263',name:'MOXIFO 400 TAB',comp:'TABROS',pack:'TAB',rate:401.20,bonus:'10.00%'},
+{code:'5863',name:'MUPIDERM OINT',comp:'TABROS',pack:'OINT',rate:176.35,bonus:'3.00%'},
+{code:'A585',name:'PECTUS SYP',comp:'TABROS',pack:'SYP',rate:108.80,bonus:'-2.00%'},
+{code:'B352',name:'RAPICORT 5 TAB',comp:'TABROS',pack:'TAB',rate:361.66,bonus:'-2.00%'},
+{code:'546',name:'RAST 10 TAB',comp:'TABROS',pack:'TAB',rate:276.25,bonus:'-2.00%'},
+{code:'330',name:'RAST 20 TAB',comp:'TABROS',pack:'TAB',rate:431.80,bonus:'-2.00%'},
+{code:'6037',name:'SPADIX INJ',comp:'TABROS',pack:'INJ',rate:392.70,bonus:'3.00%'},
+{code:'6038',name:'SPADIX TAB',comp:'TABROS',pack:'TAB',rate:357.00,bonus:'3.00%'},
+{code:'5072',name:'TRAVOLON CREAM',comp:'TABROS',pack:'CREAM',rate:111.35,bonus:'5.00%'},
+{code:'8949',name:'VALTEC 160 TAB',comp:'TABROS',pack:'TAB',rate:593.30,bonus:'-2.00%'},
+{code:'4673',name:'VALTEC 40 TAB',comp:'TABROS',pack:'TAB',rate:294.10,bonus:'-2.00%'},
+{code:'8948',name:'VALTEC 80 TAB',comp:'TABROS',pack:'TAB',rate:464.95,bonus:'-2.00%'},
+{code:'9906',name:'VALTEC A M 10/160 TAB',comp:'TABROS',pack:'TAB',rate:735.25,bonus:'-2.00%'},
+{code:'9905',name:'VALTEC A M 5/160 TAB',comp:'TABROS',pack:'TAB',rate:719.95,bonus:'-2.00%'},
+{code:'9904',name:'VALTEC A M 5/80 TAB',comp:'TABROS',pack:'TAB',rate:545.70,bonus:'-2.00%'},
+{code:'3454',name:'ZOHYDRO CREAM',comp:'TABROS',pack:'CREAM',rate:102.85,bonus:'8.00%'},
+{code:'8095',name:'CITRO SODA ORANGE',comp:'ABBOT MULLER',pack:'SACHET',rate:527.00,bonus:'3.00%'},
+{code:'1775',name:'KLARICID 125 SYP - ABBOTT',comp:'ABBOTT',pack:'SYP',rate:491.77,bonus:'0.01%'},
+{code:'3364',name:'ABOCOL TAB - ABBOTT',comp:'ABBOTT',pack:'TAB',rate:348.50,bonus:'7.00%'},
+{code:'B4',name:'ABOCRAN SACHETS - ABBOTT',comp:'ABBOTT',pack:'SACHET',rate:417.80,bonus:'10.00%'},
+{code:'3053',name:'ARINAC FORTE TAB',comp:'ABBOTT',pack:'TAB',rate:1275.00,bonus:'0.01%'},
+{code:'3153',name:'ARINAC TAB',comp:'ABBOTT',pack:'TAB',rate:680.00,bonus:'0.01%'},
+{code:'64',name:'ARTIFEN 50 TAB',comp:'ABBOTT',pack:'TAB',rate:720.80,bonus:'3.00%'},
+{code:'107',name:'BECEFOL TAB SMALL',comp:'ABBOTT',pack:'TAB',rate:331.50,bonus:'-2.00%'},
+{code:'145',name:'BEVIDOX TAB LARGE',comp:'ABBOTT',pack:'TAB',rate:510.00,bonus:'-2.00%'},
+{code:'5327',name:'BRUFEN DUO TAB',comp:'ABBOTT',pack:'TAB',rate:289.00,bonus:'-2.00%'},
+{code:'B636',name:'BRUFEN-DS SYP',comp:'ABBOTT',pack:'SYP',rate:100.37,bonus:'0.01%'},
+{code:'2552',name:'CITRO-SODA LEMON',comp:'ABBOTT',pack:'SACHET',rate:527.00,bonus:'3.00%'},
+{code:'A597',name:'KLARICID DS SYP',comp:'ABBOTT',pack:'SYP',rate:876.57,bonus:'0.01%'},
+{code:'396',name:'DUPHALAC SYP SMALL',comp:'ABBOTT',pack:'SYP',rate:268.79,bonus:'0.01%'},
+{code:'421',name:'EPIVAL 250 TAB',comp:'ABBOTT',pack:'TAB',rate:783.40,bonus:'-2.00%'},
+{code:'422',name:'EPIVAL 500 TAB',comp:'ABBOTT',pack:'TAB',rate:1960.54,bonus:'-2.00%'},
+{code:'B79',name:'EZOMOL 20 CAP',comp:'ABBOTT',pack:'CAP',rate:246.50,bonus:'4.00%'},
+{code:'B80',name:'EZOMOL 40 CAP',comp:'ABBOTT',pack:'CAP',rate:408.00,bonus:'4.00%'},
+{code:'633',name:'KLARICID 250 TAB',comp:'ABBOTT',pack:'TAB',rate:464.64,bonus:'3.00%'},
+{code:'B188',name:'KLARICID 500 TAB',comp:'ABBOTT',pack:'TAB',rate:841.62,bonus:'3.00%'},
+{code:'1095',name:'SERC 16 TAB',comp:'ABBOTT',pack:'TAB',rate:790.50,bonus:'-2.00%'},
+{code:'1691',name:'SERC 8 TAB',comp:'ABBOTT',pack:'TAB',rate:476.00,bonus:'-2.00%'},
+{code:'9329',name:'SURBEX Z TAB',comp:'ABBOTT',pack:'TAB',rate:433.50,bonus:'3.00%'},
+{code:'9617',name:'SURBEX-T TAB SMALL',comp:'ABBOTT',pack:'TAB',rate:297.50,bonus:'-2.00%'},
+{code:'3000',name:'TUCANA 400 CAP',comp:'ABBOTT',pack:'CAP',rate:479.54,bonus:'3.00%'},
+{code:'B253',name:'TUCANA DS SYP',comp:'ABBOTT',pack:'SYP',rate:327.50,bonus:'-2.00%'},
+{code:'613',name:'TUCANA SYP',comp:'ABBOTT',pack:'SYP',rate:259.46,bonus:'-2.00%'},
+{code:'175',name:'BRUFEN 200 TAB',comp:'ABBOTT UDL',pack:'TAB',rate:372.17,bonus:'3.00%'},
+{code:'8623',name:'BRUFEN SYP',comp:'ABBOTT UDL',pack:'SYP',rate:109.75,bonus:'0.01%'},
+{code:'9704',name:'ENTAMIZOLE SYP',comp:'ABBOTT UDL',pack:'SYP',rate:127.50,bonus:'0.01%'},
+{code:'907',name:'PANADOL EXTEND TAB',comp:'GSK',pack:'TAB',rate:130.07,bonus:'-2.00%'},
+{code:'1091',name:'SEPTRAN DS TAB',comp:'GSK',pack:'TAB',rate:823.94,bonus:'5.00%'},
+{code:'1339',name:'VENTOLIN INHALER',comp:'GSK',pack:'INHALER',rate:334.58,bonus:'0.01%'},
+{code:'906',name:'PANADOL TAB',comp:'PHARMEVO',pack:'TAB',rate:648.48,bonus:'-2.00%'},
+{code:'905',name:'PANADOL SYP',comp:'PHARMEVO',pack:'SYP',rate:125.77,bonus:'-2.00%'},
+{code:'902',name:'PANADOL DROP',comp:'PHARMEVO',pack:'DROP',rate:82.05,bonus:'-2.00%'},
+{code:'904',name:'PANADOL EXTRA TAB',comp:'PHARMEVO',pack:'TAB',rate:510.00,bonus:'-5.00%'},
+{code:'2273',name:'RISEK 20 CAP - GETZ',comp:'GETZ',pack:'CAP',rate:518.50,bonus:'0.01%'},
+{code:'7023',name:'RISEK 40 CAP - GETZ',comp:'GETZ',pack:'CAP',rate:731.85,bonus:'-2.00%'},
+{code:'6844',name:'NEXUM 20 CAP - GETZ',comp:'GETZ',pack:'CAP',rate:335.75,bonus:'3.00%'},
+{code:'6659',name:'NEXUM 40 CAP - GETZ',comp:'GETZ',pack:'CAP',rate:547.40,bonus:'0.01%'},
+{code:'5881',name:'GETRYL 1 TAB',comp:'GETZ',pack:'TAB',rate:310.25,bonus:'0.01%'},
+{code:'5882',name:'GETRYL 2 TAB',comp:'GETZ',pack:'TAB',rate:552.50,bonus:'0.01%'},
+{code:'6941',name:'MONTIGET 10 TAB',comp:'GETZ',pack:'TAB',rate:471.75,bonus:'3.00%'},
+{code:'8612',name:'ZETRO 250 CAP',comp:'GETZ',pack:'CAP',rate:432.49,bonus:'0.01%'},
+{code:'8692',name:'ZETRO SYP',comp:'GETZ',pack:'SYP',rate:259.25,bonus:'0.01%'},
+{code:'7513',name:'ADVANTEC 16/12.5 TAB',comp:'GETZ',pack:'TAB',rate:1020.00,bonus:'-2.00%'},
+{code:'2492',name:'CLARITEK 500 TAB',comp:'GETZ',pack:'TAB',rate:745.21,bonus:'3.00%'},
+{code:'2493',name:'CLARITEK 250 TAB',comp:'GETZ',pack:'TAB',rate:444.41,bonus:'5.00%'},
+{code:'5032',name:'LEFLOX 500 TAB',comp:'GETZ',pack:'TAB',rate:930.75,bonus:'7.00%'},
+{code:'8651',name:'MOXIGET 400 TAB',comp:'GETZ',pack:'TAB',rate:518.50,bonus:'7.00%'},
+{code:'5190',name:'RISEK INJ',comp:'GETZ',pack:'INJ',rate:495.55,bonus:'12.00%'},
+{code:'3324',name:'CAFLAM 50 TAB',comp:'NOVARTIS',pack:'TAB',rate:347.02,bonus:'-2.00%'},
+{code:'4188',name:'CAC LEMON',comp:'NOVARTIS',pack:'TAB',rate:280.50,bonus:'-2.00%'},
+{code:'1458',name:'CAC 1000 TAB LARGE',comp:'NOVARTIS',pack:'TAB',rate:557.60,bonus:'-2.00%'},
+{code:'3270',name:'VOLTRAL 50 TAB',comp:'NOVARTIS',pack:'TAB',rate:242.47,bonus:'-2.00%'},
+{code:'2227',name:'VOLTRAL SR TAB',comp:'NOVARTIS',pack:'TAB',rate:711.78,bonus:'-2.00%'},
+{code:'8670',name:'T-DAY SYP',comp:'NOVARTIS',pack:'SYP',rate:127.50,bonus:'-2.00%'},
+{code:'7880',name:'T-DAY TAB 3X10',comp:'NOVARTIS',pack:'TAB',rate:306.00,bonus:'-2.00%'},
+{code:'1399',name:'ZATOFEN TAB',comp:'NOVARTIS',pack:'TAB',rate:284.75,bonus:'0.01%'},
+{code:'6318',name:'AZOMAX 500 TAB',comp:'NOVARTIS',pack:'TAB',rate:479.40,bonus:'3.00%'},
+{code:'3077',name:'AZOMAX 250 CAP',comp:'NOVARTIS',pack:'CAP',rate:675.19,bonus:'0.01%'},
+{code:'1852',name:'DAFLON 500 TAB',comp:'SERVIER',pack:'TAB',rate:1091.40,bonus:'-2.00%'},
+{code:'4606',name:'DIAMICRON 30 MR TAB',comp:'SERVIER',pack:'TAB',rate:373.08,bonus:'-2.00%'},
+{code:'5958',name:'DIAMICRON 60 MR TAB',comp:'SERVIER',pack:'TAB',rate:535.87,bonus:'-2.00%'},
+{code:'6674',name:'AMARYL 1 TAB',comp:'HOECHST',pack:'TAB',rate:340.00,bonus:'-2.00%'},
+{code:'3525',name:'AMARYL 3 TAB',comp:'HOECHST',pack:'TAB',rate:973.25,bonus:'-2.00%'},
+{code:'3044',name:'AMARYL 4 TAB',comp:'HOECHST',pack:'TAB',rate:1351.50,bonus:'-2.00%'},
+{code:'8289',name:'PLAVIX 75 TAB',comp:'HOECHST',pack:'TAB',rate:1187.20,bonus:'-2.00%'},
+{code:'4473',name:'TELFAST 120 TAB',comp:'HOECHST',pack:'TAB',rate:476.00,bonus:'-2.00%'},
+{code:'4474',name:'TELFAST 60 TAB',comp:'HOECHST',pack:'TAB',rate:284.75,bonus:'-2.00%'},
+{code:'476',name:'FLAGYL 400 TAB',comp:'RHONE',pack:'TAB',rate:849.53,bonus:'0.01%'},
+{code:'8285',name:'ZYRTEC TAB',comp:'UCB',pack:'TAB',rate:378.35,bonus:'-2.00%'},
+{code:'2288',name:'ZYRTEC SYP',comp:'UCB',pack:'SYP',rate:134.89,bonus:'7.00%'},
+{code:'54',name:'ANSAID 100 TAB',comp:'UPJOHN',pack:'TAB',rate:459.00,bonus:'-2.00%'},
+{code:'1411',name:'ZENTEL TAB - GSK',comp:'GSK',pack:'TAB',rate:37.43,bonus:'-2.00%'},
+{code:'1410',name:'ZENTEL SYP - GSK',comp:'GSK',pack:'SYP',rate:96.13,bonus:'-2.00%'},
+{code:'2145',name:'PANADOL ULTRA TAB NEW',comp:'GSK',pack:'TAB',rate:127.50,bonus:'-2.00%'},
+{code:'129',name:'BETNELAN TAB',comp:'GSK',pack:'TAB',rate:1114.27,bonus:'-2.00%'},
+{code:'135',name:'BETNESOL TAB',comp:'GSK',pack:'TAB',rate:389.47,bonus:'-5.00%'},
+{code:'970',name:'POLYFAX SKIN OINT',comp:'GSK',pack:'OINT',rate:190.03,bonus:'5.00%'},
+{code:'6417',name:'POLYFAX EYE OINT',comp:'GSK',pack:'OINT',rate:109.96,bonus:'5.00%'},
+{code:'1247',name:'TRAMAL INJ - SEARLE',comp:'SEARLE',pack:'INJ',rate:488.76,bonus:'-2.00%'},
+{code:'2591',name:'NUBEROL TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:722.33,bonus:'2.00%'},
+{code:'8438',name:'NUBEROL DUO TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:119.00,bonus:'-2.00%'},
+{code:'389',name:'GRAVINATE TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:297.50,bonus:'-5.00%'},
+{code:'190',name:'CALAN 80 TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:232.30,bonus:'-5.00%'},
+{code:'7138',name:'EZIUM 20 CAP - SEARLE',comp:'SEARLE',pack:'CAP',rate:331.50,bonus:'0.01%'},
+{code:'7139',name:'EZIUM 40 CAP - SEARLE',comp:'SEARLE',pack:'CAP',rate:544.00,bonus:'0.01%'},
+{code:'3038',name:'EXTOR 5/160 TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:511.70,bonus:'-2.50%'},
+{code:'8259',name:'EXTOR 5/80 TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:416.50,bonus:'-2.00%'},
+{code:'9204',name:'EXTOR 10/160 TAB - SEARLE',comp:'SEARLE',pack:'TAB',rate:595.00,bonus:'-2.50%'},
+{code:'109',name:'BACIPORE 2B ORAL SYP - SEARLE',comp:'SEARLE',pack:'SYP',rate:662.71,bonus:'-2.00%'},
+{code:'1542',name:'AZOTEK 250 TAB - SAFFRON',comp:'SAFFRON',pack:'TAB',rate:208.25,bonus:'10.00%'},
+{code:'88',name:'AZOTEK 500 TAB - SAFFRON',comp:'SAFFRON',pack:'TAB',rate:391.00,bonus:'20.00%'},
+{code:'3927',name:'CLEAR CREAM - SAFFRON',comp:'SAFFRON',pack:'CREAM',rate:229.50,bonus:'10.00%'},
+{code:'1682',name:'TERBISIL 250 TAB - SAFFRON',comp:'SAFFRON',pack:'TAB',rate:488.75,bonus:'7.00%'},
+{code:'8681',name:'TERBISIL 125 TAB - SAFFRON',comp:'SAFFRON',pack:'TAB',rate:340.00,bonus:'7.00%'},
+{code:'8931',name:'TERBISIL CREAM - SAFFRON',comp:'SAFFRON',pack:'CREAM',rate:281.21,bonus:'7.00%'},
+{code:'2812',name:'CRAVIT 500 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:1389.75,bonus:'-2.00%'},
+{code:'2601',name:'CRAVIT 250 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:701.25,bonus:'-2.00%'},
+{code:'3229',name:'ENFLOR SACHET - HILTON',comp:'HILTON',pack:'SACHET',rate:844.05,bonus:'7.00%'},
+{code:'1765',name:'TRANSAMIN 500 CAP - HILTON',comp:'HILTON',pack:'CAP',rate:905.25,bonus:'-2.00%'},
+{code:'1248',name:'TRANSAMIN 250 CAP - HILTON',comp:'HILTON',pack:'CAP',rate:2249.10,bonus:'-2.00%'},
+{code:'7253',name:'ZEEGAP 25 CAP - HILTON',comp:'HILTON',pack:'CAP',rate:719.10,bonus:'-2.00%'},
+{code:'8738',name:'ZEEGAP 50 CAP - HILTON',comp:'HILTON',pack:'CAP',rate:805.80,bonus:'0.01%'},
+{code:'8739',name:'ZEEGAP 75 CAP - HILTON',comp:'HILTON',pack:'CAP',rate:1029.30,bonus:'0.01%'},
+{code:'825',name:'NO-SPA TAB - HILTON',comp:'HILTON',pack:'TAB',rate:209.95,bonus:'2.00%'},
+{code:'824',name:'NO-SPA INJ - HILTON',comp:'HILTON',pack:'INJ',rate:2125.00,bonus:'2.00%'},
+{code:'1025',name:'CRAN MAX AQUA SYP - HILTON',comp:'HILTON',pack:'SYP',rate:378.18,bonus:'-2.00%'},
+{code:'8490',name:'CRAN-MAX SACHETS - HILTON',comp:'HILTON',pack:'SACHET',rate:515.04,bonus:'-2.00%'},
+{code:'2047',name:'FLUX 20 CAP - HILTON',comp:'HILTON',pack:'CAP',rate:364.60,bonus:'-2.00%'},
+{code:'7566',name:'ZOPENT 20 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:341.70,bonus:'-2.00%'},
+{code:'6406',name:'ZOPENT 40 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:691.90,bonus:'0.01%'},
+{code:'3084',name:'UNIX 100 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:272.85,bonus:'7.00%'},
+{code:'5064',name:'XOBIX 15 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:584.80,bonus:'0.01%'},
+{code:'5063',name:'XOBIX 7.5 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:337.40,bonus:'3.00%'},
+{code:'7644',name:'CITANEW 20 TAB - HILTON',comp:'HILTON',pack:'TAB',rate:599.25,bonus:'-2.00%'},
+{code:'9525',name:'COFERB SYP 120ML - HILTON',comp:'HILTON',pack:'SYP',rate:277.33,bonus:'-2.00%'},
+{code:'1395',name:'NEUCEF 125 SYP - SAMI',comp:'SAMI',pack:'SYP',rate:246.50,bonus:'-2.00%'},
+{code:'1124',name:'NEUCEF 500 CAP - SAMI',comp:'SAMI',pack:'CAP',rate:425.00,bonus:'0.01%'},
+{code:'2811',name:'NEUCEF DS SYP - SAMI',comp:'SAMI',pack:'SYP',rate:361.25,bonus:'-2.00%'},
+{code:'852',name:'NOVIDAT 500 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:378.25,bonus:'-2.00%'},
+{code:'4883',name:'NIMS 100 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:335.75,bonus:'-2.00%'},
+{code:'2556',name:'DICLORAN DISPERLET 50 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:212.50,bonus:'-2.00%'},
+{code:'1653',name:'DICLORAN GEL - SAMI',comp:'SAMI',pack:'GEL',rate:229.50,bonus:'-2.00%'},
+{code:'358',name:'DICLORAN INJ - SAMI',comp:'SAMI',pack:'INJ',rate:250.70,bonus:'0.01%'},
+{code:'360',name:'DICLORAN SR TAB - SAMI',comp:'SAMI',pack:'TAB',rate:552.50,bonus:'-2.00%'},
+{code:'7011',name:'ECASIL 400 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:930.75,bonus:'0.01%'},
+{code:'1038',name:'FYLOD SYP - SAMI',comp:'SAMI',pack:'SYP',rate:148.75,bonus:'-2.00%'},
+{code:'4692',name:'MOFEST 400 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:467.50,bonus:'3.00%'},
+{code:'7218',name:'MABIL 500 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:348.50,bonus:'3.00%'},
+{code:'2810',name:'TEPH 20 CAP - SAMI',comp:'SAMI',pack:'CAP',rate:297.50,bonus:'2.00%'},
+{code:'1269',name:'TRIMETABOL SYP - SAMI',comp:'SAMI',pack:'SYP',rate:199.75,bonus:'-2.00%'},
+{code:'3823',name:'MOVAX 2 TAB - SAMI',comp:'SAMI',pack:'TAB',rate:459.00,bonus:'-2.00%'},
+{code:'8287',name:'MOVAX 4 MG TAB - SAMI',comp:'SAMI',pack:'TAB',rate:620.50,bonus:'-2.00%'},
+{code:'1073',name:'SEDILE TAB - SAMI',comp:'SAMI',pack:'TAB',rate:238.00,bonus:'-2.00%'},
+{code:'3359',name:'SEDILE SYP - SAMI',comp:'SAMI',pack:'SYP',rate:174.25,bonus:'-2.00%'},
+{code:'9477',name:'NEO-ANTIAL TAB - SAMI',comp:'SAMI',pack:'TAB',rate:233.75,bonus:'-2.00%'},
+{code:'9478',name:'NEO-SEDIL TAB - SAMI',comp:'SAMI',pack:'TAB',rate:233.70,bonus:'-2.00%'},
+{code:'7781',name:'AIRTAL 100 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:339.40,bonus:'-2.00%'},
+{code:'6244',name:'BIFORGE 5/80 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:459.00,bonus:'3.00%'},
+{code:'1814',name:'LOPRIN 75 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:69.66,bonus:'-2.00%'},
+{code:'1549',name:'PROSPAN SYP - HIGHNOON',comp:'HIGHNOON',pack:'SYP',rate:500.60,bonus:'5.00%'},
+{code:'298',name:'CYROCIN 250 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:178.50,bonus:'2.00%'},
+{code:'299',name:'CYROCIN 500 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:323.00,bonus:'2.00%'},
+{code:'2280',name:'KESTINE 10 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:252.71,bonus:'-2.00%'},
+{code:'4490',name:'MISAR H 80/12.5 TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:710.60,bonus:'5.00%'},
+{code:'9710',name:'TIOVAR 18 CAP - HIGHNOON',comp:'HIGHNOON',pack:'CAP',rate:680.00,bonus:'2.00%'},
+{code:'1294',name:'ULSANIC 1GM TAB - HIGHNOON',comp:'HIGHNOON',pack:'TAB',rate:135.15,bonus:'-2.00%'},
+{code:'1293',name:'ULSANIC SYP 60ML - HIGHNOON',comp:'HIGHNOON',pack:'SYP',rate:351.48,bonus:'-2.00%'},
+{code:'1259',name:'TRES ORIX SYP - HIGHNOON',comp:'HIGHNOON',pack:'SYP',rate:255.00,bonus:'-2.00%'},
+{code:'1896',name:'ASCARD 75 TAB - ATCO',comp:'ATCO',pack:'TAB',rate:86.74,bonus:'-2.00%'},
+{code:'2480',name:'ASCARD PLUS - ATCO',comp:'ATCO',pack:'TAB',rate:253.95,bonus:'-2.00%'},
+{code:'7033',name:'ATBETA 5mg TAB - ATCO',comp:'ATCO',pack:'TAB',rate:119.65,bonus:'-2.00%'},
+{code:'9602',name:'BETADDERM LOTION - ATCO',comp:'ATCO',pack:'LOTION',rate:135.97,bonus:'-2.00%'},
+{code:'5258',name:'BETAGENIC CREM - ATCO',comp:'ATCO',pack:'CREAM',rate:106.25,bonus:'4.00%'},
+{code:'5255',name:'CLOBEDERM-S LOTION - ATCO',comp:'ATCO',pack:'LOTION',rate:220.15,bonus:'-2.00%'},
+{code:'5307',name:'CLOBEDERM ONIT 15GM - ATCO',comp:'ATCO',pack:'OINT',rate:97.75,bonus:'4.00%'},
+{code:'1839',name:'DISTALGESIC TAB - ATCO',comp:'ATCO',pack:'TAB',rate:391.00,bonus:'-2.00%'},
+{code:'5523',name:'MEROL 100 TAB - ATCO',comp:'ATCO',pack:'TAB',rate:276.10,bonus:'-2.00%'},
+{code:'6164',name:'MEROL 25 TAB - ATCO',comp:'ATCO',pack:'TAB',rate:91.88,bonus:'-2.00%'},
+{code:'9522',name:'MEROL 50 TAB - ATCO',comp:'ATCO',pack:'TAB',rate:170.09,bonus:'-2.00%'},
+{code:'9159',name:'NORSALINE-P DROP - ATCO',comp:'ATCO',pack:'DROP',rate:119.00,bonus:'7.00%'},
+{code:'8743',name:'SCABFREE CREAM - ATCO',comp:'ATCO',pack:'CREAM',rate:99.43,bonus:'-2.00%'},
+{code:'6721',name:'TERBIDERM 125 TAB - ATCO',comp:'ATCO',pack:'TAB',rate:433.50,bonus:'5.00%'},
+{code:'6720',name:'TERBIDERM CREAM - ATCO',comp:'ATCO',pack:'CREAM',rate:216.08,bonus:'-2.00%'},
+{code:'8388',name:'TERBIDERM FORTE TAB - ATCO',comp:'ATCO',pack:'TAB',rate:573.75,bonus:'5.00%'},
+{code:'5308',name:'VOMILUX SYP - ATCO',comp:'ATCO',pack:'SYP',rate:80.75,bonus:'5.00%'},
+{code:'9111',name:'ZINCAT-OD SYP - ATCO',comp:'ATCO',pack:'SYP',rate:119.00,bonus:'-2.00%'},
+{code:'5281',name:'ACICON 20 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:170.00,bonus:'0.01%'},
+{code:'4698',name:'ACICON AD SYP - BARRETT',comp:'BARRETT',pack:'SYP',rate:120.61,bonus:'-2.00%'},
+{code:'5280',name:'ACICON SYP - BARRETT',comp:'BARRETT',pack:'SYP',rate:127.50,bonus:'-2.00%'},
+{code:'8690',name:'ACIREG 40 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:450.50,bonus:'15.00%'},
+{code:'7556',name:'AEROKAST 10 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:408.00,bonus:'20.00%'},
+{code:'5552',name:'AMPRESS 5 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:215.90,bonus:'15.00%'},
+{code:'B587',name:'AV-SARTAN 5/160 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:450.50,bonus:'7.00%'},
+{code:'B586',name:'AV-SARTAN 5/80 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:323.00,bonus:'7.00%'},
+{code:'168',name:'BRICANYL TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:297.50,bonus:'0.01%'},
+{code:'167',name:'BRITANYL SYP - BARRETT',comp:'BARRETT',pack:'SYP',rate:85.00,bonus:'-2.00%'},
+{code:'B632',name:'CEFSPAN 400 CAP - BARRETT',comp:'BARRETT',pack:'CAP',rate:620.50,bonus:'-2.00%'},
+{code:'231',name:'CEFSPAN SYP - BARRETT',comp:'BARRETT',pack:'SYP',rate:347.65,bonus:'-2.00%'},
+{code:'6603',name:'DIABOLD 2 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:229.50,bonus:'25.00%'},
+{code:'6604',name:'DIABOLD 4 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:382.50,bonus:'25.00%'},
+{code:'5669',name:'DOMEL TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:425.00,bonus:'25.00%'},
+{code:'7013',name:'DYNAQUIN 250 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:238.00,bonus:'15.00%'},
+{code:'3533',name:'FEBROL SYP - BARRETT',comp:'BARRETT',pack:'SYP',rate:56.10,bonus:'-2.00%'},
+{code:'3629',name:'FEBROL TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:600.95,bonus:'3.00%'},
+{code:'6329',name:'GIXER SYP - BARRETT',comp:'BARRETT',pack:'SYP',rate:51.00,bonus:'-2.00%'},
+{code:'6328',name:'GIXER TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:97.70,bonus:'10.00%'},
+{code:'9275',name:'ROSUBAR 10 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:331.50,bonus:'30.00%'},
+{code:'7761',name:'SERADEP 10 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:391.00,bonus:'20.00%'},
+{code:'6800',name:'SERT 100 TAB - BARRETT',comp:'BARRETT',pack:'TAB',rate:552.50,bonus:'25.00%'},
+{code:'1391',name:'XYLOCAINE JELLY - BARRETT',comp:'BARRETT',pack:'JELLY',rate:65.66,bonus:'-2.00%'},
+{code:'4022',name:'XYLOCAINE 5% OINT - BARRETT',comp:'BARRETT',pack:'OINT',rate:80.75,bonus:'-2.00%'},
+{code:'104',name:'BAYCUTEN-N CREAM - BAYER',comp:'BAYER',pack:'CREAM',rate:258.66,bonus:'3.00%'},
+{code:'207',name:'CANESTEN CREAM - BAYER',comp:'BAYER',pack:'CREAM',rate:165.82,bonus:'3.00%'},
+{code:'252',name:'CIPROXIN 250 TAB - BAYER',comp:'BAYER',pack:'TAB',rate:350.67,bonus:'-2.00%'},
+{code:'253',name:'CIPROXIN 500 TAB - BAYER',comp:'BAYER',pack:'TAB',rate:617.10,bonus:'5.00%'},
+{code:'31',name:'AMOXIL 250 CAP - BEECHAM',comp:'BEECHAM',pack:'CAP',rate:914.61,bonus:'-2.00%'},
+{code:'33',name:'AMOXIL 500 CAP - BEECHAM',comp:'BEECHAM',pack:'CAP',rate:1616.27,bonus:'7.00%'},
+{code:'76',name:'AUGMENTIN 625 TAB - BEECHAM',comp:'BEECHAM',pack:'TAB',rate:502.77,bonus:'0.01%'},
+{code:'2208',name:'CHEWCAL TAB - BEECHAM',comp:'BEECHAM',pack:'TAB',rate:236.71,bonus:'3.00%'},
+{code:'8218',name:'ALOC 60 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:127.50,bonus:'8.00%'},
+{code:'7792',name:'BEASY 10 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:425.20,bonus:'18.00%'},
+{code:'4044',name:'CALAMOX 1.2G INJ - BOSCH',comp:'BOSCH',pack:'INJ',rate:254.27,bonus:'8.00%'},
+{code:'7642',name:'CALAMOX 1000 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:250.46,bonus:'5.00%'},
+{code:'7641',name:'CALAMOX 625 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:197.93,bonus:'5.00%'},
+{code:'7639',name:'CALAMOX D.S SYP - BOSCH',comp:'BOSCH',pack:'SYP',rate:292.67,bonus:'5.00%'},
+{code:'5167',name:'CEBOSH 400 CAP - BOSCH',comp:'BOSCH',pack:'CAP',rate:479.40,bonus:'20.00%'},
+{code:'8243',name:'CEBOSH 200 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:471.75,bonus:'25.00%'},
+{code:'7450',name:'CEBOSH D.S SYP - BOSCH',comp:'BOSCH',pack:'SYP',rate:327.25,bonus:'25.00%'},
+{code:'3652',name:'CEFXONE 0.5G INJ I.V - BOSCH',comp:'BOSCH',pack:'INJ',rate:263.50,bonus:'45.00%'},
+{code:'4431',name:'CEFXONE 1G I.V INJ - BOSCH',comp:'BOSCH',pack:'INJ',rate:420.75,bonus:'40.00%'},
+{code:'7254',name:'DROMAX 500 CAP - BOSCH',comp:'BOSCH',pack:'CAP',rate:382.50,bonus:'7.00%'},
+{code:'2254',name:'OMEZOL 20 CAP - BOSCH',comp:'BOSCH',pack:'CAP',rate:311.90,bonus:'25.00%'},
+{code:'8209',name:'OMEZOL 40 CAP - BOSCH',comp:'BOSCH',pack:'CAP',rate:342.97,bonus:'25.00%'},
+{code:'7775',name:'SOMEZOL 20 CAP - BOSCH',comp:'BOSCH',pack:'CAP',rate:293.20,bonus:'30.00%'},
+{code:'8997',name:'ZENTRO 20 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:225.25,bonus:'20.00%'},
+{code:'8998',name:'ZENTRO 40 TAB - BOSCH',comp:'BOSCH',pack:'TAB',rate:382.50,bonus:'15.00%'},
+{code:'544',name:'HEPA-MERZ INJ - BROOKES',comp:'BROOKES',pack:'INJ',rate:633.25,bonus:'-2.00%'},
+{code:'547',name:'HEPA-MERZ SYP - BROOKES',comp:'BROOKES',pack:'SYP',rate:425.00,bonus:'-2.00%'},
+{code:'954',name:'PK-MERZ TAB - BROOKES',comp:'BROOKES',pack:'TAB',rate:782.00,bonus:'-2.00%'},
+{code:'1003',name:'PYODINE SOLUTION 60ML - BROOKES',comp:'BROOKES',pack:'SOL',rate:212.50,bonus:'-2.00%'},
+{code:'3950',name:'JARDDY 25 TAB - CCL',comp:'CCL',pack:'TAB',rate:622.90,bonus:'3.00%'},
+{code:'999',name:'PULMONOL SYP - CCL',comp:'CCL',pack:'SYP',rate:170.00,bonus:'10.00%'},
+{code:'3059',name:'BREXIN TAB - CHIESI',comp:'CHIESI',pack:'TAB',rate:1002.15,bonus:'-2.00%'},
+{code:'2240',name:'CLENIL FOR AEROSOL - CHIESI',comp:'CHIESI',pack:'AEROSOL',rate:946.05,bonus:'-2.00%'},
+{code:'7983',name:'CATAFEN 100 TAB - CIBEX',comp:'CIBEX',pack:'TAB',rate:229.50,bonus:'12.00%'},
+{code:'282',name:'CONCOR 5 TAB - MERCK',comp:'MERCK',pack:'TAB',rate:317.17,bonus:'-2.00%'},
+{code:'5357',name:'CONCOR 2.5 TAB - MERCK',comp:'MERCK',pack:'TAB',rate:163.23,bonus:'-2.00%'},
+{code:'539',name:'COSOME SYP - MERCK',comp:'MERCK',pack:'SYP',rate:148.75,bonus:'3.00%'},
+{code:'442',name:'EVION 400 CAP - MERCK',comp:'MERCK',pack:'CAP',rate:1201.35,bonus:'-2.00%'},
+{code:'524',name:'GLUCOPHAGE 500 TAB - MERCK',comp:'MERCK',pack:'TAB',rate:179.36,bonus:'-2.00%'},
+{code:'807',name:'NEUROBION TAB - MERCK',comp:'MERCK',pack:'TAB',rate:1217.42,bonus:'-2.00%'},
+{code:'4582',name:'SANGOBION CAP - MERCK',comp:'MERCK',pack:'CAP',rate:280.50,bonus:'-2.00%'},
+{code:'962',name:'POLYBION FORTE SYP - MERCK',comp:'MERCK',pack:'SYP',rate:144.50,bonus:'-2.00%'},
+{code:'2110',name:'TERIL 200 TAB - MERCK',comp:'MERCK',pack:'TAB',rate:438.07,bonus:'5.00%'},
+{code:'2171',name:'LAXOBERON TAB - MERCK',comp:'MERCK',pack:'TAB',rate:680.00,bonus:'-2.00%'},
+{code:'2170',name:'LAXOBERON SYP - MERCK',comp:'MERCK',pack:'SYP',rate:212.50,bonus:'-2.00%'},
+{code:'286',name:'COREX D SYP LARGE - PFIZER',comp:'PFIZER',pack:'SYP',rate:174.25,bonus:'-2.00%'},
+{code:'329',name:'DELTACORTRIL TAB - PFIZER',comp:'PFIZER',pack:'TAB',rate:2780.20,bonus:'-2.00%'},
+{code:'695',name:'LYSOVIT SYP - PFIZER',comp:'PFIZER',pack:'SYP',rate:253.30,bonus:'-2.00%'},
+{code:'A419',name:'NORVASC 10 TAB - PFIZER',comp:'PFIZER',pack:'TAB',rate:834.36,bonus:'-2.00%'},
+{code:'254',name:'CITRALKA SYP - PARKE-DAVIS',comp:'PARKE-DAVIS',pack:'SYP',rate:147.90,bonus:'0.01%'},
+{code:'5488',name:'DELTACORTIL 5 E C BOTTEL - PARKE-DAVIS',comp:'PARKE-DAVIS',pack:'BOTTLE',rate:386.84,bonus:'-2.00%'},
+{code:'7116',name:'CLOMID TAB - PACIFIC',comp:'PACIFIC',pack:'TAB',rate:534.53,bonus:'7.00%'},
+{code:'958',name:'PLASIL WITH ENZYMES TAB - PACIFIC',comp:'PACIFIC',pack:'TAB',rate:522.57,bonus:'5.00%'},
+{code:'5489',name:'ADOXA TAB - PHARMA HEALTH',comp:'PHARMA HEALTH',pack:'TAB',rate:235.88,bonus:'-2.00%'},
+{code:'1643',name:'SPECTRAZOLE CREAM - PHARMA HEALTH',comp:'PHARMA HEALTH',pack:'CREAM',rate:131.29,bonus:'3.00%'},
+{code:'2052',name:'FASTUM GEL - PHARMATEC',comp:'PHARMATEC',pack:'GEL',rate:466.65,bonus:'12.00%'},
+{code:'B56',name:'ADFOLIC 600 OD TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:525.85,bonus:'3.00%'},
+{code:'9429',name:'AVSAR 160/10 TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:639.71,bonus:'-2.00%'},
+{code:'9419',name:'AVSAR 160/5 TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:498.10,bonus:'-2.00%'},
+{code:'9428',name:'AVSAR 80/5 TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:595.00,bonus:'-2.00%'},
+{code:'724',name:'GOURIC 40 TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:639.39,bonus:'-2.00%'},
+{code:'3204',name:'NISE 100 TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:260.10,bonus:'-2.00%'},
+{code:'2797',name:'K-1000 TAB - PHARMEVO',comp:'PHARMEVO',pack:'TAB',rate:626.69,bonus:'3.00%'},
+{code:'608',name:'JETEPAR SYP - POPULAR',comp:'POPULAR',pack:'SYP',rate:408.00,bonus:'-2.00%'},
+{code:'161',name:'BONJELA GEL - RECKITT',comp:'RECKITT',pack:'GEL',rate:119.00,bonus:'3.00%'},
+{code:'623',name:'GAVISCON SYP - RECKITT',comp:'RECKITT',pack:'SYP',rate:238.00,bonus:'-2.00%'},
+{code:'B630',name:'DISPRIN SMALL - RECKITT',comp:'RECKITT',pack:'TAB',rate:284.01,bonus:'-2.00%'},
+{code:'475',name:'FLAGYL 400 TAB - RHONE',comp:'RHONE',pack:'TAB',rate:849.53,bonus:'0.01%'},
+{code:'942',name:'PHENERGAN SYP - RHONE',comp:'RHONE',pack:'SYP',rate:118.15,bonus:'-2.00%'},
+{code:'A622',name:'STEMETIL 5 TAB LARGE - RHONE',comp:'RHONE',pack:'TAB',rate:765.00,bonus:'-2.00%'},
+{code:'210',name:'CAPOTEN 25 TAB - SQUIBB',comp:'SQUIBB',pack:'TAB',rate:398.23,bonus:'-2.00%'},
+{code:'211',name:'CAPOTEN 50 TAB - SQUIBB',comp:'SQUIBB',pack:'TAB',rate:738.35,bonus:'-2.00%'},
+{code:'1486',name:'DURICEF 500 CAP - SQUIBB',comp:'SQUIBB',pack:'CAP',rate:886.90,bonus:'0.01%'},
+{code:'1488',name:'DURICEF 250 SYP - SQUIBB',comp:'SQUIBB',pack:'SYP',rate:985.82,bonus:'-2.00%'},
+{code:'9506',name:'VELOSEF 125 SYP 90ML - SQUIBB',comp:'SQUIBB',pack:'SYP',rate:349.29,bonus:'-2.00%'},
+{code:'2334',name:'BLUDOL 200 TAB - STANDPHARM',comp:'STANDPHARM',pack:'TAB',rate:338.30,bonus:'15.00%'},
+{code:'2324',name:'BLUDOL SYP - STANDPHARM',comp:'STANDPHARM',pack:'SYP',rate:106.25,bonus:'-2.00%'},
+{code:'1721',name:'COLDREX TAB - STANDPHARM',comp:'STANDPHARM',pack:'TAB',rate:437.75,bonus:'5.00%'},
+{code:'878',name:'COLDREX SYP - STANDPHARM',comp:'STANDPHARM',pack:'SYP',rate:118.15,bonus:'3.00%'},
+{code:'6123',name:'IV SET - SURGICAL',comp:'SURGICAL',pack:'SET',rate:30.00,bonus:'0.01%'},
+{code:'9681',name:'MASTER CANULA NO 22 - SURGICAL',comp:'SURGICAL',pack:'PC',rate:78.00,bonus:'0.01%'},
+{code:'9682',name:'MASTER CANULA NO 24 - SURGICAL',comp:'SURGICAL',pack:'PC',rate:78.00,bonus:'0.01%'},
+{code:'A462',name:'PREGNANCY STRIP - SURGICAL',comp:'SURGICAL',pack:'STRIP',rate:520.00,bonus:'0.01%'},
+{code:'70',name:'ASTHOTIFEN TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:106.25,bonus:'3.00%'},
+{code:'1672',name:'ATENOLOL TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:136.00,bonus:'2.00%'},
+{code:'1732',name:'CARDACE 10 TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:110.54,bonus:'2.00%'},
+{code:'1727',name:'CARDACE 5 TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:59.07,bonus:'5.00%'},
+{code:'266',name:'CLOTRIM CREAM SMALL - ZAFA',comp:'ZAFA',pack:'CREAM',rate:42.54,bonus:'-2.00%'},
+{code:'267',name:'CLOTRIM LOTION - ZAFA',comp:'ZAFA',pack:'LOTION',rate:85.00,bonus:'-2.00%'},
+{code:'5067',name:'FAMILA 28 TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:127.39,bonus:'12.00%'},
+{code:'489',name:'FOLIC ACID TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:87.07,bonus:'-5.00%'},
+{code:'1404',name:'ZAFNOL TAB - ZAFA',comp:'ZAFA',pack:'TAB',rate:106.25,bonus:'3.00%'},
+{code:'1394',name:'XYNOSINE DROP - ZAFA',comp:'ZAFA',pack:'DROP',rate:64.18,bonus:'2.00%'},
+{code:'2317',name:'HIGH-C 1000 - WERRICK',comp:'WERRICK',pack:'TAB',rate:212.50,bonus:'10.00%'},
+{code:'4366',name:'EZIDAY 25 TAB - WERRICK',comp:'WERRICK',pack:'TAB',rate:240.31,bonus:'-2.00%'},
+{code:'4367',name:'EZIDAY 50 TAB - WERRICK',comp:'WERRICK',pack:'TAB',rate:406.30,bonus:'-2.00%'},
+{code:'3254',name:'SOFTIN SYP - WERRICK',comp:'WERRICK',pack:'SYP',rate:73.58,bonus:'-2.00%'},
+{code:'4610',name:'SOFTIN TAB NEW 30 TAB - WERRICK',comp:'WERRICK',pack:'TAB',rate:255.86,bonus:'-2.00%'},
+{code:'3123',name:'SOFTIN-OD TAB - WERRICK',comp:'WERRICK',pack:'TAB',rate:161.50,bonus:'-2.00%'},
+{code:'9376',name:'NEWDAY 10/160 TAB - WERRICK',comp:'WERRICK',pack:'TAB',rate:368.90,bonus:'-2.00%'},
+{code:'9985',name:'NEWDAY 5/80 TAB - WERRICK',comp:'WERRICK',pack:'TAB',rate:283.05,bonus:'-2.00%'},
+{code:'667',name:'LICE-O-NIL CREAM - WILSON',comp:'WILSON',pack:'CREAM',rate:212.50,bonus:'5.00%'},
+{code:'3055',name:'POLYPEP SYP - WILSON',comp:'WILSON',pack:'SYP',rate:124.96,bonus:'10.00%'},
+{code:'B290',name:'SOFVASC 10 TAB - WILSON',comp:'WILSON',pack:'TAB',rate:593.29,bonus:'0.01%'},
+{code:'B261',name:'SOFVASC 5 TAB - WILSON',comp:'WILSON',pack:'TAB',rate:303.31,bonus:'0.01%'},
+{code:'654',name:'SOFVASC-V 10/160 TAB - WILSON',comp:'WILSON',pack:'TAB',rate:638.44,bonus:'-2.00%'},
+{code:'653',name:'SOFVASC-V 5/160 TAB - WILSON',comp:'WILSON',pack:'TAB',rate:544.09,bonus:'3.00%'},
+{code:'9942',name:'SOFVASC-V 5/80 TAB - WILSON',comp:'WILSON',pack:'TAB',rate:380.55,bonus:'8.00%'},
+{code:'6645',name:'BABY CHEST RUB - WOODWARDS',comp:'WOODWARDS',pack:'RUB',rate:127.50,bonus:'5.00%'},
+{code:'4792',name:'COF REST SYP - WOODWARDS',comp:'WOODWARDS',pack:'SYP',rate:127.50,bonus:'5.00%'},
+{code:'5580',name:'NAPPY RASH CREAM - WOODWARDS',comp:'WOODWARDS',pack:'CREAM',rate:31.48,bonus:'-2.00%'},
+{code:'5197',name:'PAEDI CARE ORANGE - WOODWARDS',comp:'WOODWARDS',pack:'SYP',rate:182.75,bonus:'5.00%'},
+{code:'616',name:'Q-PALGITE SYP - WOODWARDS',comp:'WOODWARDS',pack:'SYP',rate:234.60,bonus:'3.00%'},
+{code:'1546',name:'Q-PLEX SYP - WOODWARDS',comp:'WOODWARDS',pack:'SYP',rate:234.60,bonus:'3.00%'},
+{code:'A118',name:'Q-PLEX Z SYP - WOODWARDS',comp:'WOODWARDS',pack:'SYP',rate:234.60,bonus:'3.00%'},
+{code:'6867',name:'BEFLAM 75 TAB - LOCAL',comp:'LOCAL',pack:'TAB',rate:36.00,bonus:'0.01%'},
+{code:'7298',name:'BYTEC TAB - LOCAL',comp:'LOCAL',pack:'TAB',rate:17.00,bonus:'0.01%'},
+{code:'3657',name:'DEXA INJ CHINA - LOCAL',comp:'LOCAL',pack:'INJ',rate:170.00,bonus:'0.01%'},
+{code:'3989',name:'PINIX 0.5 TAB - LOCAL',comp:'LOCAL',pack:'TAB',rate:272.85,bonus:'4.00%'},
+{code:'6901',name:'XOPRA 20 CAP - LOCAL',comp:'LOCAL',pack:'CAP',rate:80.00,bonus:'0.01%'},
+{code:'8366',name:'VOVERON SR TAB - LOCAL',comp:'LOCAL',pack:'TAB',rate:78.00,bonus:'0.01%'},
+{code:'B494',name:'PEPTOGEL SYP - LOCAL',comp:'LOCAL',pack:'SYP',rate:55.00,bonus:'0.01%'}
+];
 let DB=JSON.parse(localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
+if(!DB.items.length){ DB.items=OFFER_LIST; localStorage.setItem('fm_dos',JSON.stringify(DB)); }
 function sv(){localStorage.setItem('fm_dos',JSON.stringify(DB)); ref()}
 function td(){return new Date().toISOString().slice(0,10)}
 dte.innerText=new Date().toLocaleDateString('en-GB'); bDt.value=td(); rDt.value=td();
 let cur=[];
-function sh(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref()}
+function sh(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); if(id==='cust') filtCust(); ref()}
 function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c1.value||'IT'+(DB.items.length+1),name:n,comp:c3.value,pack:c4.value,rate:+c5.value||0}); c1.value=c2.value=c3.value=c4.value=''; c5.value=''; c6.value=''; sv(); alert('Item Saved')}
 function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; pB.value=''; sv(); alert('Party Saved')}
 function ref(){
@@ -108,16 +476,15 @@ function ref(){
  bItem.innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">-- Select Item --</option>';
  if(DB.items[bItem.value]){ bR.value=DB.items[bItem.value].rate; bCode.value=DB.items[bItem.value].code; bPack.value=DB.items[bItem.value].pack||''; bComp.value=DB.items[bItem.value].comp||''; }
  let old=bCust.selectedOptions[0]?DB.parties.find(p=>p.name===bCust.value)?.bal||0:0; bo.innerText=old;
- il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table>`:'';
+ il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>RATE</th></tr>${DB.items.slice(0,200).map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td></tr>`).join('')}</table><p>Showing 200 of ${DB.items.length} items - Search me kaam karein</p>`:'';
  pl.innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
- dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length}</p>`;
+ dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | LIST 000011</p>`;
  bCnt.value=cur.length; bAmt.value=((+bQ.value||1)*(+bR.value||0)*(1-(+bD.value||0)/100)).toFixed(2);
 }
 bItem.onchange=ref; bCust.onchange=ref; bQ.oninput=bR.oninput=bD.oninput=ref;
 function addB(){let idx=bItem.value; if(idx===''||!DB.items[idx])return alert('Item select karein'); let it=DB.items[idx]; let q=+bQ.value||1, r=+bR.value||it.rate; let amt=q*r*(1-(+bD.value||0)/100); cur.push({name:it.name,qty:q,rate:r,amt}); let tot=cur.reduce((a,b)=>a+b.amt,0); bt.innerText=tot.toFixed(2); btax.innerText=(tot*0.07).toFixed(2); bn.innerText=(tot*1.07).toFixed(2); bnb.innerText=((+bo.innerText||0)+tot*1.07).toFixed(2); bList.innerHTML=cur.map(i=>`<div class="dosrow"><div style="flex:0 0 70px">${it.code}</div><div style="flex:1">${i.name}</div><div style="flex:0 0 60px">${i.qty}</div><div style="flex:0 0 50px">0</div><div style="flex:0 0 60px">0</div><div style="flex:0 0 60px">0%</div><div style="flex:0 0 80px">${i.rate}</div><div style="flex:0 0 110px">${i.amt.toFixed(2)}</div></div>`).join(''); ref();}
 function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:bNo.value,date:bDt.value,cust:bCust.value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===bCust.value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; bList.innerHTML=''; sv(); alert('Bill Saved: '+bNo.value); sh('main',document.querySelector('[data-t=main]'))}
 function rep(){let d=rDt.value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); rOut.innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; rozn.innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
-// ✅ PRINT FUNCTIONS
 function doPrint(type){
  let billNo=document.getElementById('prBill').value.trim();
  let sale = billNo ? DB.sales.find(s=>s.no===billNo) : DB.sales[DB.sales.length-1];
@@ -131,6 +498,35 @@ function doPrint(type){
  if(type==='offer') pa.innerHTML=`<h1 style="text-align:center">OFFER! OFFER!<br>10% OFF ON ALL MEDICINES<br>FRIENDS MEDICOSE</h1>`;
  setTimeout(()=>window.print(),300);
 }
+let custCart=[];
+function filtCust(){
+ let q=(searchCust.value||'').toUpperCase();
+ let f=DB.items.filter(i=>(i.name+' '+i.code+' '+(i.comp||'')).toUpperCase().includes(q)).slice(0,100);
+ custList.innerHTML=f.map(it=>`<div class="dosrow"><div style="flex:0 0 70px">${it.code}</div><div style="flex:1">${it.name}</div><div style="flex:0 0 80px">${it.rate}</div><div style="flex:0 0 60px">${it.bonus||''}</div><div style="flex:0 0 80px"><input type="number" min="0" value="${(custCart.find(c=>c.code===it.code)?.qty||0)}" onchange="addCust('${it.code}',this.value)" style="border:0;padding:4px;width:100%"></div></div>`).join('')||'<p>No item found</p>';
+ updateCustView();
+}
+function addCust(code,qty){
+ let it=DB.items.find(x=>x.code==code); custCart=custCart.filter(x=>x.code!=code);
+ if(+qty>0) custCart.push({code:it.code,name:it.name,rate:it.rate,qty:+qty});
+ updateCustView();
+}
+function updateCustView(){
+ let tot=custCart.reduce((a,b)=>a+b.qty*b.rate,0);
+ custTot.innerText=tot.toFixed(2); custCnt.innerText=custCart.length;
+ custCartView.innerHTML=custCart.map(c=>`<div>${c.code} - ${c.name} - Qty ${c.qty} - Rs ${(c.qty*c.rate).toFixed(2)}</div>`).join('');
+}
+function getOrderText(){
+ let t="*FRIENDS MEDICOS - NEW ORDER* \nList: 000011\nCustomer: "+(custName.value||'Walk-in')+"\n";
+ custCart.forEach(c=>{ t+=`${c.code} - ${c.name} - Qty ${c.qty} - Rs ${c.rate}\n`; });
+ t+="Total: Rs "+custTot.innerText; return t;
+}
+function sendOrderWA(){
+ if(!custCart.length) return alert('Pehle koi item select karein');
+ let msg=encodeURIComponent(getOrderText());
+ window.open("https://wa.me/923008247648?text="+msg);
+}
+function copyOrder(){ navigator.clipboard.writeText(getOrderText()); alert('Order copy hogaya'); }
+function clearCust(){ custCart=[]; updateCustView(); filtCust(); }
 document.addEventListener('keydown',e=>{if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))} if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]'))});
-ref(); rep();
+ref(); rep(); filtCust();
 </script></body></html>
