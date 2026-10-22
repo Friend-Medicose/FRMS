@@ -11,7 +11,7 @@
 .menu button:hover,.menu button.on{background:#FFFF00;color:#000}
 .wrap{max-width:1100px;margin:auto;padding:10px;padding-bottom:60px}
 .box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA}
-.box h3{margin:0 0 10px;color:#FFFF00;border-bottom:1px dashed #fff;padding-bottom:6px}
+.box h3{margin:0 0 10px;color:#FFFF00;padding-bottom:6px}
 label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1px solid #fff;padding:9px;font-family:inherit;font-size:15px;margin:4px 0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{background:#FFFF00;color:#000;border:0;padding:11px;font-family:inherit;font-weight:bold;cursor:pointer;width:100%;margin-top:6px}
@@ -54,8 +54,8 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <div class="dosline"><label>BILL # :</label><input id="bNo" class="mid" readonly><label>DATE :</label><input id="bDt" type="date" class="mid"><label>ITEMS :</label><input id="bCnt" class="small" readonly value="0"></div>
 <div class="dosline"><label>CUSTOMER :</label><select id="bCust" class="big"></select><label>BOOKER :</label><select id="bBook" class="mid"><option>1</option></select><label>RETAIL :</label><input id="bRetail" class="small" value="381.36" readonly></div>
 <div style="height:4px"></div>
-<div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
-<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code likhein" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><select id="bItem" style="border:0;padding:2px"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
+<div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME - SEARCH HERE</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
+<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><input id="bItemSearch" list="itemList" placeholder="Name likhein - AMY, PAN..." style="border:0;padding:2px;width:100%"><datalist id="itemList"></datalist><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
 <div id="bList"></div>
 <div class="dosline" style="margin-top:10px"><label>PACKING :</label><input id="bPack" class="mid" readonly><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>BILL TOTAL :</label><b id="bt" style="color:#FFFF00">0</b></div>
 <div class="dosline"><label>OLD BALANCE :</label><b id="bo" style="color:#FFFF00">0</b><label>TAX 7% :</label><b id="btax">0</b><label>NET BALANCE :</label><b id="bnb" style="color:#FFFF00">0</b></div>
@@ -222,29 +222,41 @@ if(!DB.items || DB.items.length < 100 || DB.items.some(x=>x.code==='001')){
 function sv(){localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); ref()}
 function td(){return new Date().toISOString().slice(0,10)}
 document.getElementById('dte').innerText=new Date().toLocaleDateString('en-GB'); document.getElementById('bDt').value=td(); document.getElementById('rDt').value=td();
-let cur=[];
+let cur=[]; let curIdx=0;
 function sh(id,btn){ document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref(); }
 function addI(){let n=document.getElementById('c2').value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:document.getElementById('c1').value||'IT'+(DB.items.length+1),name:n,comp:document.getElementById('c3').value,pack:document.getElementById('c4').value,rate:+document.getElementById('c5').value||0,disc:+document.getElementById('c6').value||0}); ['c1','c2','c3','c4','c5','c6'].forEach(x=>document.getElementById(x).value=''); sv(); alert('Item Saved')}
 function addP(){if(!document.getElementById('pN').value.trim())return alert('Name likhein'); DB.parties.push({type:document.getElementById('pT').value,name:document.getElementById('pN').value,phone:document.getElementById('pP').value,bal:+document.getElementById('pB').value||0}); document.getElementById('pN').value=document.getElementById('pP').value=''; document.getElementById('pB').value=''; sv(); alert('Party Saved')}
-function fillItem(idx){ if(idx===''||!DB.items[idx]) return; let it=DB.items[idx]; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); }
+function fillItem(idx){ if(idx===''||idx===undefined||!DB.items[idx]) return; curIdx=idx; let it=DB.items[idx]; document.getElementById('bItem').value=idx; document.getElementById('bItemSearch').value=it.code+' - '+it.name; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); }
 function ref(){
  let bn='048'+String(DB.sales.length+1).padStart(3,'0'); document.getElementById('bNo').value=bn; document.getElementById('lastBill').innerText=DB.sales.length?DB.sales[DB.sales.length-1].no:'3682';
  document.getElementById('bCust').innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
- // FIX 1 - DROPDOWN ME SIRF CODE - NAME, PRICE NAHI
- if(document.getElementById('bItem').options.length !== DB.items.length){
-   document.getElementById('bItem').innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name}</option>`).join('');
- }
+ // SEARCH LIST - SIRF CODE - NAME, PRICE NAHI
+ document.getElementById('itemList').innerHTML=DB.items.map((it,i)=>`<option value="${it.code} - ${it.name}">`).join('');
+ document.getElementById('bItem').innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name}</option>`).join('');
  document.getElementById('pl').innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
  document.getElementById('dash2').innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | LIST 000011</p>`;
  document.getElementById('bCnt').value=cur.length;
  document.getElementById('il').innerHTML=''; document.getElementById('il').style.display='none';
 }
+// SEARCH BAR LOGIC - SHURU KE ALPHABETS SE SEARCH
+document.getElementById('bItemSearch').addEventListener('input', function(){
+ let v=this.value.trim().toUpperCase();
+ if(!v) return;
+ // Agar "CODE - NAME" select kiya
+ let codePart=v.split(' - ')[0].trim();
+ let idx=DB.items.findIndex(x=>String(x.code).toUpperCase()===codePart);
+ if(idx>=0){ fillItem(idx); return; }
+ // Agar naam ke shuru ke alphabets likhe - e.g. AMY, PAN, VI
+ let idx2=DB.items.findIndex(x=>x.name.toUpperCase().startsWith(v));
+ if(idx2>=0){ curIdx=idx2; document.getElementById('bItem').value=idx2; let it=DB.items[idx2]; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*it.rate*(1-(it.disc||0)/100)).toFixed(2); }
+});
+document.getElementById('bItemSearch').addEventListener('change', function(){ let v=this.value.trim(); let codePart=v.split(' - ')[0].trim(); let idx=DB.items.findIndex(x=>String(x.code)===codePart); if(idx>=0) fillItem(idx); });
 document.getElementById('bItem').onchange=function(){ fillItem(this.value); };
 document.getElementById('bCust').onchange=ref;
 document.getElementById('bQ').oninput=document.getElementById('bR').oninput=document.getElementById('bD').oninput=function(){ document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); };
-document.getElementById('bCode').oninput=function(){ let v=this.value.trim(); let idx=DB.items.findIndex(x=>String(x.code)===v); if(idx>=0){ document.getElementById('bItem').value=idx; fillItem(idx); } };
+document.getElementById('bCode').oninput=function(){ let v=this.value.trim(); let idx=DB.items.findIndex(x=>String(x.code)===v); if(idx>=0) fillItem(idx); };
 function renderBill(){ document.getElementById('bList').innerHTML=cur.map(i=>`<div class="dosrow"><div style="flex:0 0 70px">${i.code}</div><div style="flex:1">${i.name}</div><div style="flex:0 0 60px">${i.qty}</div><div style="flex:0 0 50px">0</div><div style="flex:0 0 60px">0</div><div style="flex:0 0 60px">${i.disc||0}%</div><div style="flex:0 0 80px">${i.rate}</div><div style="flex:0 0 110px">${i.amt.toFixed(2)}</div></div>`).join(''); let tot=cur.reduce((a,b)=>a+b.amt,0); document.getElementById('bt').innerText=tot.toFixed(2); document.getElementById('btax').innerText=(tot*0.07).toFixed(2); document.getElementById('bn').innerText=(tot*1.07).toFixed(2); document.getElementById('bnb').innerText=((+document.getElementById('bo').innerText||0)+tot*1.07).toFixed(2); document.getElementById('bCnt').value=cur.length; }
-function addB(){let idx=document.getElementById('bItem').value; if(idx===''||!DB.items[idx])return alert('Item select karein'); let it=DB.items[idx]; let q=+document.getElementById('bQ').value||1, r=+document.getElementById('bR').value||it.rate, d=+document.getElementById('bD').value||0; let amt=q*r*(1-d/100); cur.push({code:it.code,name:it.name,qty:q,rate:r,disc:d,amt}); renderBill(); }
+function addB(){let idx=curIdx; if(DB.items[idx]===undefined)return alert('Item search karke select karein'); let it=DB.items[idx]; let q=+document.getElementById('bQ').value||1, r=+document.getElementById('bR').value||it.rate, d=+document.getElementById('bD').value||0; let amt=q*r*(1-d/100); cur.push({code:it.code,name:it.name,qty:q,rate:r,disc:d,amt}); renderBill(); }
 function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:document.getElementById('bNo').value,date:document.getElementById('bDt').value,cust:document.getElementById('bCust').value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===document.getElementById('bCust').value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; document.getElementById('bList').innerHTML=''; sv(); alert('Bill Saved: '+document.getElementById('bNo').value); sh('main',document.querySelector('[data-t=main]'))}
 function rep(){let d=document.getElementById('rDt').value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); document.getElementById('rOut').innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; document.getElementById('rozn').innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
 function doPrint(type){
@@ -260,7 +272,6 @@ function doPrint(type){
  if(type==='offer') pa.innerHTML=`<h1 style="text-align:center">FRIENDS MEDICOSE - OFFER LIST 000011 - 22/10/2026</h1><table border=1 style="width:100%;border-collapse:collapse"><tr><th>CODE</th><th>ITEM NAME</th><th>COMPANY</th><th>TP</th><th>BONUS</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td><td>${i.disc}%</td></tr>`).join('')}</table>`;
  setTimeout(()=>window.print(),300);
 }
-// FIX 3 - KEYBOARD: JAB KISI KHANE ME LIKH RAHE HO TO SHORTCUT NA CHALE
 document.addEventListener('keydown',e=>{
  let t=e.target && e.target.tagName ? e.target.tagName : '';
  if(t==='INPUT' || t==='SELECT' || t==='TEXTAREA') return;
