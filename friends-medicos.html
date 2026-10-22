@@ -10,7 +10,7 @@
 .menu button{background:#0000AA;color:#fff;border:1px solid #fff;padding:10px 12px;font-family:inherit;font-weight:bold;cursor:pointer;flex:1}
 .menu button:hover,.menu button.on{background:#FFFF00;color:#000}
 .wrap{max-width:1100px;margin:auto;padding:10px;padding-bottom:60px}
-.box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA}
+.box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA;position:relative}
 .box h3{margin:0 0 10px;color:#FFFF00;padding-bottom:6px}
 label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1px solid #fff;padding:9px;font-family:inherit;font-size:15px;margin:4px 0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -26,6 +26,9 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 .doshead div{padding:6px;border-right:1px solid #fff;text-align:center}
 .dosrow{display:flex;background:#0000AA;border:1px solid #fff;border-top:0;font-size:13px}
 .dosrow div{padding:6px;border-right:1px solid #fff;overflow:hidden}
+#sug{position:absolute;left:95px;right:260px;background:#000;color:#fff;border:2px solid #FFFF00;max-height:220px;overflow-y:auto;z-index:999;display:none}
+#sug div{padding:10px;border-bottom:1px solid #fff;cursor:pointer;background:#000}
+#sug div:hover{background:#FFFF00;color:#000}
 @media print{ .menu,.foot,.noPrint{display:none!important} body{background:#fff;color:#000} .box{border:1px solid #000;color:#000;background:#fff} }
 </style></head><body>
 <div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
@@ -50,12 +53,13 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN"></div></div>
 <div class="row"><div><label>Phone :</label><input id="pP"></div><div><label>Old Balance :</label><input id="pB" type="number"></div></div>
 <button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div></div>
-<div id="trans" class="tab hidden"><div class="box"><h3 style="text-align:center">SALES INVOICE ENTRADMIN &nbsp;&nbsp; LAST BILL <span id="lastBill" style="float:right"></span></h3>
+<div id="trans" class="tab hidden"><div class="box" id="transBox"><h3 style="text-align:center">SALES INVOICE ENTRADMIN &nbsp;&nbsp; LAST BILL <span id="lastBill" style="float:right"></span></h3>
 <div class="dosline"><label>BILL # :</label><input id="bNo" class="mid" readonly><label>DATE :</label><input id="bDt" type="date" class="mid"><label>ITEMS :</label><input id="bCnt" class="small" readonly value="0"></div>
 <div class="dosline"><label>CUSTOMER :</label><select id="bCust" class="big"></select><label>BOOKER :</label><select id="bBook" class="mid"><option>1</option></select><label>RETAIL :</label><input id="bRetail" class="small" value="381.36" readonly></div>
 <div style="height:4px"></div>
 <div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME - SEARCH HERE</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
-<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1;position:relative"><div style="position:relative;width:100%"><input id="bItemSearch" placeholder="Name likhein - AMY, PAN..." autocomplete="off" style="border:0;padding:2px;width:100%"><div id="sug" style="display:none;position:absolute;top:100%;left:0;right:0;background:#000;color:#fff;border:2px solid #fff;max-height:180px;overflow-y:auto;z-index:99"></div></div><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
+<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><input id="bItemSearch" placeholder="Name likhein - AMY, PAN..." autocomplete="off" style="border:0;padding:2px;width:100%"><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
+<div id="sug"></div>
 <div id="bList"></div>
 <div class="dosline" style="margin-top:10px"><label>PACKING :</label><input id="bPack" class="mid" readonly><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>BILL TOTAL :</label><b id="bt" style="color:#FFFF00">0</b></div>
 <div class="dosline"><label>OLD BALANCE :</label><b id="bo" style="color:#FFFF00">0</b><label>TAX 7% :</label><b id="btax">0</b><label>NET BALANCE :</label><b id="bnb" style="color:#FFFF00">0</b></div>
@@ -225,7 +229,7 @@ let cur=[]; let curIdx=0;
 function sh(id,btn){ document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref(); }
 function addI(){let n=document.getElementById('c2').value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:document.getElementById('c1').value||'IT'+(DB.items.length+1),name:n,comp:document.getElementById('c3').value,pack:document.getElementById('c4').value,rate:+document.getElementById('c5').value||0,disc:+document.getElementById('c6').value||0}); ['c1','c2','c3','c4','c5','c6'].forEach(x=>document.getElementById(x).value=''); sv(); alert('Item Saved')}
 function addP(){if(!document.getElementById('pN').value.trim())return alert('Name likhein'); DB.parties.push({type:document.getElementById('pT').value,name:document.getElementById('pN').value,phone:document.getElementById('pP').value,bal:+document.getElementById('pB').value||0}); document.getElementById('pN').value=document.getElementById('pP').value=''; document.getElementById('pB').value=''; sv(); alert('Party Saved')}
-function fillItem(idx){ if(idx===''||idx===undefined||!DB.items[idx]) return; curIdx=idx; let it=DB.items[idx]; document.getElementById('bItem').value=idx; document.getElementById('bItemSearch').value=it.code+' - '+it.name; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); }
+function fillItem(idx){ if(idx===''||idx===undefined||!DB.items[idx]) return; curIdx=idx; let it=DB.items[idx]; document.getElementById('bItem').value=idx; document.getElementById('bItemSearch').value=it.code+' - '+it.name; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); document.getElementById('sug').style.display='none'; }
 function ref(){
  let bn='048'+String(DB.sales.length+1).padStart(3,'0'); document.getElementById('bNo').value=bn; document.getElementById('lastBill').innerText=DB.sales.length?DB.sales[DB.sales.length-1].no:'3682';
  document.getElementById('bCust').innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
@@ -239,12 +243,13 @@ let sugBox=document.getElementById('sug');
 document.getElementById('bItemSearch').addEventListener('input', function(){
   let v=this.value.trim().toUpperCase();
   if(v.length < 3){ sugBox.style.display='none'; return; }
-  let list=DB.items.filter(x=>x.name.toUpperCase().startsWith(v) || String(x.code).startsWith(v)).slice(0,10);
+  if(v.indexOf(' - ')>=0) return;
+  let list=DB.items.filter(x=>x.name.toUpperCase().includes(v) || String(x.code).includes(v)).slice(0,12);
   if(!list.length){ sugBox.style.display='none'; return; }
-  sugBox.innerHTML=list.map(it=>{ let idx=DB.items.indexOf(it); return `<div onclick="pickItem(${idx})" style="padding:8px;border-bottom:1px solid #fff;cursor:pointer">${it.code} - ${it.name}</div>`; }).join('');
+  sugBox.innerHTML=list.map(it=>{ let idx=DB.items.indexOf(it); return `<div onclick="pickItem(${idx})">${it.code} - ${it.name}</div>`; }).join('');
   sugBox.style.display='block';
 });
-function pickItem(idx){ fillItem(idx); sugBox.style.display='none'; }
+function pickItem(idx){ fillItem(idx); }
 document.addEventListener('click',e=>{ if(e.target.id!=='bItemSearch' && !e.target.closest('#sug')) sugBox.style.display='none'; });
 document.getElementById('bItem').onchange=function(){ fillItem(this.value); };
 document.getElementById('bCust').onchange=ref;
