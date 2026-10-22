@@ -55,7 +55,7 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <div class="dosline"><label>CUSTOMER :</label><select id="bCust" class="big"></select><label>BOOKER :</label><select id="bBook" class="mid"><option>1</option></select><label>RETAIL :</label><input id="bRetail" class="small" value="381.36" readonly></div>
 <div style="height:4px"></div>
 <div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME - SEARCH HERE</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
-<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><input id="bItemSearch" list="itemList" placeholder="Name likhein - AMY, PAN..." style="border:0;padding:2px;width:100%"><datalist id="itemList"></datalist><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
+<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1;position:relative"><div style="position:relative;width:100%"><input id="bItemSearch" placeholder="Name likhein - AMY, PAN..." autocomplete="off" style="border:0;padding:2px;width:100%"><div id="sug" style="display:none;position:absolute;top:100%;left:0;right:0;background:#000;color:#fff;border:2px solid #fff;max-height:180px;overflow-y:auto;z-index:99"></div></div><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
 <div id="bList"></div>
 <div class="dosline" style="margin-top:10px"><label>PACKING :</label><input id="bPack" class="mid" readonly><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>BILL TOTAL :</label><b id="bt" style="color:#FFFF00">0</b></div>
 <div class="dosline"><label>OLD BALANCE :</label><b id="bo" style="color:#FFFF00">0</b><label>TAX 7% :</label><b id="btax">0</b><label>NET BALANCE :</label><b id="bnb" style="color:#FFFF00">0</b></div>
@@ -70,17 +70,18 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <button class="btn" onclick="doPrint('quotation')">3. QUOTATION - PRINT</button>
 <button class="btn btn2" onclick="doPrint('sticker')">4. STICKER PRINT</button>
 <button class="btn" onclick="doPrint('offer')">5. OFFER PRINT</button>
-<button class="btn btn3" onclick="window.print()">🖨️ PRINT CURRENT SCREEN (Ctrl+P)</button>
+<button class="btn btn3" onclick="window.print()">PRINT CURRENT SCREEN (Ctrl+P)</button>
 <div id="printArea" style="background:#fff;color:#000;padding:15px;margin-top:10px;display:none"></div>
 </div></div>
 <div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
 <button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
-<button class="btn" onclick="autoBackup()">2. ☁️ AUTO BACKUP NOW - Save to Drive</button>
+<button class="btn" onclick="autoBackup()">2. AUTO BACKUP NOW - Save to Drive</button>
 <button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
 <div id="bm" style="margin-top:10px;color:#FFFF00"></div>
 </div></div>
 </div>
-<div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div><script>
+<div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
+<script>
 const CLIENT_ID = '906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com';
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 let accessToken = null, tokenClient = null;
@@ -88,8 +89,6 @@ function initGIS(){ try{ tokenClient = google.accounts.oauth2.initTokenClient({c
 function connectDrive(){ if(!tokenClient) initGIS(); if(tokenClient) tokenClient.requestAccessToken(); }
 async function autoBackup(){ if(!accessToken){ document.getElementById('bm').innerHTML='Pehle CONNECT dabayein'; connectDrive(); return; } document.getElementById('bm').innerHTML='Uploading...'; let fileName='Friends-Medicos-'+td()+'.json'; let form=new FormData(); form.append('metadata', new Blob([JSON.stringify({name:fileName,mimeType:'application/json'})],{type:'application/json'})); form.append('file', new Blob([JSON.stringify(DB)],{type:'application/json'})); let res=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Authorization':'Bearer '+accessToken},body:form}); let data=await res.json(); if(data.id) document.getElementById('bm').innerHTML='<b style="color:#00FF00">✅ BACKUP SAVED: '+fileName+'</b>'; }
 async function autoRestore(){ if(!accessToken){ connectDrive(); return; } let res=await fetch("https://www.googleapis.com/drive/v3/files?q=name contains 'Friends-Medicos'&orderBy=createdTime desc&pageSize=1",{headers:{'Authorization':'Bearer '+accessToken}}); let data=await res.json(); if(!data.files||!data.files.length){ document.getElementById('bm').innerHTML='Koi backup nahi mila'; return; } let r2=await fetch('https://www.googleapis.com/drive/v3/files/'+data.files[0].id+'?alt=media',{headers:{'Authorization':'Bearer '+accessToken}}); DB=JSON.parse(await r2.text()); sv(); document.getElementById('bm').innerHTML='✅ RESTORED: '+data.files[0].name; }
-
-// PDF LIST 000011 - 22/10/2026
 const PDF_DATA=[
 {code:"9703",name:"AMYGRA 60 TAB",comp:"TABROS",pack:"TAB",rate:191.36,disc:-2},
 {code:"6491",name:"CLERET GEL",comp:"TABROS",pack:"GEL",rate:284.75,disc:8},
@@ -230,27 +229,23 @@ function fillItem(idx){ if(idx===''||idx===undefined||!DB.items[idx]) return; cu
 function ref(){
  let bn='048'+String(DB.sales.length+1).padStart(3,'0'); document.getElementById('bNo').value=bn; document.getElementById('lastBill').innerText=DB.sales.length?DB.sales[DB.sales.length-1].no:'3682';
  document.getElementById('bCust').innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
- // SEARCH LIST - SIRF CODE - NAME, PRICE NAHI
- document.getElementById('itemList').innerHTML=DB.items.map((it,i)=>`<option value="${it.code} - ${it.name}">`).join('');
  document.getElementById('bItem').innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name}</option>`).join('');
  document.getElementById('pl').innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
  document.getElementById('dash2').innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | LIST 000011</p>`;
  document.getElementById('bCnt').value=cur.length;
  document.getElementById('il').innerHTML=''; document.getElementById('il').style.display='none';
 }
-// SEARCH BAR LOGIC - SHURU KE ALPHABETS SE SEARCH
+let sugBox=document.getElementById('sug');
 document.getElementById('bItemSearch').addEventListener('input', function(){
- let v=this.value.trim().toUpperCase();
- if(!v) return;
- // Agar "CODE - NAME" select kiya
- let codePart=v.split(' - ')[0].trim();
- let idx=DB.items.findIndex(x=>String(x.code).toUpperCase()===codePart);
- if(idx>=0){ fillItem(idx); return; }
- // Agar naam ke shuru ke alphabets likhe - e.g. AMY, PAN, VI
- let idx2=DB.items.findIndex(x=>x.name.toUpperCase().startsWith(v));
- if(idx2>=0){ curIdx=idx2; document.getElementById('bItem').value=idx2; let it=DB.items[idx2]; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*it.rate*(1-(it.disc||0)/100)).toFixed(2); }
+  let v=this.value.trim().toUpperCase();
+  if(v.length < 3){ sugBox.style.display='none'; return; }
+  let list=DB.items.filter(x=>x.name.toUpperCase().startsWith(v) || String(x.code).startsWith(v)).slice(0,10);
+  if(!list.length){ sugBox.style.display='none'; return; }
+  sugBox.innerHTML=list.map(it=>{ let idx=DB.items.indexOf(it); return `<div onclick="pickItem(${idx})" style="padding:8px;border-bottom:1px solid #fff;cursor:pointer">${it.code} - ${it.name}</div>`; }).join('');
+  sugBox.style.display='block';
 });
-document.getElementById('bItemSearch').addEventListener('change', function(){ let v=this.value.trim(); let codePart=v.split(' - ')[0].trim(); let idx=DB.items.findIndex(x=>String(x.code)===codePart); if(idx>=0) fillItem(idx); });
+function pickItem(idx){ fillItem(idx); sugBox.style.display='none'; }
+document.addEventListener('click',e=>{ if(e.target.id!=='bItemSearch' && !e.target.closest('#sug')) sugBox.style.display='none'; });
 document.getElementById('bItem').onchange=function(){ fillItem(this.value); };
 document.getElementById('bCust').onchange=ref;
 document.getElementById('bQ').oninput=document.getElementById('bR').oninput=document.getElementById('bD').oninput=function(){ document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); };
