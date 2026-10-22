@@ -1,284 +1,268 @@
 <!DOCTYPE html>
-<html lang="ur"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FRIENDS MEDICOSE</title>
+<script src="https://accounts.google.com/gsi/client"></script>
 <style>
-body{font-family:system-ui;background:#eef2f7;margin:0;padding:10px}
-.top{background:#0f4c81;color:#fff;padding:14px;border-radius:12px;text-align:center}
-.top h1{margin:0;font-size:22px}.top small{opacity:.9}
-.card{background:#fff;max-width:820px;margin:10px auto;padding:14px;border-radius:12px;box-shadow:0 4px 14px #0001}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{padding:16px;border:0;border-radius:10px;font-weight:700;cursor:pointer;color:#fff;font-size:15px}
-.b1{background:#1d4ed8}.b2{background:#059669}.b3{background:#d97706}.b4{background:#7c3aed}.b5{background:#0891b2}.b6{background:#dc2626}
-input,select,textarea{width:100%;padding:11px;margin:6px 0;border:1px solid #cbd5e1;border-radius:8px;box-sizing:border-box}
-label{font-weight:700;font-size:13px;color:#0f4c81}
-.row{display:flex;gap:8px}.row>*{flex:1}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #ddd;padding:7px;text-align:left}
-.hide{display:none}
+*{box-sizing:border-box} body{margin:0;background:#0000AA;color:#fff;font-family:'Courier New',monospace;font-size:15px}
+.top{background:#000080;border-bottom:2px solid #fff;padding:8px 12px;text-align:center}
+.top b{font-size:19px}
+.menu{display:flex;flex-wrap:wrap;background:#0000AA;border-bottom:2px solid #fff}
+.menu button{background:#0000AA;color:#fff;border:1px solid #fff;padding:10px 12px;font-family:inherit;font-weight:bold;cursor:pointer;flex:1}
+.menu button:hover,.menu button.on{background:#FFFF00;color:#000}
+.wrap{max-width:1100px;margin:auto;padding:10px;padding-bottom:60px}
+.box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA}
+.box h3{margin:0 0 10px;color:#FFFF00;border-bottom:1px dashed #fff;padding-bottom:6px}
+label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1px solid #fff;padding:9px;font-family:inherit;font-size:15px;margin:4px 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:#FFFF00;color:#000;border:0;padding:11px;font-family:inherit;font-weight:bold;cursor:pointer;width:100%;margin-top:6px}
+.btn2{background:#fff;color:#000}.btn3{background:#00FF00;color:#000}
+table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid #fff;padding:6px;text-align:left} th{color:#FFFF00}
+.hidden{display:none}.foot{position:fixed;bottom:0;left:0;right:0;background:#000080;color:#FFFF00;padding:7px;text-align:center;font-size:12px;border-top:2px solid #fff;z-index:20}
+.dosline{display:flex;gap:8px;align-items:center;white-space:nowrap;overflow-x:auto;padding:4px 0}
+.dosline label{white-space:nowrap;font-size:14px}
+.dosline input,.dosline select{width:auto;min-width:80px;flex:1;margin:0;padding:7px}
+.dosline .small{flex:0 0 90px}.dosline .mid{flex:0 0 140px}.dosline .big{flex:1}
+.doshead{display:flex;background:#000080;border:2px solid #fff;font-size:12px;font-weight:bold}
+.doshead div{padding:6px;border-right:1px solid #fff;text-align:center}
+.dosrow{display:flex;background:#0000AA;border:1px solid #fff;border-top:0;font-size:13px}
+.dosrow div{padding:6px;border-right:1px solid #fff;overflow:hidden}
+@media print{ .menu,.foot,.noPrint{display:none!important} body{background:#fff;color:#000} .box{border:1px solid #000;color:#000;background:#fff} }
 </style></head><body>
-<div class="top"><h1>FRIENDS MEDICOSE</h1><small>EIDGAH CHOWK, MANZOR COLONY, KARACHI — OFFER LIST NO: 000011 — 22/10/2026</small><br><small>Developed By ALAM</small></div>
-
-<div class="card" id="menu">
-<div class="grid">
-<button class="btn b1" onclick="show('reg')">1. REGISTRATION<br><small>Customer / Shop Add</small></button>
-<button class="btn b2" onclick="show('trans')">2. TRANSACTION<br><small>Order / Sale Entry</small></button>
-<button class="btn b3" onclick="show('reports')">3. REPORTS<br><small>Sale / Stock Report</small></button>
-<button class="btn b4" onclick="show('offer')">4. CUSTOMER OFFER LIST<br><small>WhatsApp Offer List</small></button>
-<button class="btn b5" onclick="printPage()">5. PRINTING<br><small>Print / PDF</small></button>
-<button class="btn b6" onclick="backup()">6. BACKUP<br><small>Backup / Restore</small></button>
+<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
+<div class="menu" id="mn">
+<button data-t="main" class="on" onclick="sh('main',this)">MAIN MENU</button>
+<button data-t="reg" onclick="sh('reg',this)">1-REGISTRATION</button>
+<button data-t="trans" onclick="sh('trans',this)">2-TRANSACTION [F6]</button>
+<button data-t="rep" onclick="sh('rep',this)">4-REPORTS</button>
+<button data-t="print" onclick="sh('print',this)">5-PRINTING</button>
+<button data-t="backup" onclick="sh('backup',this)">6-BACKUP</button>
 </div>
-<p style="font-size:12px;color:#64748b;text-align:center">Part 2 me LIST 000011 ke tamam items with CODE load honge. LOAD OFFER LIST button se purani list delete hogi.</p>
-<button onclick="loadOfferList()" style="width:100%;padding:12px;background:#111827;color:#fff;border:0;border-radius:8px;font-weight:700">LOAD OFFER LIST - 000011 (Purani List Delete Karke Nayi Lagayen)</button>
-<p id="loadMsg" style="text-align:center;color:green;font-weight:700"></p>
+<div class="wrap">
+<div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press F6 = Sale Invoice | 1 = Registration | 6 = Backup</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - AUTO BACKUP</button></div></div>
+<button class="btn btn3" onclick="loadPDFList()">LOAD OFFER LIST 000011 - 22/10/2026 (Purani List Delete Karke Nayi Lagayen)</button>
+<p id="loadMsg" style="color:#00FF00"></p>
+<div id="dash2"></div></div></div>
+
+<div id="reg" class="tab hidden"><div class="box"><h3>REGISTRATION - ITEM [F2 Search]</h3>
+<div class="row"><div><label>Item Code :</label><input id="c1"></div><div><label>Item Name :</label><input id="c2"></div></div>
+<div class="row"><div><label>Company :</label><input id="c3"></div><div><label>Packing :</label><input id="c4"></div></div>
+<div class="row"><div><label>Rate :</label><input id="c5" type="number"></div><div><label>Discount % :</label><input id="c6" type="number"></div></div>
+<button class="btn" onclick="addI()">[Enter] SAVE ITEM</button>
+<button class="btn btn2" onclick="loadPDFList()">LOAD PDF LIST 000011</button>
+<div id="il"></div></div>
+<div class="box"><h3>REGISTRATION - CUSTOMER / SUPPLIER</h3>
+<div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN"></div></div>
+<div class="row"><div><label>Phone :</label><input id="pP"></div><div><label>Old Balance :</label><input id="pB" type="number"></div></div>
+<button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div></div>
+
+<div id="trans" class="tab hidden"><div class="box"><h3 style="text-align:center">SALES INVOICE ENTRADMIN &nbsp;&nbsp; LAST BILL <span id="lastBill" style="float:right"></span></h3>
+<div class="dosline"><label>BILL # :</label><input id="bNo" class="mid" readonly><label>DATE :</label><input id="bDt" type="date" class="mid"><label>ITEMS :</label><input id="bCnt" class="small" readonly value="0"></div>
+<div class="dosline"><label>CUSTOMER :</label><select id="bCust" class="big"></select><label>BOOKER :</label><select id="bBook" class="mid"><option>1</option></select><label>RETAIL F6 :</label><input id="bRetail" class="small" value="381.36" readonly></div>
+<div style="height:4px"></div>
+<div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME [^HOME]</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE F8</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
+<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><select id="bItem" style="border:0;padding:2px"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
+<div id="bList"></div>
+<div class="dosline" style="margin-top:10px"><label>PACKING :</label><input id="bPack" class="mid" readonly><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>BILL TOTAL :</label><b id="bt" style="color:#FFFF00">0</b></div>
+<div class="dosline"><label>OLD BALANCE :</label><b id="bo" style="color:#FFFF00">0</b><label>TAX 7% :</label><b id="btax">0</b><label>NET BALANCE :</label><b id="bnb" style="color:#FFFF00">0</b></div>
+<div class="dosline"><label>NET TOTAL :</label><b id="bn" style="color:#FFFF00;font-size:18px">0</b><label style="margin-left:20px">[F1]EXIT [F4]PUR [F3]SALE [F5]Net [F10]ADD [F9]SAVE</label></div>
+<div class="row"><div><button class="btn" onclick="addB()">[F10] ADD ITEM TO BILL</button></div><div><button class="btn btn3" onclick="saveB()">[F9] SAVE BILL</button></div></div>
+</div></div>
+
+<div id="rep" class="tab hidden"><div class="box"><h3>REPORTS - DAILY BASE</h3><label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div><div class="box"><h3>ROZNAMCHA</h3><div id="rozn"></div></div></div>
+
+<div id="print" class="tab hidden"><div class="box"><h3>PRINTING - Koi bhi dabao, print khul jayega</h3>
+<label>Bill No. likhein (khali choro to last bill print hoga):</label><input id="prBill" placeholder="e.g. 048001 ya khali">
+<button class="btn" onclick="doPrint('invoice')">1. SALES INVOICE - PRINT</button>
+<button class="btn btn2" onclick="doPrint('challan')">2. DELIVERY CHALLAN - PRINT</button>
+<button class="btn" onclick="doPrint('quotation')">3. QUOTATION - PRINT</button>
+<button class="btn btn2" onclick="doPrint('sticker')">4. STICKER PRINT</button>
+<button class="btn" onclick="doPrint('offer')">5. OFFER PRINT</button>
+<button class="btn btn3" onclick="window.print()">🖨️ PRINT CURRENT SCREEN (Ctrl+P)</button>
+<div id="printArea" style="background:#fff;color:#000;padding:15px;margin-top:10px;display:none"></div>
+</div></div>
+
+<div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
+<button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
+<button class="btn" onclick="autoBackup()">2. ☁️ AUTO BACKUP NOW - Save to Drive</button>
+<button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
+<div id="bm" style="margin-top:10px;color:#FFFF00"></div>
+</div></div>
 </div>
+<div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
+<script><script>
+const CLIENT_ID = '906062257245-okn7ktirtismumipei2l2i6il67q27j1.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+let accessToken = null, tokenClient = null;
+function initGIS(){ tokenClient = google.accounts.oauth2.initTokenClient({client_id: CLIENT_ID, scope: SCOPES, callback: (resp)=>{ if(resp.access_token){ accessToken=resp.access_token; document.getElementById('driveStat').innerText='DRIVE: CONNECTED ✅'; document.getElementById('bm').innerHTML='<b style="color:#00FF00">Drive Connected!</b>'; } } }); }
+window.onload = initGIS;
+function connectDrive(){ if(!tokenClient) initGIS(); tokenClient.requestAccessToken(); }
+async function autoBackup(){ if(!accessToken){ document.getElementById('bm').innerHTML='Pehle CONNECT dabayein'; connectDrive(); return; } document.getElementById('bm').innerHTML='Uploading...'; let fileName='Friends-Medicos-'+td()+'.json'; let form=new FormData(); form.append('metadata', new Blob([JSON.stringify({name:fileName,mimeType:'application/json'})],{type:'application/json'})); form.append('file', new Blob([JSON.stringify(DB)],{type:'application/json'})); let res=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Authorization':'Bearer '+accessToken},body:form}); let data=await res.json(); if(data.id){ document.getElementById('bm').innerHTML='<b style="color:#00FF00">✅ BACKUP SAVED: '+fileName+'</b>'; } else{ document.getElementById('bm').innerHTML='Error'; accessToken=null; } }
+async function autoRestore(){ if(!accessToken){ connectDrive(); return; } let res=await fetch("https://www.googleapis.com/drive/v3/files?q=name contains 'Friends-Medicos'&orderBy=createdTime desc&pageSize=1",{headers:{'Authorization':'Bearer '+accessToken}}); let data=await res.json(); if(!data.files||!data.files.length){ document.getElementById('bm').innerHTML='Koi backup nahi mila'; return; } let r2=await fetch('https://www.googleapis.com/drive/v3/files/'+data.files[0].id+'?alt=media',{headers:{'Authorization':'Bearer '+accessToken}}); DB=JSON.parse(await r2.text()); sv(); document.getElementById('bm').innerHTML='✅ RESTORED: '+data.files[0].name; }
 
-<div class="card hide" id="reg">
-<h3>REGISTRATION</h3>
-<label>Customer / Shop Name *</label><input id="cname" placeholder="Customer Name / Shop Name">
-<div class="row"><input id="cmob" placeholder="Mobile"><input id="carea" placeholder="Area"></div>
-<button onclick="saveCust()" style="width:100%;padding:12px;background:#1d4ed8;color:#fff;border:0;border-radius:8px;font-weight:700">Save Customer</button>
-<button onclick="show('menu')" style="width:100%;margin-top:6px;padding:10px">Back to Menu</button>
-<div id="custList"></div>
-</div>
-
-<div class="card hide" id="trans">
-<h3>TRANSACTION</h3>
-<label>Search Item - CODE ya NAME likhein</label><input id="search" placeholder="SEARCH ITEMS HERE - e.g. 906 PANADOL" onkeyup="searchItem()">
-<div id="items"></div>
-<label>Selected Items (Order)</label><div id="order"></div>
-<h3 id="total">Total: Rs 0</h3>
-<button onclick="saveOrder()" style="width:100%;padding:12px;background:#059669;color:#fff;border:0;border-radius:8px;font-weight:700">Save Order</button>
-<button onclick="show('menu')" style="width:100%;margin-top:6px;padding:10px">Back to Menu</button>
-</div>
-
-<div class="card hide" id="reports">
-<h3>REPORTS</h3><div id="repList"></div>
-<button onclick="show('menu')" style="width:100%;padding:10px">Back to Menu</button>
-</div>
-
-<div class="card hide" id="offer">
-<h3>CUSTOMER OFFER LIST - WhatsApp</h3>
-<p style="font-size:13px">Customer search karke apna order select karega. Ye list Part 2 wali hai.</p>
-<input id="oSearch" placeholder="SEARCH ITEMS HERE" onkeyup="searchItem2()">
-<div id="offerItems"></div>
-<button onclick="sendWhatsApp()" style="width:100%;padding:12px;background:#25D366;color:#fff;border:0;border-radius:8px;font-weight:700">WhatsApp Par Bhejein</button>
-<button onclick="show('menu')" style="width:100%;margin-top:6px;padding:10px">Back to Menu</button>
-</div>
-
-<script>
-let DB_KEY='fm_items_000011', CUST='fm_cust', ORDER='fm_orders';
-let items=JSON.parse(localStorage.getItem(DB_KEY)||'[]');
-let order=[];
-
-function show(id){['menu','reg','trans','reports','offer'].forEach(x=>document.getElementById(x).classList.add('hide'));document.getElementById(id).classList.remove('hide');window.scrollTo(0,0);if(id==='trans')renderItems(items);if(id==='offer')renderOffer(items);if(id==='reports')renderReports();if(id==='reg')renderCust();}
-function printPage(){window.print();}
-function backup(){let d={items:items,cust:localStorage.getItem(CUST),orders:localStorage.getItem(ORDER)};let a=document.createElement('a');a.href='data:text/json,'+encodeURIComponent(JSON.stringify(d));a.download='friends-medicose-backup.json';a.click();alert('Backup Download Hogaya');}
-function loadOfferList(){if(!window.OFFER_DATA){alert('Part 2 abhi load nahi hua. Part 2 wala code is file ke neeche paste karein phir LOAD dabayen.');return;}localStorage.removeItem(DB_KEY);items=window.OFFER_DATA;localStorage.setItem(DB_KEY,JSON.stringify(items));loadMsg.textContent='✓ LOAD HOGAYA - '+items.length+' Items - Purani 001-PANADOL wali list delete hogayi';alert('Offer List Load Hogayi: '+items.length+' items');}
-function saveCust(){let n=cname.value.trim();if(!n){alert('Name likhein');return;}let c=JSON.parse(localStorage.getItem(CUST)||'[]');c.push({n:n,m:cmob.value,a:carea.value});localStorage.setItem(CUST,JSON.stringify(c));renderCust();alert('Customer Saved');}
-function renderCust(){let c=JSON.parse(localStorage.getItem(CUST)||'[]');custList.innerHTML=c.map(x=>'<p>'+x.n+' - '+x.m+'</p>').join('');}
-function renderItems(list){itemsEl=document.getElementById('items');itemsEl.innerHTML=list.slice(0,50).map(x=>'<div style="border:1px solid #eee;padding:8px;margin:4px 0;display:flex;justify-content:space-between"><span><b>'+x.code+'</b> '+x.name+'<br><small>Bonus: '+x.bonus+' | TP: '+x.tp+'</small></span><button onclick="addOrder(\''+x.code+'\')">Add</button></div>').join('');}
-function renderOffer(list){offerItems.innerHTML=list.slice(0,50).map(x=>'<div style="border:1px solid #eee;padding:8px"><b>'+x.code+'</b> '+x.name+' - TP '+x.tp+' - '+x.bonus+'</div>').join('');}
-function searchItem(){let s=search.value.toLowerCase();renderItems(items.filter(x=>(x.name+x.code).toLowerCase().includes(s)));}
-function searchItem2(){let s=oSearch.value.toLowerCase();renderOffer(items.filter(x=>(x.name+x.code).toLowerCase().includes(s)));}
-function addOrder(code){let it=items.find(x=>x.code==code);if(it){order.push(it);orderEl=document.getElementById('order');orderEl.innerHTML=order.map(o=>o.code+' '+o.name+' - '+o.tp).join('<br>');let t=order.reduce((a,b)=>a+parseFloat(b.tp||0),0);document.getElementById('total').textContent='Total: Rs '+t.toFixed(2);}}
-function saveOrder(){if(!order.length){alert('Order khali hai');return;}let o=JSON.parse(localStorage.getItem(ORDER)||'[]');o.push({date:new Date().toLocaleString(),items:order,total:document.getElementById('total').textContent});localStorage.setItem(ORDER,JSON.stringify(o));alert('Order Saved');order=[];}
-function renderReports(){let o=JSON.parse(localStorage.getItem(ORDER)||'[]');repList.innerHTML=o.map(x=>'<p>'+x.date+' - '+x.total+'</p>').join('')||'Koi order nahi';}
-function sendWhatsApp(){let txt='FRIENDS MEDICOSE - OFFER LIST 000011\n'+order.map(o=>o.code+' '+o.name+' - '+o.tp).join('\n');window.open('https://wa.me/?text='+encodeURIComponent(txt));}
-// Agar Part 2 pehle se jura hua hai to auto load
-if(window.OFFER_DATA){items=window.OFFER_DATA;localStorage.setItem(DB_KEY,JSON.stringify(items));}
-</script>
-</body></html><script>
-window.OFFER_DATA = [
-{code:"9703",name:"AMYGRA 60 TAB TABROS",bonus:"-2.00%",tp:"191.36"},
-{code:"6491",name:"CLERET GEL TABROS",bonus:"8.00%",tp:"284.75"},
-{code:"9357",name:"CO-VALTEC 160/12.5 TAB",bonus:"-2.00%",tp:"647.70"},
-{code:"2852",name:"RONDEC (C) 120 ML",bonus:"0.01%",tp:"170.00"},
-{code:"3336",name:"VI DAYLIN L SYP",bonus:"0.01%",tp:"272.00"},
-{code:"1351",name:"VI DAYLIN SYP",bonus:"0.01%",tp:"161.50"},
-{code:"3071",name:"DEPREL 100 TAB ADAMJEE",bonus:"-2.00%",tp:"765.00"},
-{code:"1790",name:"DOLOR DS SYP",bonus:"10.00%",tp:"114.77"},
-{code:"381",name:"DOLOR SYP",bonus:"10.00%",tp:"89.25"},
-{code:"8114",name:"DOSIK 10 TAB",bonus:"-2.00%",tp:"159.66"},
-{code:"4675",name:"ESTEZENE 5 TAB ADAMJEE",bonus:"-2.00%",tp:"816.00"},
-{code:"3155",name:"KEMPRO TAB ADAMJEE",bonus:"-2.00%",tp:"503.20"},
-{code:"9403",name:"RISP 4 TAB",bonus:"-2.00%",tp:"550.80"},
-{code:"7319",name:"ANAFORTAN PLUS INJECTION AGP",bonus:"25.00%",tp:"799.00"},
-{code:"2616",name:"CHYMORAL FORTE TAB AGP",bonus:"0.01%",tp:"289.00"},
-{code:"3220",name:"GLYZIA MET 50/500 TAB AGP",bonus:"35.00%",tp:"442.00"},
-{code:"5022",name:"MELFAX 15 TAB AGP",bonus:"10.00%",tp:"212.50"},
-{code:"5021",name:"MELFAX 7.5 TAB AGP",bonus:"10.00%",tp:"112.20"},
-{code:"A951",name:"RIGIX DROP",bonus:"-2.00%",tp:"114.70"},
-{code:"2330",name:"RIGIX SYP AGP",bonus:"3.00%",tp:"170.00"},
-{code:"8923",name:"RIGIX TAB AGP",bonus:"-2.00%",tp:"331.50"},
-{code:"5632",name:"RUBIFER F TAB AGP",bonus:"15.00%",tp:"305.24"},
-{code:"2390",name:"SINAXAMOL TAB",bonus:"12.00%",tp:"694.45"},
-{code:"B172",name:"FLOAID 5 TAB ABBOTT",bonus:"5.00%",tp:"408.00"},
-{code:"8007",name:"ICEF SYP ICI",bonus:"20.00%",tp:"267.60"},
-{code:"579",name:"INDERAL 10 TAB ICI",bonus:"-2.00%",tp:"147.70"},
-{code:"977",name:"PONSTAN TAB BOX",bonus:"-2.00%",tp:"1988.92"},
-{code:"1208",name:"TENORET-50 TAB",bonus:"5.00%",tp:"218.70"},
-{code:"1210",name:"TENORMIN 100 TAB ICI",bonus:"3.00%",tp:"438.60"},
-{code:"1211",name:"TENORMIN 50 TAB ICI",bonus:"5.00%",tp:"354.02"},
-{code:"1412",name:"ZESTRIL 10 TAB ICI",bonus:"3.00%",tp:"459.85"},
-{code:"1414",name:"ZESTRIL 5 TAB ICI",bonus:"3.00%",tp:"525.64"},
-{code:"2567",name:"BROMALEX TAB",bonus:"5.00%",tp:"194.65"},
-{code:"2116",name:"DYCLO P TAB INDUS",bonus:"8.00%",tp:"227.80"},
-{code:"3216",name:"DYCLO 50 TAB INDUS",bonus:"10.00%",tp:"170.00"},
-{code:"1753",name:"DYCLO INJ SMALL",bonus:"10.00%",tp:"501.50"},
-{code:"7060",name:"MAXPAN 100 SYP INDUS",bonus:"15.00%",tp:"255.00"},
-{code:"3643",name:"AVAMYS NASAL SPRAY GSK",bonus:"-2.00%",tp:"825.35"},
-{code:"232",name:"CEPOREX 250 CAP",bonus:"-2.00%",tp:"170.63"},
-{code:"1791",name:"CEPOREX DROPS",bonus:"-2.00%",tp:"134.11"},
-{code:"415",name:"ENTOX P TAB",bonus:"3.00%",tp:"442.00"},
-{code:"1830",name:"FEFOLVIT CAP 4X14 CAP",bonus:"0.01%",tp:"529.36"},
-{code:"49",name:"SULVORID 25 TAB HIGH-Q",bonus:"-2.00%",tp:"336.60"},
-{code:"1799",name:"SULVORID 50 TAB HIGH-Q",bonus:"-2.00%",tp:"394.40"},
-{code:"A917",name:"SUN VIT INJ HIGH-Q",bonus:"-2.00%",tp:"241.40"},
-{code:"3259",name:"SYP JARDIN-D SYP HIGH-Q",bonus:"-2.00%",tp:"220.34"},
-{code:"9460",name:"SYP MIXEL 100 SYP HIGH-Q",bonus:"-2.00%",tp:"272.85"},
-{code:"9461",name:"SYP MIXEL D.S SYP HIGH-Q",bonus:"-2.00%",tp:"351.11"},
-{code:"6297",name:"UFRIM 10 TAB",bonus:"-2.00%",tp:"380.80"},
-{code:"2341",name:"VILDOMET 50/500 TAB HIGH-Q",bonus:"-2.00%",tp:"336.60"},
-{code:"3051",name:"ZYTO 250 TAB HIGH-Q",bonus:"-2.00%",tp:"301.08"},
-{code:"9761",name:"ZYTO 500 TAB HIGH-Q",bonus:"-2.00%",tp:"436.42"},
-{code:"4620",name:"ZYTO SYP HIGH-Q",bonus:"-2.00%",tp:"253.57"},
-{code:"4239",name:"BESSFAM 20 TAB HIGH-Q",bonus:"-2.00%",tp:"210.80"},
-{code:"4240",name:"BESSFAM 40 TAB HIGH-Q",bonus:"-2.00%",tp:"210.80"},
-{code:"2743",name:"CYCIN 250 TAB HIGH-Q",bonus:"-2.00%",tp:"221.00"},
-{code:"2744",name:"CYCIN 500 TAB HIGH-Q",bonus:"-2.00%",tp:"391.00"},
-{code:"1321",name:"FREEHALE 10 TAB HIGH-Q",bonus:"-2.00%",tp:"374.00"},
-{code:"2894",name:"FREEHALE 5 TAB HIGH-Q",bonus:"-2.00%",tp:"289.00"},
-{code:"2507",name:"FREEHALE SACHETS HIGH-Q",bonus:"-2.00%",tp:"323.00"},
-{code:"6316",name:"PYLOCLAR 250 TAB HIGH-Q",bonus:"-2.00%",tp:"544.07"},
-{code:"8151",name:"AUGMENTIN BD TAB 12 TAB GSK",bonus:"0.01%",tp:"622.95"},
-{code:"2145",name:"PANADOL ULTRA TAB NEW",bonus:"-2.00%",tp:"127.50"},
-{code:"8313",name:"REQUIP 1 TAB",bonus:"-2.00%",tp:"1433.44"},
-{code:"1410",name:"ZENTEL SYP GSK",bonus:"-2.00%",tp:"96.13"},
-{code:"1411",name:"ZENTEL TAB GSK",bonus:"-2.00%",tp:"37.43"},
-{code:"8182",name:"SUALIN LOZENGES HAMDARD",bonus:"0.01%",tp:"850.00"},
-{code:"5321",name:"TUT SIAH + MULATHI LASANI",bonus:"0.01%",tp:"161.50"},
-{code:"5466",name:"HASHMI ARQ-E-GULAB DROPER",bonus:"7.00%",tp:"69.59"},
-{code:"9060",name:"LCYN 250 TAB HIGH-Q",bonus:"-2.00%",tp:"272.00"},
-{code:"9096",name:"LCYN 500 TAB HIGH-Q",bonus:"-2.00%",tp:"391.00"},
-{code:"8500",name:"POLYMALT TAB PLAIN",bonus:"-2.00%",tp:"261.26"},
-{code:"8568",name:"RULING 20 CAP",bonus:"-2.00%",tp:"311.67"},
-{code:"8801",name:"SYP POLYMALT SYP",bonus:"-2.00%",tp:"275.37"},
-{code:"A96",name:"COOLING PATCH",bonus:"0.01%",tp:"180.00"},
-{code:"5431",name:"DANZEN DS TAB",bonus:"-2.00%",tp:"408.00"},
-{code:"313",name:"DANZEN TAB HELIX",bonus:"0.01%",tp:"255.00"},
-{code:"7806",name:"NOGERD 50 TAB HELIX",bonus:"12.00%",tp:"254.15"},
-{code:"1742",name:"VPN-20 TAB HELIX",bonus:"15.00%",tp:"538.05"},
-{code:"A413",name:"AMLO-Q 10 TAB HIGH-Q APEX",bonus:"-2.00%",tp:"219.79"},
-{code:"A449",name:"AMLO-Q 5 TAB HIGH-Q APEX",bonus:"-2.00%",tp:"183.60"},
-{code:"57",name:"ANTASIP SYP HIGH-Q",bonus:"-2.00%",tp:"421.60"},
-{code:"A341",name:"APIZYT SYP",bonus:"-2.00%",tp:"338.30"},
-{code:"1114",name:"CALDREE 600 TAB",bonus:"-2.00%",tp:"561.68"},
-{code:"B648",name:"CALDREE DS TAB",bonus:"-2.00%",tp:"962.88"},
-{code:"7702",name:"EBAK 10 TAB HIGH-Q",bonus:"-2.00%",tp:"143.28"},
-{code:"9309",name:"EBAK 20 TAB HIGH-Q",bonus:"-2.00%",tp:"198.93"},
-{code:"A530",name:"EM-FLOX 400 TAB HIGH-Q",bonus:"-2.00%",tp:"561.00"},
-{code:"4159",name:"EMPA GLI 10 TAB HIGH-Q",bonus:"-2.00%",tp:"391.00"},
-{code:"4790",name:"EMPA GLI 25 TAB HIGH-Q",bonus:"-2.00%",tp:"595.00"},
-{code:"409",name:"EMPA GLI MET 12.5/500 HIGH-Q",bonus:"-2.00%",tp:"374.00"},
-{code:"4863",name:"EMPA GLI MET 12.5/850 HIGH-Q",bonus:"-2.00%",tp:"421.60"},
-{code:"3648",name:"ESKEM 20 CAP",bonus:"-2.00%",tp:"336.60"},
-{code:"B643",name:"ESKEM 40 CAP",bonus:"-2.00%",tp:"476.00"},
-{code:"B531",name:"FORTIUS 10 TAB HIGH-Q",bonus:"-2.00%",tp:"365.50"},
-{code:"B532",name:"FORTIUS 20 TAB HIGH-Q",bonus:"-2.00%",tp:"510.00"},
-{code:"3593",name:"FRENDOL-P HIGH-Q",bonus:"-2.00%",tp:"180.99"},
-{code:"A639",name:"ITOPER 50 TAB HIGH-Q",bonus:"-2.00%",tp:"191.94"},
-{code:"9621",name:"JARDIN TAB HIGH-Q",bonus:"-2.00%",tp:"109.14"},
-{code:"425",name:"ERLINA 25/5 TAB PHARMAEVO",bonus:"-2.00%",tp:"690.20"},
-{code:"7684",name:"ESTAR 10 TAB PHARMEVO",bonus:"0.01%",tp:"420.75"},
-{code:"6403",name:"EVOPRIDE PLUS 1/500 TAB",bonus:"-2.00%",tp:"269.23"},
-{code:"2486",name:"EVOPRIDE PLUS 2/500 TAB",bonus:"-2.00%",tp:"493.60"},
-{code:"724",name:"GOURIC 40 TAB PHARMEVO",bonus:"-2.00%",tp:"639.39"},
-{code:"B242",name:"INOSITA 50/850 TAB PHARMEVO",bonus:"-2.00%",tp:"1058.25"},
-{code:"B711",name:"INOSITA PLUS 50/500 TAB",bonus:"-2.00%",tp:"1038.70"},
-{code:"2797",name:"K-1000 TAB PHARMEVO",bonus:"3.00%",tp:"626.69"},
-{code:"3204",name:"NISE 100 TAB PHARMEVO",bonus:"-2.00%",tp:"260.10"},
-{code:"902",name:"PANADOL DROP",bonus:"-2.00%",tp:"82.05"},
-{code:"904",name:"PANADOL EXTRA TAB",bonus:"-5.00%",tp:"510.00"},
-{code:"B152",name:"PANADOL FORTE SYP",bonus:"-2.00%",tp:"115.39"},
-{code:"905",name:"PANADOL SYP",bonus:"-2.00%",tp:"125.77"},
-{code:"906",name:"PANADOL TAB",bonus:"-2.00%",tp:"648.48"},
-{code:"1601",name:"SHE.VIT TAB PHARMEVO",bonus:"3.00%",tp:"554.67"},
-{code:"A747",name:"TELSARTA-A 5/40 TAB PHARMEVO",bonus:"-2.00%",tp:"416.50"},
-{code:"7894",name:"X-PLENDED 10 TAB PHARMEVO",bonus:"-2.00%",tp:"405.45"},
-{code:"B243",name:"ACORT CREAM PLATINUM",bonus:"5.00%",tp:"170.00"},
-{code:"4039",name:"CEDROX 125 SYP PLATINUM",bonus:"5.00%",tp:"178.50"},
-{code:"B494",name:"PEPTOGEL SYP LOCAL",bonus:"0.01%",tp:"55.00"},
-{code:"3989",name:"PINIX 0.5 TAB",bonus:"4.00%",tp:"272.85"},
-{code:"8366",name:"VOVERON SR TAB LOCAL",bonus:"0.01%",tp:"78.00"},
-{code:"6901",name:"XOPRA 20 CAP",bonus:"0.01%",tp:"80.00"}
+// === PDF LIST 000011 - 22/10/2026 - FRIENDS MEDICOS - EIDGAH CHOWK ===
+// CODE -> c1, NAME -> c2, COMPANY -> c3, PACKING -> c4, RATE(T.P) -> c5, DISCOUNT(OFFER) -> c6
+const PDF_DATA=[
+{code:"9703",name:"AMYGRA 60 TAB",comp:"TABROS",pack:"TAB",rate:191.36,disc:-2},
+{code:"6491",name:"CLERET GEL",comp:"TABROS",pack:"GEL",rate:284.75,disc:8},
+{code:"9357",name:"CO-VALTEC 160/12.5 TAB",comp:"TABROS",pack:"TAB",rate:647.70,disc:-2},
+{code:"2852",name:"RONDEC (C) 120 ML",comp:"",pack:"SYP",rate:170.00,disc:0.01},
+{code:"3336",name:"VI DAYLIN L SYP",comp:"",pack:"SYP",rate:272.00,disc:0.01},
+{code:"1351",name:"VI DAYLIN SYP",comp:"",pack:"SYP",rate:161.50,disc:0.01},
+{code:"3071",name:"DEPREL 100 TAB",comp:"ADAMJEE",pack:"TAB",rate:765.00,disc:-2},
+{code:"1790",name:"DOLOR DS SYP",comp:"ADAMJEE",pack:"SYP",rate:114.77,disc:10},
+{code:"381",name:"DOLOR SYP",comp:"ADAMJEE",pack:"SYP",rate:89.25,disc:10},
+{code:"8114",name:"DOSIK 10 TAB",comp:"ADAMJEE",pack:"TAB",rate:159.66,disc:-2},
+{code:"4675",name:"ESTEZENE 5 TAB",comp:"ADAMJEE",pack:"TAB",rate:816.00,disc:-2},
+{code:"3155",name:"KEMPRO TAB",comp:"ADAMJEE",pack:"TAB",rate:503.20,disc:-2},
+{code:"9403",name:"RISP 4 TAB",comp:"ADAMJEE",pack:"TAB",rate:550.80,disc:-2},
+{code:"7319",name:"ANAFORTAN PLUS INJECTION",comp:"AGP",pack:"INJ",rate:799.00,disc:25},
+{code:"2616",name:"CHYMORAL FORTE TAB",comp:"AGP",pack:"TAB",rate:289.00,disc:0.01},
+{code:"3220",name:"GLYZIA MET 50/500 TAB",comp:"AGP",pack:"TAB",rate:442.00,disc:35},
+{code:"5022",name:"MELFAX 15 TAB",comp:"AGP",pack:"TAB",rate:212.50,disc:10},
+{code:"5021",name:"MELFAX 7.5 TAB",comp:"AGP",pack:"TAB",rate:112.20,disc:10},
+{code:"A951",name:"RIGIX DROP",comp:"AGP",pack:"DROP",rate:114.70,disc:-2},
+{code:"2330",name:"RIGIX SYP",comp:"AGP",pack:"SYP",rate:170.00,disc:3},
+{code:"8923",name:"RIGIX TAB",comp:"AGP",pack:"TAB",rate:331.50,disc:-2},
+{code:"5632",name:"RUBIFER F TAB",comp:"AGP",pack:"TAB",rate:305.24,disc:15},
+{code:"2390",name:"SINAXAMOL TAB",comp:"AGP",pack:"TAB",rate:694.45,disc:12},
+{code:"B172",name:"FLOAID 5 TAB",comp:"ABBOTT",pack:"TAB",rate:408.00,disc:5},
+{code:"8007",name:"ICEF SYP",comp:"ICI",pack:"SYP",rate:267.60,disc:20},
+{code:"579",name:"INDERAL 10 TAB",comp:"ICI",pack:"TAB",rate:147.70,disc:-2},
+{code:"977",name:"PONSTAN TAB",comp:"ICI",pack:"BOX",rate:1988.92,disc:-2},
+{code:"1208",name:"TENORET-50 TAB",comp:"ICI",pack:"TAB",rate:218.70,disc:5},
+{code:"1210",name:"TENORMIN 100 TAB",comp:"ICI",pack:"TAB",rate:438.60,disc:3},
+{code:"1211",name:"TENORMIN 50 TAB",comp:"ICI",pack:"TAB",rate:354.02,disc:5},
+{code:"1412",name:"ZESTRIL 10 TAB",comp:"ICI",pack:"TAB",rate:459.85,disc:3},
+{code:"1414",name:"ZESTRIL 5 TAB",comp:"ICI",pack:"TAB",rate:525.64,disc:3},
+{code:"2567",name:"BROMALEX TAB",comp:"INDUS",pack:"TAB",rate:194.65,disc:5},
+{code:"2116",name:"DYCLO P TAB",comp:"INDUS",pack:"TAB",rate:227.80,disc:8},
+{code:"3216",name:"DYCLO 50 TAB",comp:"INDUS",pack:"TAB",rate:170.00,disc:10},
+{code:"1753",name:"DYCLO INJ SMALL",comp:"INDUS",pack:"INJ",rate:501.50,disc:10},
+{code:"7060",name:"MAXPAN 100 SYP",comp:"INDUS",pack:"SYP",rate:255.00,disc:15},
+{code:"3643",name:"AVAMYS NASAL SPRAY",comp:"GSK",pack:"SPRAY",rate:825.35,disc:-2},
+{code:"232",name:"CEPOREX 250 CAP",comp:"GSK",pack:"CAP",rate:170.63,disc:-2},
+{code:"1791",name:"CEPOREX DROPS",comp:"GSK",pack:"DROPS",rate:134.11,disc:-2},
+{code:"415",name:"ENTOX P TAB",comp:"GSK",pack:"TAB",rate:442.00,disc:3},
+{code:"1830",name:"FEFOLVIT CAP",comp:"GSK",pack:"CAP",rate:529.36,disc:0.01},
+{code:"49",name:"SULVORID 25 TAB",comp:"HIGH-Q",pack:"TAB",rate:336.60,disc:-2},
+{code:"1799",name:"SULVORID 50 TAB",comp:"HIGH-Q",pack:"TAB",rate:394.40,disc:-2},
+{code:"A917",name:"SUN VIT INJ",comp:"HIGH-Q",pack:"INJ",rate:241.40,disc:-2},
+{code:"3259",name:"SYP JARDIN-D SYP",comp:"HIGH-Q",pack:"SYP",rate:220.34,disc:-2},
+{code:"9460",name:"SYP MIXEL 100 SYP",comp:"HIGH-Q",pack:"SYP",rate:272.85,disc:-2},
+{code:"9461",name:"SYP MIXEL D.S SYP",comp:"HIGH-Q",pack:"SYP",rate:351.11,disc:-2},
+{code:"6297",name:"UFRIM 10 TAB",comp:"HIGH-Q",pack:"TAB",rate:380.80,disc:-2},
+{code:"2341",name:"VILDOMET 50/500 TAB",comp:"HIGH-Q",pack:"TAB",rate:336.60,disc:-2},
+{code:"3051",name:"ZYTO 250 TAB",comp:"HIGH-Q",pack:"TAB",rate:301.08,disc:-2},
+{code:"9761",name:"ZYTO 500 TAB",comp:"HIGH-Q",pack:"TAB",rate:436.42,disc:-2},
+{code:"4620",name:"ZYTO SYP",comp:"HIGH-Q",pack:"SYP",rate:253.57,disc:-2},
+{code:"4239",name:"BESSFAM 20 TAB",comp:"HIGH-Q",pack:"TAB",rate:210.80,disc:-2},
+{code:"4240",name:"BESSFAM 40 TAB",comp:"HIGH-Q",pack:"TAB",rate:210.80,disc:-2},
+{code:"2743",name:"CYCIN 250 TAB",comp:"HIGH-Q",pack:"TAB",rate:221.00,disc:-2},
+{code:"2744",name:"CYCIN 500 TAB",comp:"HIGH-Q",pack:"TAB",rate:391.00,disc:-2},
+{code:"1321",name:"FREEHALE 10 TAB",comp:"HIGH-Q",pack:"TAB",rate:374.00,disc:-2},
+{code:"2894",name:"FREEHALE 5 TAB",comp:"HIGH-Q",pack:"TAB",rate:289.00,disc:-2},
+{code:"2507",name:"FREEHALE SACHETS",comp:"HIGH-Q",pack:"SACHET",rate:323.00,disc:-2},
+{code:"6316",name:"PYLOCLAR 250 TAB",comp:"HIGH-Q",pack:"TAB",rate:544.07,disc:-2},
+{code:"8151",name:"AUGMENTIN BD TAB 12 TAB",comp:"GSK",pack:"TAB",rate:622.95,disc:0.01},
+{code:"2145",name:"PANADOL ULTRA TAB NEW",comp:"GSK",pack:"TAB",rate:127.50,disc:-2},
+{code:"8313",name:"REQUIP 1 TAB",comp:"GSK",pack:"TAB",rate:1433.44,disc:-2},
+{code:"1410",name:"ZENTEL SYP",comp:"GSK",pack:"SYP",rate:96.13,disc:-2},
+{code:"1411",name:"ZENTEL TAB",comp:"GSK",pack:"TAB",rate:37.43,disc:-2},
+{code:"8182",name:"SUALIN LOZENGES",comp:"HAMDARD",pack:"LOZ",rate:850.00,disc:0.01},
+{code:"5321",name:"TUT SIAH + MULATHI LASANI",comp:"HAMDARD",pack:"SYP",rate:161.50,disc:0.01},
+{code:"5466",name:"HASHMI ARQ-E-GULAB DROPER",comp:"HASHMI",pack:"DROP",rate:69.59,disc:7},
+{code:"9060",name:"LCYN 250 TAB",comp:"HIGH-Q",pack:"TAB",rate:272.00,disc:-2},
+{code:"9096",name:"LCYN 500 TAB",comp:"HIGH-Q",pack:"TAB",rate:391.00,disc:-2},
+{code:"8500",name:"POLYMALT TAB PLAIN",comp:"HIGH-Q",pack:"TAB",rate:261.26,disc:-2},
+{code:"8568",name:"RULING 20 CAP",comp:"HIGH-Q",pack:"CAP",rate:311.67,disc:-2},
+{code:"8801",name:"SYP POLYMALT SYP",comp:"HIGH-Q",pack:"SYP",rate:275.37,disc:-2},
+{code:"A96",name:"COOLING PATCH",comp:"HEALTH AID",pack:"PATCH",rate:180.00,disc:0.01},
+{code:"5431",name:"DANZEN DS TAB",comp:"HELIX",pack:"TAB",rate:408.00,disc:-2},
+{code:"313",name:"DANZEN TAB",comp:"HELIX",pack:"TAB",rate:255.00,disc:0.01},
+{code:"7806",name:"NOGERD 50 TAB",comp:"HELIX",pack:"TAB",rate:254.15,disc:12},
+{code:"1742",name:"VPN-20 TAB",comp:"HELIX",pack:"TAB",rate:538.05,disc:15},
+{code:"A413",name:"AMLO-Q 10 TAB",comp:"HIGH-Q APEX",pack:"TAB",rate:219.79,disc:-2},
+{code:"A449",name:"AMLO-Q 5 TAB",comp:"HIGH-Q APEX",pack:"TAB",rate:183.60,disc:-2},
+{code:"57",name:"ANTASIP SYP",comp:"HIGH-Q",pack:"SYP",rate:421.60,disc:-2},
+{code:"A341",name:"APIZYT SYP",comp:"HIGH-Q",pack:"SYP",rate:338.30,disc:-2},
+{code:"1114",name:"CALDREE 600 TAB",comp:"HIGH-Q",pack:"TAB",rate:561.68,disc:-2},
+{code:"B648",name:"CALDREE DS TAB",comp:"HIGH-Q",pack:"TAB",rate:962.88,disc:-2},
+{code:"7702",name:"EBAK 10 TAB",comp:"HIGH-Q",pack:"TAB",rate:143.28,disc:-2},
+{code:"9309",name:"EBAK 20 TAB",comp:"HIGH-Q",pack:"TAB",rate:198.93,disc:-2},
+{code:"A530",name:"EM-FLOX 400 TAB",comp:"HIGH-Q",pack:"TAB",rate:561.00,disc:-2},
+{code:"4159",name:"EMPA GLI 10 TAB",comp:"HIGH-Q",pack:"TAB",rate:391.00,disc:-2},
+{code:"4790",name:"EMPA GLI 25 TAB",comp:"HIGH-Q",pack:"TAB",rate:595.00,disc:-2},
+{code:"409",name:"EMPA GLI MET 12.5/500",comp:"HIGH-Q",pack:"TAB",rate:374.00,disc:-2},
+{code:"4863",name:"EMPA GLI MET 12.5/850",comp:"HIGH-Q",pack:"TAB",rate:421.60,disc:-2},
+{code:"3648",name:"ESKEM 20 CAP",comp:"HIGH-Q",pack:"CAP",rate:336.60,disc:-2},
+{code:"B643",name:"ESKEM 40 CAP",comp:"HIGH-Q",pack:"CAP",rate:476.00,disc:-2},
+{code:"B531",name:"FORTIUS 10 TAB",comp:"HIGH-Q",pack:"TAB",rate:365.50,disc:-2},
+{code:"B532",name:"FORTIUS 20 TAB",comp:"HIGH-Q",pack:"TAB",rate:510.00,disc:-2},
+{code:"3593",name:"FRENDOL-P",comp:"HIGH-Q",pack:"TAB",rate:180.99,disc:-2},
+{code:"A639",name:"ITOPER 50 TAB",comp:"HIGH-Q",pack:"TAB",rate:191.94,disc:-2},
+{code:"9621",name:"JARDIN TAB",comp:"HIGH-Q",pack:"TAB",rate:109.14,disc:-2},
+{code:"425",name:"ERLINA 25/5 TAB",comp:"PHARMAEVO",pack:"TAB",rate:690.20,disc:-2},
+{code:"7684",name:"ESTAR 10 TAB",comp:"PHARMEVO",pack:"TAB",rate:420.75,disc:0.01},
+{code:"6403",name:"EVOPRIDE PLUS 1/500 TAB",comp:"PHARMEVO",pack:"TAB",rate:269.23,disc:-2},
+{code:"2486",name:"EVOPRIDE PLUS 2/500 TAB",comp:"PHARMEVO",pack:"TAB",rate:493.60,disc:-2},
+{code:"724",name:"GOURIC 40 TAB",comp:"PHARMEVO",pack:"TAB",rate:639.39,disc:-2},
+{code:"B242",name:"INOSITA 50/850 TAB",comp:"PHARMEVO",pack:"TAB",rate:1058.25,disc:-2},
+{code:"B711",name:"INOSITA PLUS 50/500 TAB",comp:"PHARMEVO",pack:"TAB",rate:1038.70,disc:-2},
+{code:"2797",name:"K-1000 TAB",comp:"PHARMEVO",pack:"TAB",rate:626.69,disc:3},
+{code:"3204",name:"NISE 100 TAB",comp:"PHARMEVO",pack:"TAB",rate:260.10,disc:-2},
+{code:"902",name:"PANADOL DROP",comp:"PHARMEVO",pack:"DROP",rate:82.05,disc:-2},
+{code:"904",name:"PANADOL EXTRA TAB",comp:"PHARMEVO",pack:"TAB",rate:510.00,disc:-5},
+{code:"B152",name:"PANADOL FORTE SYP",comp:"PHARMEVO",pack:"SYP",rate:115.39,disc:-2},
+{code:"905",name:"PANADOL SYP",comp:"PHARMEVO",pack:"SYP",rate:125.77,disc:-2},
+{code:"906",name:"PANADOL TAB",comp:"PHARMEVO",pack:"TAB",rate:648.48,disc:-2},
+{code:"1601",name:"SHE.VIT TAB",comp:"PHARMEVO",pack:"TAB",rate:554.67,disc:3},
+{code:"A747",name:"TELSARTA-A 5/40 TAB",comp:"PHARMEVO",pack:"TAB",rate:416.50,disc:-2},
+{code:"7894",name:"X-PLENDED 10 TAB",comp:"PHARMEVO",pack:"TAB",rate:405.45,disc:-2},
+{code:"B243",name:"ACORT CREAM",comp:"PLATINUM",pack:"CREAM",rate:170.00,disc:5},
+{code:"4039",name:"CEDROX 125 SYP",comp:"PLATINUM",pack:"SYP",rate:178.50,disc:5},
+{code:"B494",name:"PEPTOGEL SYP",comp:"LOCAL",pack:"SYP",rate:55.00,disc:0.01},
+{code:"3989",name:"PINIX 0.5 TAB",comp:"LOCAL",pack:"TAB",rate:272.85,disc:4},
+{code:"8366",name:"VOVERON SR TAB",comp:"LOCAL",pack:"TAB",rate:78.00,disc:0.01},
+{code:"6901",name:"XOPRA 20 CAP",comp:"LOCAL",pack:"CAP",rate:80.00,disc:0.01}
 ];
-</script><!-- PART 3 - CUSTOMER OFFER LIST - FRIENDS MEDICOSE - LIST 000011 - 22/10/2026 -->
-<div class="card" id="customerOffer">
-<div style="background:#25D366;color:#fff;padding:12px;border-radius:10px;text-align:center">
-<h2 style="margin:0">FRIENDS MEDICOSE</h2>
-<small>EIDGAH CHOWK, MANZOR COLONY, KARACHI</small><br>
-<b>OFFER LIST NO: 000011 | Date: 22/10/2026</b>
-</div>
+function loadPDFList(){ if(!confirm('Purani list delete karke PDF LIST 000011 lagani hai?')) return; DB.items = PDF_DATA.map(x=>({code:x.code,name:x.name,comp:x.comp,pack:x.pack,rate:x.rate,disc:x.disc})); sv(); let m=document.getElementById('loadMsg'); if(m) m.innerText='✅ LOAD HOGAYA - '+DB.items.length+' Items - LIST 000011 - 22/10/2026'; alert('Load Hogaya: '+DB.items.length+' items'); }
 
-<label style="margin-top:10px">CUSTOMER NAME / SHOP NAME *</label>
-<input id="custName" placeholder="CUSTOMER NAME/SHOP NAME likhein">
-
-<label>SEARCH ITEMS HERE</label>
-<input id="custSearch" placeholder="SEARCH ITEMS HERE - CODE ya NAME" onkeyup="custFilter()">
-
-<div style="display:flex;gap:6px;margin:6px 0">
-<button onclick="showAllOffer()" style="flex:1;padding:10px;background:#0f4c81;color:#fff;border:0;border-radius:8px">ALL ITEMS</button>
-<button onclick="clearOrder()" style="flex:1;padding:10px;background:#ef4444;color:#fff;border:0;border-radius:8px">CLEAR</button>
-</div>
-
-<div id="custItems" style="max-height:420px;overflow:auto;border:1px solid #ddd;border-radius:8px;padding:6px"></div>
-
-<h3>APKA ORDER</h3>
-<div id="custOrderList" style="border:1px dashed #999;padding:8px;border-radius:8px;min-height:60px">Abhi koi item select nahi</div>
-<h3 id="custTotal">Total: Rs 0 | Bonus Total: 0</h3>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<button onclick="sendWhatsAppOrder()" style="padding:14px;background:#25D366;color:#fff;border:0;border-radius:10px;font-weight:700">📱 WHATSAPP ORDER BHEJEIN</button>
-<button onclick="downloadPDF()" style="padding:14px;background:#111827;color:#fff;border:0;border-radius:10px;font-weight:700">🧾 PDF ANDROID / IPHONE</button>
-</div>
-
-<p style="font-size:11px;color:#888;text-align:center;margin-top:8px">TO OPEN OFFER LIST IN ANDROID USE GOOGLE CHROME<br>TO OPEN OFFER LIST IN IPHONE USE MICROSOFT EDGE<br>DEVELOPED BY ALAM - 021-32432523 & 0300-8247648</p>
-</div>
-
-<script>
-let custOrder = [];
-function getItems(){ return window.OFFER_DATA || JSON.parse(localStorage.getItem('fm_items_000011')||'[]'); }
-function showAllOffer(){ renderCustItems(getItems()); }
-function renderCustItems(list){
-  document.getElementById('custItems').innerHTML = list.slice(0,100).map((x,i)=>`
-  <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding:8px">
-  <span><b>${x.code}</b> ${x.name}<br><small>OFFER: ${x.bonus} | T.P: ${x.tp}</small></span>
-  <span><input type="number" id="q${x.code}" value="1" style="width:55px;padding:6px" min="1"><button onclick="addCustItem('${x.code}')" style="background:#059669;color:#fff;border:0;padding:7px 10px;border-radius:6px;margin-left:4px">ADD +</button></span>
-  </div>`).join('') || 'Item nahi mila';
+let DB=JSON.parse(localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
+function sv(){localStorage.setItem('fm_dos',JSON.stringify(DB)); ref()}
+function td(){return new Date().toISOString().slice(0,10)}
+dte.innerText=new Date().toLocaleDateString('en-GB'); bDt.value=td(); rDt.value=td();
+let cur=[];
+function sh(id,btn){document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref()}
+function addI(){let n=c2.value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:c1.value||'IT'+(DB.items.length+1),name:n,comp:c3.value,pack:c4.value,rate:+c5.value||0,disc:+c6.value||0}); c1.value=c2.value=c3.value=c4.value=''; c5.value=''; c6.value=''; sv(); alert('Item Saved')}
+function addP(){if(!pN.value.trim())return alert('Name likhein'); DB.parties.push({type:pT.value,name:pN.value,phone:pP.value,bal:+pB.value||0}); pN.value=pP.value=''; pB.value=''; sv(); alert('Party Saved')}
+function ref(){
+ let bn='048'+String(DB.sales.length+1).padStart(3,'0'); bNo.value=bn; lastBill.innerText=DB.sales.length?DB.sales[DB.sales.length-1].no:'3682';
+ bCust.innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
+ bItem.innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name} - Rs ${it.rate}</option>`).join('')||'<option value="">-- Select Item --</option>';
+ if(DB.items[bItem.value]){ bR.value=DB.items[bItem.value].rate; bCode.value=DB.items[bItem.value].code; bPack.value=DB.items[bItem.value].pack||''; bComp.value=DB.items[bItem.value].comp||''; bD.value=DB.items[bItem.value].disc||0; }
+ let old=bCust.selectedOptions[0]?DB.parties.find(p=>p.name===bCust.value)?.bal||0:0; bo.innerText=old;
+ il.innerHTML=DB.items.length?`<table><tr><th>CODE</th><th>NAME</th><th>COMP</th><th>PACK</th><th>RATE</th><th>DISC %</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.pack}</td><td>${i.rate}</td><td>${i.disc}</td></tr>`).join('')}</table>`:'';
+ pl.innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
+ dash2.innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length}</p>`;
+ bCnt.value=cur.length; bAmt.value=((+bQ.value||1)*(+bR.value||0)*(1-(+bD.value||0)/100)).toFixed(2);
 }
-function custFilter(){
-  let s = document.getElementById('custSearch').value.toLowerCase();
-  renderCustItems(getItems().filter(x=>(x.name+x.code).toLowerCase().includes(s)));
+bItem.onchange=ref; bCust.onchange=ref; bQ.oninput=bR.oninput=bD.oninput=ref;
+function addB(){let idx=bItem.value; if(idx===''||!DB.items[idx])return alert('Item select karein'); let it=DB.items[idx]; let q=+bQ.value||1, r=+bR.value||it.rate; let amt=q*r*(1-(+bD.value||0)/100); cur.push({name:it.name,qty:q,rate:r,amt}); let tot=cur.reduce((a,b)=>a+b.amt,0); bt.innerText=tot.toFixed(2); btax.innerText=(tot*0.07).toFixed(2); bn.innerText=(tot*1.07).toFixed(2); bnb.innerText=((+bo.innerText||0)+tot*1.07).toFixed(2); bList.innerHTML=cur.map(i=>`<div class="dosrow"><div style="flex:0 0 70px">${it.code}</div><div style="flex:1">${i.name}</div><div style="flex:0 0 60px">${i.qty}</div><div style="flex:0 0 50px">0</div><div style="flex:0 0 60px">0</div><div style="flex:0 0 60px">0%</div><div style="flex:0 0 80px">${i.rate}</div><div style="flex:0 0 110px">${i.amt.toFixed(2)}</div></div>`).join(''); ref();}
+function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:bNo.value,date:bDt.value,cust:bCust.value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===bCust.value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; bList.innerHTML=''; sv(); alert('Bill Saved: '+bNo.value); sh('main',document.querySelector('[data-t=main]'))}
+function rep(){let d=rDt.value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); rOut.innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; rozn.innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
+function doPrint(type){
+ let billNo=document.getElementById('prBill').value.trim();
+ let sale = billNo ? DB.sales.find(s=>s.no===billNo) : DB.sales[DB.sales.length-1];
+ if(!sale && type!=='offer'){ if(!confirm('Koi bill nahi mila, sample print karun?')) return; sale={no:billNo||'048001',date:td(),cust:'Walk-in Customer',items:cur.length?cur:[{name:'PANADOL',qty:1,rate:800,amt:800}],net:800}; }
+ let pa=document.getElementById('printArea'); pa.style.display='block';
+ let rows=(sale.items||[]).map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt}</td></tr>`).join('');
+ if(type==='invoice') pa.innerHTML=`<h2 style="text-align:center">*** FRIENDS MEDICOSE ***<br>SALES INVOICE</h2><p>Bill: ${sale.no} | Date: ${sale.date} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse;color:#000"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${rows}</table><h3>Net Total: Rs ${sale.net}</h3>`;
+ if(type==='challan') pa.innerHTML=`<h2 style="text-align:center">DELIVERY CHALLAN</h2><p>Bill: ${sale.no} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table>`;
+ if(type==='quotation') pa.innerHTML=`<h2 style="text-align:center">QUOTATION - FRIENDS MEDICOSE</h2><p>Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table><p>Valid for 7 days</p>`;
+ if(type==='sticker') pa.innerHTML=`<div style="border:2px solid #000;padding:10px;text-align:center"><b>FRIENDS MEDICOSE</b><br>${sale.items[0]?.name||''}<br>Rs ${sale.items[0]?.rate||''}</div>`;
+ if(type==='offer') pa.innerHTML=`<h1 style="text-align:center">FRIENDS MEDICOSE - OFFER LIST 000011 - 22/10/2026</h1><table border=1 style="width:100%;border-collapse:collapse"><tr><th>CODE</th><th>ITEM NAME</th><th>COMPANY</th><th>TP</th><th>BONUS</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td><td>${i.disc}%</td></tr>`).join('')}</table>`;
+ setTimeout(()=>window.print(),300);
 }
-function addCustItem(code){
-  let it = getItems().find(x=>x.code==code); if(!it) return;
-  let q = parseInt(document.getElementById('q'+code)?.value||1);
-  custOrder.push({...it, qty:q});
-  updateCustOrder();
-}
-function updateCustOrder(){
-  let el = document.getElementById('custOrderList');
-  if(!custOrder.length){ el.innerHTML='Abhi koi item select nahi'; document.getElementById('custTotal').textContent='Total: Rs 0'; return; }
-  el.innerHTML = custOrder.map((o,i)=>`${i+1}. ${o.code} - ${o.name} | Qty: ${o.qty} | TP: ${o.tp} | Bonus: ${o.bonus} <button onclick="custOrder.splice(${i},1);updateCustOrder()">❌</button>`).join('<br>');
-  let tot = custOrder.reduce((a,b)=>a + parseFloat(b.tp||0)*b.qty,0);
-  document.getElementById('custTotal').textContent = 'Total: Rs ' + tot.toFixed(2) + ' | Items: ' + custOrder.length;
-}
-function clearOrder(){ custOrder=[]; updateCustOrder(); }
-function sendWhatsAppOrder(){
-  let name = document.getElementById('custName').value || 'CUSTOMER';
-  if(!custOrder.length){ alert('Pehle item select karein'); return; }
-  let txt = `FRIENDS MEDICOSE - ORDER\nLIST NO: 000011 - 22/10/2026\nCUSTOMER NAME: ${name}\n\n` + custOrder.map(o=>`${o.code} - ${o.name} - Qty: ${o.qty} - TP: ${o.tp} - ${o.bonus}`).join('\n') + `\n\n${document.getElementById('custTotal').textContent}`;
-  window.open('https://wa.me/923008247648?text='+encodeURIComponent(txt));
-}
-function downloadPDF(){ window.print(); }
-showAllOffer();
-</script>
+document.addEventListener('keydown',e=>{if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))} if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]'))});
+ref(); rep();
+</script></body></html>
