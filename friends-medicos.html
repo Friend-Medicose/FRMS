@@ -1228,9 +1228,9 @@ const PDF_DATA=[{code:"9703",name:"AMYGRA 60 TAB TABROS",comp:"",pack:"",rate:19
 {code:"3989",name:"PINIX 0.5 TAB",comp:"",pack:"",rate:272.85,disc:4},
 {code:"8366",name:"VOVERON SR TAB LOCAL",comp:"",pack:"",rate:78,disc:0.01},
 {code:"6901",name:"XOPRA 20 CAP",comp:"",pack:"",rate:80,disc:0.01},];
-let DB=JSON.parse(localStorage.getItem('fm_dos_v2')||localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
-if(!DB.items || DB.items.length < 100 || DB.items.some(x=>x.code==='001')){
-  DB.items = PDF_DATA.map(x=>({code:x.code,name:x.name,comp:x.comp,pack:x.pack,rate:x.rate,disc:x.disc}));
+localStorage.removeItem('fm_dos_v2'); localStorage.removeItem('fm_dos');
+let DB={items:[],parties:[],sales:[],companies:[]};
+DB.items = PDF_DATA.map(x=>({code:x.code,name:x.name,comp:x.comp,pack:x.pack,rate:x.rate,retail:x.rate*1.15,disc:x.disc}));
   localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); localStorage.removeItem('fm_dos');
 }
 function sv(){localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); ref()}
