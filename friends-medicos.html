@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FRIENDS MEDICOSE</title>
+<title>FRIENDS MEDICOSE - V1139</title>
 <script src="https://accounts.google.com/gsi/client"></script>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#0000AA;color:#fff;font-family:'Courier New',monospace;font-size:15px}
@@ -11,7 +11,7 @@
 .menu button:hover,.menu button.on{background:#FFFF00;color:#000}
 .wrap{max-width:1100px;margin:auto;padding:10px;padding-bottom:60px}
 .box{border:2px solid #fff;padding:12px;margin-bottom:10px;background:#0000AA;position:relative}
-.box h3{margin:0 0 10px;color:#FFFF00;padding-bottom:6px}
+.box h3{margin:0 0 10px;color:#FFFF00;padding-bottom:6px;text-align:center}
 label{color:#00FFFF} input,select{width:100%;background:#000;color:#fff;border:1px solid #fff;padding:9px;font-family:inherit;font-size:15px;margin:4px 0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{background:#FFFF00;color:#000;border:0;padding:11px;font-family:inherit;font-weight:bold;cursor:pointer;width:100%;margin-top:6px}
@@ -29,9 +29,8 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 #sug{position:absolute;left:95px;right:260px;background:#000;color:#fff;border:2px solid #FFFF00;max-height:220px;overflow-y:auto;z-index:999;display:none}
 #sug div{padding:10px;border-bottom:1px solid #fff;cursor:pointer;background:#000}
 #sug div:hover{background:#FFFF00;color:#000}
-@media print{ .menu,.foot,.noPrint{display:none!important} body{background:#fff;color:#000} .box{border:1px solid #000;color:#000;background:#fff} }
 </style></head><body>
-<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
+<div class="top"><b>*** FRIENDS MEDICOSE ***</b><br><span id="dte"></span> | V1139 | <span id="driveStat" style="color:#00FF00">DRIVE: NOT CONNECTED</span></div>
 <div class="menu" id="mn">
 <button data-t="main" class="on" onclick="sh('main',this)">MAIN MENU</button>
 <button data-t="reg" onclick="sh('reg',this)">1-REGISTRATION</button>
@@ -41,48 +40,51 @@ table{width:100%;border-collapse:collapse;font-size:13px} th,td{border:1px solid
 <button data-t="backup" onclick="sh('backup',this)">6-BACKUP</button>
 </div>
 <div class="wrap">
-<div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press F6 = Sale Invoice | 1 = Registration | 6 = Backup</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE INVOICE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div class="row"><div><button class="btn btn3" onclick="sh('rep',document.querySelector('[data-t=rep]'))">4 - REPORTS</button></div><div><button class="btn btn2" onclick="sh('backup',document.querySelector('[data-t=backup]'))">6 - AUTO BACKUP</button></div></div>
-<div id="dash2"></div></div></div>
-<div id="reg" class="tab hidden"><div class="box"><h3>REGISTRATION - ITEM [F2 Search]</h3>
+<div id="main" class="tab"><div class="box"><h3>MAIN MENU - Press 1,2,4,5,6 or F6</h3><p>Press F6 = Sale Invoice | 1 = Registration | 6 = Backup</p><div class="row"><div><button class="btn" onclick="sh('trans',document.querySelector('[data-t=trans]'))">F6 - SALE / PURCHASE</button></div><div><button class="btn btn2" onclick="sh('reg',document.querySelector('[data-t=reg]'))">1 - REGISTRATION</button></div></div><div id="dash2"></div></div></div>
+
+<div id="reg" class="tab hidden">
+<div class="box"><h3>REGISTRATION - ITEM [F2 Search]</h3>
 <div class="row"><div><label>Item Code :</label><input id="c1"></div><div><label>Item Name :</label><input id="c2"></div></div>
 <div class="row"><div><label>Company :</label><input id="c3"></div><div><label>Packing :</label><input id="c4"></div></div>
-<div class="row"><div><label>Rate :</label><input id="c5" type="number"></div><div><label>Discount % :</label><input id="c6" type="number"></div></div>
-<button class="btn" onclick="addI()">[Enter] SAVE ITEM</button>
-<div id="il" style="display:none"></div></div>
+<div class="row"><div><label>Trade Price :</label><input id="c5" type="number"></div><div><label>Retail Price :</label><input id="c7" type="number"></div></div>
+<div class="row"><div><label>Discount % :</label><input id="c6" type="number"></div><div><label>Generic / Category :</label><input id="c8" placeholder="Generic - Category"></div></div>
+<button class="btn" onclick="addI()">[Enter] SAVE ITEM</button><div id="il" style="display:none"></div>
+<button class="btn btn2" onclick="showItemCard()">ITEM DISPLAY CARD - [F1] EXIT [F2] SEARCH</button><div id="itemCard"></div></div>
+
+<div class="box"><h3>COMPANY CODES - MLAST Code : 285</h3>
+<div class="row"><div><label>COMPANY CODE :</label><input id="coCode" value="285"></div><div><label>COMPANY NAME :</label><input id="coName"></div></div>
+<div class="row"><div><label>COMPANY ADDRESS :</label><input id="coAddr"></div><div><label>1. PHONE :</label><input id="coPh1"></div></div>
+<div class="row"><div><label>2. PHONE :</label><input id="coPh2"></div><div><label>FAX :</label><input id="coFax"></div></div>
+<div class="row"><div><label>SHELF NUMBER :</label><input id="coShelf"></div><div><label>COMPANY WISE DISC % :</label><input id="coDisc" type="number"></div></div>
+<button class="btn" onclick="addCompany()">[Enter] SAVE COMPANY</button>
+<button class="btn btn2" onclick="showCompCard()">COMPANY DISPLAY CARD</button><div id="compCard"></div></div>
+
+<div class="box"><h3>GENERIC CODES</h3><div class="row"><div><label>GENERIC CODE :</label><input id="gCode"></div><div><label>GENERIC NAME :</label><input id="gName"></div></div><button class="btn btn2" onclick="alert('Generic Saved: '+document.getElementById('gName').value)">SAVE GENERIC</button></div>
+<div class="box"><h3>CATEGORY CODES</h3><div class="row"><div><label>CATEGORY CODE :</label><input id="catCode"></div><div><label>DESCRIPTION :</label><input id="catDesc"></div></div><button class="btn btn2" onclick="alert('Category Saved')">SAVE CATEGORY</button></div>
+
 <div class="box"><h3>REGISTRATION - CUSTOMER / SUPPLIER</h3>
 <div class="row"><div><label>Type :</label><select id="pT"><option>Customer</option><option>Supplier</option><option>Salesman</option></select></div><div><label>Name :</label><input id="pN"></div></div>
 <div class="row"><div><label>Phone :</label><input id="pP"></div><div><label>Old Balance :</label><input id="pB" type="number"></div></div>
 <button class="btn" onclick="addP()">SAVE PARTY</button><div id="pl"></div></div></div>
+
 <div id="trans" class="tab hidden"><div class="box" id="transBox"><h3 style="text-align:center">SALES INVOICE ENTRADMIN &nbsp;&nbsp; LAST BILL <span id="lastBill" style="float:right"></span></h3>
 <div class="dosline"><label>BILL # :</label><input id="bNo" class="mid" readonly><label>DATE :</label><input id="bDt" type="date" class="mid"><label>ITEMS :</label><input id="bCnt" class="small" readonly value="0"></div>
 <div class="dosline"><label>CUSTOMER :</label><select id="bCust" class="big"></select><label>BOOKER :</label><select id="bBook" class="mid"><option>1</option></select><label>RETAIL :</label><input id="bRetail" class="small" value="381.36" readonly></div>
+<div class="dosline"><label>SUPPLIER NAME :</label><input id="bSupp" class="big" placeholder="Supplier / Customer"><label>OLD BALANCE :</label><b id="bo" style="color:#FFFF00">0</b></div>
 <div style="height:4px"></div>
-<div class="doshead"><div style="flex:0 0 70px">CODE</div><div style="flex:1">ITEM NAME - SEARCH HERE</div><div style="flex:0 0 60px">FULL</div><div style="flex:0 0 50px">PCS</div><div style="flex:0 0 60px">BONUS</div><div style="flex:0 0 60px">DIS</div><div style="flex:0 0 80px">RATE</div><div style="flex:0 0 110px">NET AMOUNT</div></div>
-<div class="dosrow"><div style="flex:0 0 70px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><input id="bItemSearch" placeholder="Name likhein - AMY, PAN..." autocomplete="off" style="border:0;padding:2px;width:100%"><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQP" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bBo" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 60px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 80px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 110px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
+<div class="doshead"><div style="flex:0 0 60px">CODE</div><div style="flex:1">ITEM NAME - SEARCH HERE</div><div style="flex:0 0 60px">PACKING</div><div style="flex:0 0 50px">QTY</div><div style="flex:0 0 50px">R.QTY</div><div style="flex:0 0 70px">TRADE</div><div style="flex:0 0 70px">RETAIL</div><div style="flex:0 0 50px">DISC%</div><div style="flex:0 0 90px">NET AMOUNT</div></div>
+<div class="dosrow"><div style="flex:0 0 60px"><input id="bCode" placeholder="Code" style="border:0;padding:2px;width:100%"></div><div style="flex:1"><input id="bItemSearch" placeholder="Name likhein - AMY, PAN..." autocomplete="off" style="border:0;padding:2px;width:100%"><select id="bItem" style="display:none"></select></div><div style="flex:0 0 60px"><input id="bPack" readonly style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bQ" type="number" value="1" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bRQty" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 70px"><input id="bR" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 70px"><input id="bRetailP" type="number" style="border:0;padding:2px"></div><div style="flex:0 0 50px"><input id="bD" type="number" value="0" style="border:0;padding:2px"></div><div style="flex:0 0 90px"><input id="bAmt" readonly style="border:0;padding:2px"></div></div>
 <div id="sug"></div>
 <div id="bList"></div>
-<div class="dosline" style="margin-top:10px"><label>PACKING :</label><input id="bPack" class="mid" readonly><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>BILL TOTAL :</label><b id="bt" style="color:#FFFF00">0</b></div>
-<div class="dosline"><label>OLD BALANCE :</label><b id="bo" style="color:#FFFF00">0</b><label>TAX 7% :</label><b id="btax">0</b><label>NET BALANCE :</label><b id="bnb" style="color:#FFFF00">0</b></div>
+<div class="dosline" style="margin-top:10px"><label>COMPANY :</label><input id="bComp" class="mid" readonly><label>GROSS :</label><b id="bt" style="color:#FFFF00">0</b><label>DISCOUNT :</label><b id="bDiscT">0</b></div>
+<div class="dosline"><label>TAX 7% :</label><b id="btax">0</b><label>NET BALANCE :</label><b id="bnb" style="color:#FFFF00">0</b></div>
 <div class="dosline"><label>NET TOTAL :</label><b id="bn" style="color:#FFFF00;font-size:18px">0</b><label style="margin-left:20px">[F1]EXIT [F4]PUR [F3]SALE [F5]Net [F10]ADD [F9]SAVE</label></div>
 <div class="row"><div><button class="btn" onclick="addB()">[F10] ADD ITEM TO BILL</button></div><div><button class="btn btn3" onclick="saveB()">[F9] SAVE BILL</button></div></div>
 </div></div>
+
 <div id="rep" class="tab hidden"><div class="box"><h3>REPORTS - DAILY BASE</h3><label>Date :</label><input id="rDt" type="date"><button class="btn" onclick="rep()">SHOW REPORT</button><div id="rOut"></div></div><div class="box"><h3>ROZNAMCHA</h3><div id="rozn"></div></div></div>
-<div id="print" class="tab hidden"><div class="box"><h3>PRINTING - Koi bhi dabao, print khul jayega</h3>
-<label>Bill No. likhein (khali choro to last bill print hoga):</label><input id="prBill" placeholder="e.g. 048001 ya khali">
-<button class="btn" onclick="doPrint('invoice')">1. SALES INVOICE - PRINT</button>
-<button class="btn btn2" onclick="doPrint('challan')">2. DELIVERY CHALLAN - PRINT</button>
-<button class="btn" onclick="doPrint('quotation')">3. QUOTATION - PRINT</button>
-<button class="btn btn2" onclick="doPrint('sticker')">4. STICKER PRINT</button>
-<button class="btn" onclick="doPrint('offer')">5. OFFER PRINT</button>
-<button class="btn btn3" onclick="window.print()">PRINT CURRENT SCREEN (Ctrl+P)</button>
-<div id="printArea" style="background:#fff;color:#000;padding:15px;margin-top:10px;display:none"></div>
-</div></div>
-<div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3>
-<button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button>
-<button class="btn" onclick="autoBackup()">2. AUTO BACKUP NOW - Save to Drive</button>
-<button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE (Last Backup)</button>
-<div id="bm" style="margin-top:10px;color:#FFFF00"></div>
-</div></div>
+<div id="print" class="tab hidden"><div class="box"><h3>PRINTING</h3><label>Bill No :</label><input id="prBill" placeholder="048001 ya khali"><button class="btn" onclick="doPrint('invoice')">1. SALES INVOICE - PRINT</button><button class="btn btn2" onclick="doPrint('challan')">2. DELIVERY CHALLAN</button><button class="btn" onclick="doPrint('quotation')">3. QUOTATION</button><button class="btn btn2" onclick="doPrint('sticker')">4. STICKER</button><button class="btn" onclick="doPrint('offer')">5. OFFER PRINT</button><button class="btn btn3" onclick="window.print()">PRINT CURRENT SCREEN</button><div id="printArea" style="background:#fff;color:#000;padding:15px;margin-top:10px;display:none"></div></div></div>
+<div id="backup" class="tab hidden"><div class="box"><h3>OTHERS - AUTO BACKUP TO GOOGLE DRIVE</h3><button class="btn btn3" onclick="connectDrive()">1. CONNECT GOOGLE DRIVE</button><button class="btn" onclick="autoBackup()">2. AUTO BACKUP NOW</button><button class="btn btn2" onclick="autoRestore()">3. RESTORE FROM DRIVE</button><div id="bm" style="margin-top:10px;color:#FFFF00"></div></div></div>
 </div>
 <div class="foot">F1=Help | F2=Item Search | F6=Sale Invoice | F9=Save | F10=Add Item | Esc=Back | Enter=Next</div>
 <script>
@@ -381,17 +383,7 @@ const PDF_DATA=[{code:"9703",name:"AMYGRA 60 TAB TABROS",comp:"",pack:"",rate:19
 {code:"8998",name:"ZENTRO 40 TAB BOSCH",comp:"",pack:"",rate:382.5,disc:15},
 {code:"5220",name:"ZEZOT 250 CAP BOSCH",comp:"",pack:"",rate:188.7,disc:10},
 {code:"5221",name:"ZEZOT SYP BOSCH",comp:"",pack:"",rate:254.7,disc:10},
-{code:"544",name:"HEPA-MERZ INJ BROOKES #",comp:"",pack:"",rate:633.25,disc:-2},
-{code:"547",name:"HEPA-MERZ SYP",comp:"",pack:"",rate:425,disc:-2},
-{code:"949",name:"PHLOGIN 50 CAP",comp:"",pack:"",rate:340.65,disc:7},
-{code:"954",name:"PK-MERZ TAB BROOKES",comp:"",pack:"",rate:782,disc:-2},
-{code:"1003",name:"PYODINE SOLUTION 60ML",comp:"",pack:"",rate:212.5,disc:-2},
-{code:"3950",name:"JARDDY 25 TAB CCL",comp:"",pack:"",rate:622.9,disc:3},
-{code:"B280",name:"JARDY-MET 12.5/500 TAB CC",comp:"",pack:"",rate:542.5,disc:5},
-{code:"B613",name:"SITA-MET XR 50/1000 TAB C",comp:"",pack:"",rate:702.48,disc:3},
-{code:"7570",name:"SITA-MET XR 50/500 TAB CC",comp:"",pack:"",rate:718.25,disc:3},
-{code:"9838",name:"SITA 50 TAB CCL",comp:"",pack:"",rate:512.47,disc:-2},
-{code:"9837",name:"SITA MET 50/1000 TAB CCL",comp:"",pack:"",rate:617.1,disc:3},{code:"9836",name:"SITA MET 50/500 TAB CCL",comp:"",pack:"",rate:599.25,disc:3},
+{code:"544",name:"HEPA-MERZ INJ BROOKES #",comp:"",pack:"",rate:633.25,disc:-2},{code:"9836",name:"SITA MET 50/500 TAB CCL",comp:"",pack:"",rate:599.25,disc:3},
 {code:"A84",name:"VALAM 5/80 5/80 TAB CCL",comp:"",pack:"",rate:464.1,disc:3},
 {code:"999",name:"PULMONOL SYP",comp:"",pack:"",rate:170,disc:10},
 {code:"6946",name:"ATEM NEBULISER",comp:"",pack:"",rate:1310.7,disc:-2},
@@ -690,7 +682,17 @@ const PDF_DATA=[{code:"9703",name:"AMYGRA 60 TAB TABROS",comp:"",pack:"",rate:19
 {code:"169",name:"FIBO SCATHE HILTON",comp:"",pack:"",rate:356.57,disc:-2},
 {code:"484",name:"FIBO SYP SYP SYP SYP",comp:"",pack:"",rate:378.18,disc:-2},
 {code:"2047",name:"FLUX 20 CAP HILTON",comp:"",pack:"",rate:364.6,disc:-2},
-{code:"6794",name:"HITOP 25 TAB HILTON",comp:"",pack:"",rate:906.95,disc:-2},{code:"B658",name:"INJ METHYCOBAL INJ",comp:"",pack:"",rate:1632,disc:-2},
+{code:"6794",name:"HITOP 25 TAB HILTON",comp:"",pack:"",rate:906.95,disc:-2},
+{code:"547",name:"HEPA-MERZ SYP",comp:"",pack:"",rate:425,disc:-2},
+{code:"949",name:"PHLOGIN 50 CAP",comp:"",pack:"",rate:340.65,disc:7},
+{code:"954",name:"PK-MERZ TAB BROOKES",comp:"",pack:"",rate:782,disc:-2},
+{code:"1003",name:"PYODINE SOLUTION 60ML",comp:"",pack:"",rate:212.5,disc:-2},
+{code:"3950",name:"JARDDY 25 TAB CCL",comp:"",pack:"",rate:622.9,disc:3},
+{code:"B280",name:"JARDY-MET 12.5/500 TAB CC",comp:"",pack:"",rate:542.5,disc:5},
+{code:"B613",name:"SITA-MET XR 50/1000 TAB C",comp:"",pack:"",rate:702.48,disc:3},
+{code:"7570",name:"SITA-MET XR 50/500 TAB CC",comp:"",pack:"",rate:718.25,disc:3},
+{code:"9838",name:"SITA 50 TAB CCL",comp:"",pack:"",rate:512.47,disc:-2},
+{code:"9837",name:"SITA MET 50/1000 TAB CCL",comp:"",pack:"",rate:617.1,disc:3},{code:"B658",name:"INJ METHYCOBAL INJ",comp:"",pack:"",rate:1632,disc:-2},
 {code:"A219",name:"LERACE 250 TAB HILTON",comp:"",pack:"",rate:732.7,disc:0.01},
 {code:"A220",name:"LERACE 500 TAB HILTON",comp:"",pack:"",rate:592.45,disc:-2},
 {code:"2266",name:"MAXIT 50 TAB HILTON",comp:"",pack:"",rate:270.39,disc:-2},
@@ -1212,70 +1214,7 @@ const PDF_DATA=[{code:"9703",name:"AMYGRA 60 TAB TABROS",comp:"",pack:"",rate:19
 {code:"266",name:"CLOTRIM CREAM SMALL",comp:"",pack:"",rate:42.54,disc:-2},
 {code:"267",name:"CLOTRIM LOTION ZAFA",comp:"",pack:"",rate:85,disc:-2},
 {code:"5067",name:"FAMILA 28 TAB",comp:"",pack:"",rate:127.39,disc:12},
-{code:"6673",name:"FAMILA INJECTION ZAFA",comp:"",pack:"",rate:152.64,disc:7},];
-let DB=JSON.parse(localStorage.getItem('fm_dos_v2')||localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[]}');
-if(!DB.items || DB.items.length < 100 || DB.items.some(x=>x.code==='001')){
-  DB.items = PDF_DATA.map(x=>({code:x.code,name:x.name,comp:x.comp,pack:x.pack,rate:x.rate,disc:x.disc}));
-  localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); localStorage.removeItem('fm_dos');
-}
-function sv(){localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); ref()}
-function td(){return new Date().toISOString().slice(0,10)}
-document.getElementById('dte').innerText=new Date().toLocaleDateString('en-GB'); document.getElementById('bDt').value=td(); document.getElementById('rDt').value=td();
-let cur=[]; let curIdx=0;
-function sh(id,btn){ document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref(); }
-function addI(){let n=document.getElementById('c2').value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:document.getElementById('c1').value||'IT'+(DB.items.length+1),name:n,comp:document.getElementById('c3').value,pack:document.getElementById('c4').value,rate:+document.getElementById('c5').value||0,disc:+document.getElementById('c6').value||0}); ['c1','c2','c3','c4','c5','c6'].forEach(x=>document.getElementById(x).value=''); sv(); alert('Item Saved')}
-function addP(){if(!document.getElementById('pN').value.trim())return alert('Name likhein'); DB.parties.push({type:document.getElementById('pT').value,name:document.getElementById('pN').value,phone:document.getElementById('pP').value,bal:+document.getElementById('pB').value||0}); document.getElementById('pN').value=document.getElementById('pP').value=''; document.getElementById('pB').value=''; sv(); alert('Party Saved')}
-function fillItem(idx){ if(idx===''||idx===undefined||!DB.items[idx]) return; curIdx=idx; let it=DB.items[idx]; document.getElementById('bItem').value=idx; document.getElementById('bItemSearch').value=it.code+' - '+it.name; document.getElementById('bR').value=it.rate; document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); document.getElementById('sug').style.display='none'; }
-function ref(){
- let bn='048'+String(DB.sales.length+1).padStart(3,'0'); document.getElementById('bNo').value=bn; document.getElementById('lastBill').innerText=DB.sales.length?DB.sales[DB.sales.length-1].no:'3682';
- document.getElementById('bCust').innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>';
- document.getElementById('bItem').innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name}</option>`).join('');
- document.getElementById('pl').innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`:'';
- document.getElementById('dash2').innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | LIST 000011</p>`;
- document.getElementById('bCnt').value=cur.length;
- document.getElementById('il').innerHTML=''; document.getElementById('il').style.display='none';
-}
-let sugBox=document.getElementById('sug');
-document.getElementById('bItemSearch').addEventListener('input', function(){
-  let v=this.value.trim().toUpperCase();
-  if(v.length < 3){ sugBox.style.display='none'; return; }
-  if(v.indexOf(' - ')>=0) return;
-  let list=DB.items.filter(x=>x.name.toUpperCase().includes(v) || String(x.code).includes(v)).slice(0,12);
-  if(!list.length){ sugBox.style.display='none'; return; }
-  sugBox.innerHTML=list.map(it=>{ let idx=DB.items.indexOf(it); return `<div onclick="pickItem(${idx})">${it.code} - ${it.name}</div>`; }).join('');
-  sugBox.style.display='block';
-});
-function pickItem(idx){ fillItem(idx); }
-document.addEventListener('click',e=>{ if(e.target.id!=='bItemSearch' && !e.target.closest('#sug')) sugBox.style.display='none'; });
-document.getElementById('bItem').onchange=function(){ fillItem(this.value); };
-document.getElementById('bCust').onchange=ref;
-document.getElementById('bQ').oninput=document.getElementById('bR').oninput=document.getElementById('bD').oninput=function(){ document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); };
-document.getElementById('bCode').oninput=function(){ let v=this.value.trim(); let idx=DB.items.findIndex(x=>String(x.code)===v); if(idx>=0) fillItem(idx); };
-function renderBill(){ document.getElementById('bList').innerHTML=cur.map(i=>`<div class="dosrow"><div style="flex:0 0 70px">${i.code}</div><div style="flex:1">${i.name}</div><div style="flex:0 0 60px">${i.qty}</div><div style="flex:0 0 50px">0</div><div style="flex:0 0 60px">0</div><div style="flex:0 0 60px">${i.disc||0}%</div><div style="flex:0 0 80px">${i.rate}</div><div style="flex:0 0 110px">${i.amt.toFixed(2)}</div></div>`).join(''); let tot=cur.reduce((a,b)=>a+b.amt,0); document.getElementById('bt').innerText=tot.toFixed(2); document.getElementById('btax').innerText=(tot*0.07).toFixed(2); document.getElementById('bn').innerText=(tot*1.07).toFixed(2); document.getElementById('bnb').innerText=((+document.getElementById('bo').innerText||0)+tot*1.07).toFixed(2); document.getElementById('bCnt').value=cur.length; }
-function addB(){let idx=curIdx; if(DB.items[idx]===undefined)return alert('Item search karke select karein'); let it=DB.items[idx]; let q=+document.getElementById('bQ').value||1, r=+document.getElementById('bR').value||it.rate, d=+document.getElementById('bD').value||0; let amt=q*r*(1-d/100); cur.push({code:it.code,name:it.name,qty:q,rate:r,disc:d,amt}); renderBill(); }
-function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:document.getElementById('bNo').value,date:document.getElementById('bDt').value,cust:document.getElementById('bCust').value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===document.getElementById('bCust').value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; document.getElementById('bList').innerHTML=''; sv(); alert('Bill Saved: '+document.getElementById('bNo').value); sh('main',document.querySelector('[data-t=main]'))}
-function rep(){let d=document.getElementById('rDt').value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); document.getElementById('rOut').innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; document.getElementById('rozn').innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
-function doPrint(type){
- let billNo=document.getElementById('prBill').value.trim();
- let sale = billNo ? DB.sales.find(s=>s.no===billNo) : DB.sales[DB.sales.length-1];
- if(!sale && type!=='offer'){ if(!confirm('Koi bill nahi mila, sample print karun?')) return; sale={no:billNo||'048001',date:td(),cust:'Walk-in Customer',items:cur.length?cur:[{name:'PANADOL',qty:1,rate:800,amt:800}],net:800}; }
- let pa=document.getElementById('printArea'); pa.style.display='block';
- let rows=(sale.items||[]).map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt}</td></tr>`).join('');
- if(type==='invoice') pa.innerHTML=`<h2 style="text-align:center">*** FRIENDS MEDICOSE ***<br>SALES INVOICE</h2><p>Bill: ${sale.no} | Date: ${sale.date} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse;color:#000"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${rows}</table><h3>Net Total: Rs ${sale.net}</h3>`;
- if(type==='challan') pa.innerHTML=`<h2 style="text-align:center">DELIVERY CHALLAN</h2><p>Bill: ${sale.no} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table>`;
- if(type==='quotation') pa.innerHTML=`<h2 style="text-align:center">QUOTATION - FRIENDS MEDICOSE</h2><p>Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table><p>Valid for 7 days</p>`;
- if(type==='sticker') pa.innerHTML=`<div style="border:2px solid #000;padding:10px;text-align:center"><b>FRIENDS MEDICOSE</b><br>${sale.items[0]?.name||''}<br>Rs ${sale.items[0]?.rate||''}</div>`;
- if(type==='offer') pa.innerHTML=`<h1 style="text-align:center">FRIENDS MEDICOSE - OFFER LIST 000011 - 22/10/2026</h1><table border=1 style="width:100%;border-collapse:collapse"><tr><th>CODE</th><th>ITEM NAME</th><th>COMPANY</th><th>TP</th><th>BONUS</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td><td>${i.disc}%</td></tr>`).join('')}</table>`;
- setTimeout(()=>window.print(),300);
-}
-document.addEventListener('keydown',e=>{
- let t=e.target && e.target.tagName ? e.target.tagName : '';
- if(t==='INPUT' || t==='SELECT' || t==='TEXTAREA') return;
- if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))}
- if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]'))
-});
-initGIS(); ref(); fillItem(0); rep();
-</script></body></html>
+{code:"6673",name:"FAMILA INJECTION ZAFA",comp:"",pack:"",rate:152.64,disc:7},
 {code:"489",name:"FOLIC ACID TAB ZAFA",comp:"",pack:"",rate:87.07,disc:-5},
 {code:"9430",name:"S.T.MOM 200 TAB",comp:"",pack:"",rate:169.6,disc:10},
 {code:"1394",name:"XYNOSINE DROP",comp:"",pack:"",rate:64.18,disc:2},
@@ -1288,4 +1227,36 @@ initGIS(); ref(); fillItem(0); rep();
 {code:"B494",name:"PEPTOGEL SYP LOCAL",comp:"",pack:"",rate:55,disc:0.01},
 {code:"3989",name:"PINIX 0.5 TAB",comp:"",pack:"",rate:272.85,disc:4},
 {code:"8366",name:"VOVERON SR TAB LOCAL",comp:"",pack:"",rate:78,disc:0.01},
-{code:"6901",name:"XOPRA 20 CAP",comp:"",pack:"",rate:80,disc:0.01},
+{code:"6901",name:"XOPRA 20 CAP",comp:"",pack:"",rate:80,disc:0.01},];
+let DB=JSON.parse(localStorage.getItem('fm_dos_v2')||localStorage.getItem('fm_dos')||'{"items":[],"parties":[],"sales":[],"companies":[]}');
+if(!DB.items || DB.items.length < 100 || DB.items.some(x=>x.code==='001')){
+  DB.items = PDF_DATA.map(x=>({code:x.code,name:x.name,comp:x.comp,pack:x.pack,rate:x.rate,retail:x.rate*1.15,disc:x.disc}));
+  localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); localStorage.removeItem('fm_dos');
+}
+function sv(){localStorage.setItem('fm_dos_v2',JSON.stringify(DB)); ref()}
+function td(){return new Date().toISOString().slice(0,10)}
+document.getElementById('dte').innerText=new Date().toLocaleDateString('en-GB'); document.getElementById('bDt').value=td(); document.getElementById('rDt').value=td();
+let cur=[]; let curIdx=0;
+function sh(id,btn){ document.querySelectorAll('.tab').forEach(e=>e.classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); if(btn)btn.classList.add('on'); ref(); }
+function addI(){let n=document.getElementById('c2').value.trim(); if(!n)return alert('Item Name likhein'); DB.items.push({code:document.getElementById('c1').value||'IT'+(DB.items.length+1),name:n,comp:document.getElementById('c3').value,pack:document.getElementById('c4').value,rate:+document.getElementById('c5').value||0,retail:+document.getElementById('c7').value||0,disc:+document.getElementById('c6').value||0}); ['c1','c2','c3','c4','c5','c6','c7','c8'].forEach(x=>{let e=document.getElementById(x); if(e)e.value=''}); sv(); alert('Item Saved')}
+function addCompany(){ if(!document.getElementById('coName').value.trim())return alert('Company Name likhein'); if(!DB.companies)DB.companies=[]; DB.companies.push({code:document.getElementById('coCode').value,name:document.getElementById('coName').value,addr:document.getElementById('coAddr').value,ph1:document.getElementById('coPh1').value,ph2:document.getElementById('coPh2').value,fax:document.getElementById('coFax').value,shelf:document.getElementById('coShelf').value,disc:+document.getElementById('coDisc').value||0}); sv(); alert('Company Saved: '+document.getElementById('coName').value); showCompCard(); }
+function showCompCard(){ let cs=DB.companies||[]; document.getElementById('compCard').innerHTML=`<h4 style="color:#FFFF00;text-align:center">COMPANY DISPLAY CARD - [F1] EXIT [F2] SEARCH</h4><table><tr><th>CODE</th><th>COMPANY NAME</th><th>PHONE</th><th>SHELF</th></tr>${cs.map(c=>`<tr><td>${c.code}</td><td>${c.name}</td><td>${c.ph1||''}</td><td>${c.shelf||''}</td></tr>`).join('')||'<tr><td>285</td><td>DEFAULT COMPANY</td><td></td><td></td></tr>'}</table>`; }
+function showItemCard(){ let it=DB.items[curIdx]||DB.items[0]; if(!it)return; document.getElementById('itemCard').innerHTML=`<h4 style="color:#FFFF00;text-align:center">ITEM DISPLAY CARD</h4><p>CODE: ${it.code}<br>NAME: ${it.name}<br>COMPANY: ${it.comp}<br>PACK: ${it.pack}<br>TRADE: ${it.rate} | RETAIL: ${it.retail||it.rate}<br>DISC: ${it.disc}%</p>`; }
+function addP(){if(!document.getElementById('pN').value.trim())return alert('Name likhein'); DB.parties.push({type:document.getElementById('pT').value,name:document.getElementById('pN').value,phone:document.getElementById('pP').value,bal:+document.getElementById('pB').value||0}); document.getElementById('pN').value=document.getElementById('pP').value=''; document.getElementById('pB').value=''; sv(); alert('Party Saved')}
+function fillItem(idx){ if(idx===''||idx===undefined||!DB.items[idx]) return; curIdx=idx; let it=DB.items[idx]; document.getElementById('bItem').value=idx; document.getElementById('bItemSearch').value=it.code+' - '+it.name; document.getElementById('bR').value=it.rate; document.getElementById('bRetailP').value=it.retail||(it.rate*1.15).toFixed(2); document.getElementById('bCode').value=it.code; document.getElementById('bPack').value=it.pack||''; document.getElementById('bComp').value=it.comp||''; document.getElementById('bD').value=it.disc||0; document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); document.getElementById('sug').style.display='none'; }
+function ref(){ let bn='048'+String(DB.sales.length+1).padStart(3,'0'); document.getElementById('bNo').value=bn; document.getElementById('lastBill').innerText=DB.sales.length?DB.sales[DB.sales.length-1].no:'3682'; document.getElementById('bCust').innerHTML=DB.parties.map(p=>`<option value="${p.name}">${p.name} - Bal ${p.bal}</option>`).join('')||'<option>Walk-in Customer</option>'; document.getElementById('bItem').innerHTML=DB.items.map((it,i)=>`<option value="${i}">${it.code} - ${it.name}</option>`).join(''); document.getElementById('pl').innerHTML=DB.parties.length?`<table><tr><th>TYPE</th><th>NAME</th><th>BAL</th></tr>${DB.parties.map(p=>`<tr><td>${p.type}</td><td>${p.name}</td><td>${p.bal}</td></tr>`).join('')}</table>`; document.getElementById('dash2').innerHTML=`<p>AAJ KI SALE: Rs ${DB.sales.filter(s=>s.date===td()).reduce((a,b)=>a+b.net,0)} | TOTAL ITEMS: ${DB.items.length} | LIST 000011 | V1139</p>`; document.getElementById('bCnt').value=cur.length; document.getElementById('il').innerHTML=''; document.getElementById('il').style.display='none'; }
+let sugBox=document.getElementById('sug');
+document.getElementById('bItemSearch').addEventListener('input', function(){ let v=this.value.trim().toUpperCase(); if(v.length < 3){ sugBox.style.display='none'; return; } if(v.indexOf(' - ')>=0) return; let list=DB.items.filter(x=>x.name.toUpperCase().includes(v) || String(x.code).includes(v)).slice(0,12); if(!list.length){ sugBox.style.display='none'; return; } sugBox.innerHTML=list.map(it=>{ let idx=DB.items.indexOf(it); return `<div onclick="pickItem(${idx})">${it.code} - ${it.name}</div>`; }).join(''); sugBox.style.display='block'; });
+function pickItem(idx){ fillItem(idx); }
+document.addEventListener('click',e=>{ if(e.target.id!=='bItemSearch' && !e.target.closest('#sug')) sugBox.style.display='none'; });
+document.getElementById('bItem').onchange=function(){ fillItem(this.value); };
+document.getElementById('bQ').oninput=document.getElementById('bR').oninput=document.getElementById('bD').oninput=function(){ document.getElementById('bAmt').value=((+document.getElementById('bQ').value||1)*(+document.getElementById('bR').value||0)*(1-(+document.getElementById('bD').value||0)/100)).toFixed(2); };
+document.getElementById('bCode').oninput=function(){ let v=this.value.trim(); let idx=DB.items.findIndex(x=>String(x.code)===v); if(idx>=0) fillItem(idx); };
+function renderBill(){ document.getElementById('bList').innerHTML=cur.map(i=>`<div class="dosrow"><div style="flex:0 0 60px">${i.code}</div><div style="flex:1">${i.name}</div><div style="flex:0 0 60px">${i.pack||''}</div><div style="flex:0 0 50px">${i.qty}</div><div style="flex:0 0 50px">${i.rqty||0}</div><div style="flex:0 0 70px">${i.rate}</div><div style="flex:0 0 70px">${i.retail||''}</div><div style="flex:0 0 50px">${i.disc||0}%</div><div style="flex:0 0 90px">${i.amt.toFixed(2)}</div></div>`).join(''); let tot=cur.reduce((a,b)=>a+b.amt,0); document.getElementById('bt').innerText=tot.toFixed(2); document.getElementById('btax').innerText=(tot*0.07).toFixed(2); document.getElementById('bn').innerText=(tot*1.07).toFixed(2); document.getElementById('bnb').innerText=((+document.getElementById('bo').innerText||0)+tot*1.07).toFixed(2); document.getElementById('bCnt').value=cur.length; }
+function addB(){let idx=curIdx; if(DB.items[idx]===undefined)return alert('Item search karke select karein'); let it=DB.items[idx]; let q=+document.getElementById('bQ').value||1, r=+document.getElementById('bR').value||it.rate, d=+document.getElementById('bD').value||0; let amt=q*r*(1-d/100); cur.push({code:it.code,name:it.name,pack:it.pack,qty:q,rqty:+document.getElementById('bRQty').value||0,rate:r,retail:+document.getElementById('bRetailP').value||0,disc:d,amt}); renderBill(); }
+function saveB(){if(!cur.length)return alert('Item add karein'); let tot=cur.reduce((a,b)=>a+b.amt,0); DB.sales.push({no:document.getElementById('bNo').value,date:document.getElementById('bDt').value,cust:document.getElementById('bCust').value,items:cur,net:Math.round(tot*1.07)}); let p=DB.parties.find(x=>x.name===document.getElementById('bCust').value); if(p)p.bal+=Math.round(tot*1.07); cur=[]; document.getElementById('bList').innerHTML=''; sv(); alert('Bill Saved: '+document.getElementById('bNo').value); sh('main',document.querySelector('[data-t=main]'))}
+function rep(){let d=document.getElementById('rDt').value; let s=DB.sales.filter(x=>x.date===d); let st=s.reduce((a,b)=>a+b.net,0); document.getElementById('rOut').innerHTML=`<p>DATE: ${d}<br>SALE BILLS: ${s.length}<br>TOTAL SALE: Rs ${st}</p>${s.map(x=>`<div>${x.no} - ${x.cust} - Rs ${x.net}</div>`).join('')}`; document.getElementById('rozn').innerHTML=`Sale In: Rs ${st}<br>Cash Balance: Rs ${st}`;}
+function doPrint(type){ let billNo=document.getElementById('prBill').value.trim(); let sale = billNo ? DB.sales.find(s=>s.no===billNo) : DB.sales[DB.sales.length-1]; if(!sale && type!=='offer'){ if(!confirm('Koi bill nahi mila, sample print karun?')) return; sale={no:billNo||'048001',date:td(),cust:'Walk-in Customer',items:cur.length?cur:[{name:'PANADOL',qty:1,rate:800,amt:800}],net:800}; } let pa=document.getElementById('printArea'); pa.style.display='block'; let rows=(sale.items||[]).map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.rate}</td><td>${i.amt}</td></tr>`).join(''); if(type==='invoice') pa.innerHTML=`<h2 style="text-align:center">*** FRIENDS MEDICOSE ***<br>SALES INVOICE</h2><p>Bill: ${sale.no} | Date: ${sale.date} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse;color:#000"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${rows}</table><h3>Net Total: Rs ${sale.net}</h3>`; if(type==='challan') pa.innerHTML=`<h2 style="text-align:center">DELIVERY CHALLAN</h2><p>Bill: ${sale.no} | Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table>`; if(type==='quotation') pa.innerHTML=`<h2 style="text-align:center">QUOTATION - FRIENDS MEDICOSE</h2><p>Customer: ${sale.cust}</p><table border=1 style="width:100%;border-collapse:collapse">${rows}</table><p>Valid for 7 days</p>`; if(type==='sticker') pa.innerHTML=`<div style="border:2px solid #000;padding:10px;text-align:center"><b>FRIENDS MEDICOSE</b><br>${sale.items[0]?.name||''}<br>Rs ${sale.items[0]?.rate||''}</div>`; if(type==='offer') pa.innerHTML=`<h1 style="text-align:center">FRIENDS MEDICOSE - OFFER LIST 000011 - 22/10/2026</h1><table border=1 style="width:100%;border-collapse:collapse"><tr><th>CODE</th><th>ITEM NAME</th><th>COMPANY</th><th>TP</th><th>BONUS</th></tr>${DB.items.map(i=>`<tr><td>${i.code}</td><td>${i.name}</td><td>${i.comp}</td><td>${i.rate}</td><td>${i.disc}%</td></tr>`).join('')}</table>`; setTimeout(()=>window.print(),300); }
+document.addEventListener('keydown',e=>{ let t=e.target && e.target.tagName ? e.target.tagName : ''; if(t==='INPUT' || t==='SELECT' || t==='TEXTAREA') return; if(e.key==='F6'){e.preventDefault(); sh('trans',document.querySelector('[data-t=trans]'))} if(e.key==='1')sh('reg',document.querySelector('[data-t=reg]')) });
+initGIS(); ref(); fillItem(0); rep();
+</script></body></html>
